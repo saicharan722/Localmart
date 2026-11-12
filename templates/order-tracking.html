@@ -1,0 +1,49 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Track order LM-{{ tracking.order_id|stringformat:'05d' }} | LocalMart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="{% static 'css/order-tracking.css' %}">
+  <style>
+    .progress-card{overflow-x:hidden}
+    .timeline{display:grid;grid-template-columns:1fr;gap:0;min-width:0;margin:22px 0 18px}
+    .timeline-step{position:relative;display:flex;align-items:center;min-height:42px;padding:7px 6px 7px 42px;text-align:left;color:#9aa49c;font-size:13px;font-weight:600}
+    .timeline-step:before{content:"";position:absolute;left:11px;top:0;bottom:0;width:2px;background:#e6ebe7}
+    .timeline-step:first-child:before{top:50%}.timeline-step:last-child:before{bottom:50%}
+    .timeline-step:after{content:"";position:absolute;top:50%;left:2px;width:20px;height:20px;display:grid;place-items:center;border:2px solid #d8e0da;border-radius:50%;background:#fff;transform:translateY(-50%);z-index:1}
+    .timeline-step.done{color:#39473d}.timeline-step.done:before{background:#14a94a}
+    .timeline-step.done:after{content:"✓";border-color:#14a94a;background:#14a94a;color:#fff;font-size:12px;font-weight:800;line-height:1}
+    .timeline-step.current{color:#10833a;font-weight:800}.timeline-step.current:after{border:3px solid #14a94a;background:#fff;box-shadow:0 0 0 0 #14a94a55;animation:timelinePulse 1.8s ease-out infinite}
+    .timeline-step.cancelled{color:#b42318;font-weight:800}.timeline-step.cancelled:before{background:#f1d2cf}.timeline-step.cancelled:after{content:"×";border-color:#c83228;background:#c83228;color:#fff;font-size:16px;font-weight:800}
+    @keyframes timelinePulse{to{box-shadow:0 0 0 9px #14a94a00}}
+    @media(prefers-reduced-motion:reduce){.timeline-step.current:after{animation:none}}
+  </style>
+</head>
+<body data-order-id="{{ tracking.order_id }}">
+  <header class="track-header"><a class="back-link" href="/my-orders/">&larr; Back</a><a class="brand" href="/">Local<span>Mart</span></a><span class="secure"><i></i> Live order tracking</span><a class="back-link" href="/my-orders/">My orders</a></header>
+  <main class="track-shell">
+    <section class="map-panel">
+      <div id="trackingMap" aria-label="Map showing merchant, your location, and delivery partner"></div>
+      <div class="map-top"><div><small id="etaLabel">{% if pickup_type == 'Restaurant' %}RESTAURANT{% else %}STORE{% endif %} TO CUSTOMER DRIVE</small><strong id="etaValue">Waiting for route</strong><span id="distanceValue">Waiting for live route</span></div><button type="button" id="centerDelivery" class="map-action">&#9678; <span>Track delivery</span></button></div>
+      <div class="map-legend"><span><i class="legend-store">&#127979;</i> {{ pickup_type }}</span><span><i class="legend-partner">&#128757;</i> Delivery partner</span><span><i class="legend-customer">&#128205;</i> Customer</span><span><i class="legend-current">&#128309;</i> Current GPS</span></div>
+      <div id="mapNotice" class="map-notice" hidden>Loading OpenStreetMap...</div>
+    </section>
+    <section class="details-grid">
+      <article class="card progress-card"><div class="order-heading"><div><span class="eyebrow">ORDER</span><h1 id="orderNumber">LM{{ tracking.order_id|stringformat:'05d' }}</h1></div><span id="statusPill" class="status-pill">{{ tracking_status_label }}</span></div><div id="timeline" class="timeline" aria-live="polite">{% for step in tracking_timeline %}<div class="timeline-step{% if step.complete %} done{% endif %}{% if step.current %} current{% endif %}{% if step.cancelled %} cancelled{% endif %}">{{ step.label }}</div>{% endfor %}</div><p class="location-help">The saved delivery address is the route destination. Your device GPS is shown separately and never changes that address.</p></article>
+      <article class="card partner-card"><span class="eyebrow" id="partnerAssignedLabel">DELIVERY PARTNER</span><div class="partner-row"><div class="avatar" id="partnerAvatar">Rider</div><div class="partner-copy"><h2 id="partnerName">Finding your delivery partner</h2><p id="partnerVehicle">Partner assignment pending</p><small id="partnerCode" class="gps-note"></small><p id="partnerPhone" class="gps-note"></p></div><a id="callPartner" class="call-btn disabled" aria-disabled="true">Call</a></div><p id="gpsUpdated" class="gps-note">Waiting for partner location...</p></article>
+      <article class="card info-card"><span class="eyebrow">DELIVERING TO</span><h2 id="customerName">{{ tracking.order.customer_name }}</h2><p id="customerAddress">{{ tracking.customer_address|default:tracking.order.delivery_address|default:'Delivery address not provided' }}</p><p id="locationAccuracyNote" class="gps-note">{% if tracking.order.delivery_location_confirmed %}Delivery point confirmed{% else %}Confirm the map pin to use this address for routing{% endif %}</p><div id="manualLocation" class="manual-location"><label for="manualAddress">Confirm delivery address and pin</label><div><input id="manualAddress" type="text" maxlength="1000" value="{{ tracking.order.delivery_address|escape }}" placeholder="House, street, area, city"><button type="button" id="geocodeAddress">Locate address</button></div><small>We’ll place a pin from the address lookup. Review it, adjust by clicking the exact delivery point, then confirm.</small><div><button type="button" id="confirmDeliveryLocation" disabled>Confirm delivery pin</button><button type="button" id="useCurrentGps" disabled>Use my GPS as delivery pin</button></div><span id="manualPinNote" class="gps-note" aria-live="polite"></span></div><p id="gpsDifference" class="gps-note"></p></article>
+      <article class="card info-card"><span class="eyebrow">PICKUP FROM</span><h2 id="merchantName">{{ tracking.merchant_name }}</h2><p id="merchantAddress">{{ tracking.merchant_address|default:'Store location will appear when the route is configured.' }}</p></article>
+      <article class="card summary-card"><div class="summary-title"><span class="eyebrow">ORDER SUMMARY</span><strong id="orderTotal">&#8377;{{ tracking.order.total_amount }}</strong></div><div id="orderItems" class="order-items"></div><a href="/my-orders/" class="outline-btn details-link">View order details <span>&rarr;</span></a></article>
+    </section>
+    <footer>LocalMart <span>&bull;</span> Your order, on its way.{% include "partials/back-to-top.html" %}</footer>
+  </main>
+  <script>window.LOCALMART_TRACKING={orderId:{{ tracking.order_id }},apiUrl:"{% url 'tracking_api' tracking.order_id %}",locationUrl:"{% url 'tracking_customer_location_api' tracking.order_id %}",confirmLocationUrl:"{% url 'tracking_confirm_location_api' tracking.order_id %}"};</script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="{% static 'js/live-order-tracking.js' %}?v=partner-details-1"></script>
+</body>
+</html>

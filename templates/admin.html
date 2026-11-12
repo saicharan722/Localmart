@@ -1,0 +1,3961 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LocalMart | Admin Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+
+    --primary: #14a44d;
+    --primary-dark: #0d863d;
+
+    --background: #f5f7fa;
+    --card: #ffffff;
+
+    --sidebar: #101827;
+    --sidebar-hover: #1c2738;
+
+    --text: #172033;
+    --muted: #7b8495;
+
+    --border: #e6e9ef;
+
+    --blue: #3b82f6;
+    --purple: #8b5cf6;
+    --orange: #f59e0b;
+    --red: #ef4444;
+
+    --shadow:
+        0 4px 18px rgba(15, 23, 42, .045);
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    margin: 0;
+
+    font-family: "Inter", sans-serif;
+
+    background: var(--background);
+
+    color: var(--text);
+
+    transition: .25s;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 265px;
+    height: 100vh;
+
+    background: var(--sidebar);
+
+    z-index: 2000;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow-y: auto;
+
+    transition: .3s;
+}
+
+
+/* LOGO */
+
+.logo-area {
+
+    height: 75px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 22px;
+
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.logo-icon {
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 11px;
+
+    background: var(--primary);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+}
+
+.logo-text h3 {
+
+    margin: 0;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.logo-text span {
+
+    color: #7d899d;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+    font-weight: 700;
+}
+
+
+/* MENU */
+
+.menu-heading {
+
+    padding: 22px 20px 8px;
+
+    color: #657188;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.3px;
+}
+
+
+.menu {
+
+    list-style: none;
+
+    margin: 0;
+
+    padding: 0 12px;
+}
+
+.menu li {
+
+    margin-bottom: 3px;
+}
+
+.menu a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 12px;
+
+    border-radius: 8px;
+
+    color: #aab4c5;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    transition: .2s;
+
+    cursor: pointer;
+}
+
+.menu a i {
+
+    width: 20px;
+
+    text-align: center;
+
+    font-size: 16px;
+}
+
+.menu a:hover {
+
+    background: var(--sidebar-hover);
+
+    color: white;
+}
+
+.menu li.active a {
+
+    background: var(--primary);
+
+    color: white;
+
+    box-shadow:
+        0 5px 15px rgba(20,164,77,.25);
+}
+
+.menu-count {
+
+    margin-left: auto;
+
+    background: #29364a;
+
+    color: #dbe3ee;
+
+    border-radius: 20px;
+
+    padding: 2px 7px;
+
+    font-size: 8px;
+}
+
+.menu-count.orange {
+
+    background: rgba(245,158,11,.18);
+
+    color: #fbbf24;
+}
+
+
+/* SIDEBAR BOTTOM */
+
+.sidebar-bottom {
+
+    margin-top: auto;
+
+    padding: 15px;
+}
+
+.help-box {
+
+    background: #182335;
+
+    border-radius: 10px;
+
+    padding: 13px;
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+.help-icon {
+
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: rgba(20,164,77,.15);
+
+    color: #4ade80;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.help-box strong {
+
+    display: block;
+
+    color: white;
+
+    font-size: 10px;
+}
+
+.help-box span {
+
+    color: #758198;
+
+    font-size: 8px;
+}
+
+.logout {
+
+    width: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #929daf;
+
+    text-align: left;
+
+    padding: 10px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.logout:hover {
+
+    color: #f87171;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main {
+
+    margin-left: 265px;
+
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+
+    height: 75px;
+
+    background: var(--card);
+
+    border-bottom: 1px solid var(--border);
+
+    padding: 0 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+}
+
+.top-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.mobile-menu {
+
+    display: none;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid var(--border);
+
+    background: var(--card);
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.top-title h4 {
+
+    margin: 0;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+.top-title span {
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* SEARCH */
+
+.search-box {
+
+    width: 245px;
+
+    height: 38px;
+
+    background: var(--background);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 10px;
+}
+
+.search-box i {
+
+    color: #929aaa;
+
+    font-size: 14px;
+}
+
+.search-box input {
+
+    flex: 1;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    font-size: 11px;
+
+    color: var(--text);
+}
+
+.search-box kbd {
+
+    background: white;
+
+    border: 1px solid #dce0e6;
+
+    border-radius: 4px;
+
+    padding: 2px 5px;
+
+    font-size: 8px;
+
+    color: #8790a0;
+}
+
+
+/* TOP ACTIONS */
+
+.top-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.icon-btn {
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 8px;
+
+    border: 1px solid var(--border);
+
+    background: var(--card);
+
+    color: #687386;
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.icon-btn:hover {
+
+    color: var(--primary);
+
+    border-color: #bce7cb;
+}
+
+.notification {
+
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    width: 7px;
+    height: 7px;
+
+    background: var(--red);
+
+    border: 2px solid white;
+
+    border-radius: 50%;
+}
+
+.approval-notification-badge{
+    position:absolute;
+    top:-6px;
+    right:-7px;
+    min-width:18px;
+    height:18px;
+    padding:0 5px;
+    border:2px solid var(--card);
+    border-radius:10px;
+    background:#df4d43;
+    color:#fff;
+    font-size:9px;
+    font-weight:800;
+    line-height:14px;
+    text-align:center;
+}
+
+.approval-notification-badge[hidden]{display:none}
+
+.approval-notification-wrap{position:relative}
+.approval-notification-popup{position:absolute;top:48px;right:0;z-index:1100;width:min(370px,calc(100vw - 28px));overflow:hidden;border:1px solid var(--border);border-radius:10px;background:var(--card);box-shadow:0 16px 42px rgba(20,35,55,.18);color:var(--text)}
+.approval-notification-popup[hidden]{display:none}
+.approval-popup-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-bottom:1px solid var(--border)}
+.approval-popup-header strong{font-size:13px}
+.approval-popup-header span{color:var(--muted);font-size:10px}
+.approval-popup-list{max-height:340px;overflow-y:auto}
+.approval-popup-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid var(--border)}
+.approval-popup-item:last-child{border-bottom:0}
+.approval-popup-info{display:grid;gap:3px;min-width:0}
+.approval-popup-info strong{overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+.approval-popup-info span{overflow-wrap:anywhere;color:var(--muted);font-size:10px}
+.approval-popup-item .review-btn{padding:6px 9px;font-size:10px}
+.approval-popup-empty{margin:0;padding:18px 15px;color:var(--muted);font-size:11px;text-align:center}
+.approval-popup-footer{display:block;padding:11px 15px;border-top:1px solid var(--border);color:var(--primary);font-size:11px;font-weight:700;text-align:center;text-decoration:none}
+.approval-popup-footer:hover{background:var(--background);color:var(--primary)}
+
+
+/* PROFILE */
+
+.profile {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding-left: 5px;
+
+    cursor: pointer;
+}
+
+.profile-avatar {
+
+    width: 37px;
+    height: 37px;
+
+    border-radius: 50%;
+
+    background: #ddf5e6;
+
+    color: var(--primary);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.profile-info strong {
+
+    display: block;
+
+    font-size: 10px;
+}
+
+.profile-info span {
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content {
+
+    padding: 28px 30px 50px;
+}
+
+.admin-view-page { display: none; }
+.admin-view-page.active { display: block; }
+.admin-view-page > .grid { margin-top: 0; }
+.admin-view-message { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); }
+.admin-view-message h3 { margin: 0 0 8px; font-size: 17px; }
+.admin-view-message p { color: var(--muted); margin: 0; }
+.admin-view-page .admin-page-card { margin-bottom: 18px; }
+.admin-view-page[data-admin-page="products"],
+.admin-view-page[data-admin-page="categories"],
+.admin-view-page[data-admin-page="customers"] { font-size: 1.15rem; }
+.admin-view-page[data-admin-page="products"] .grid,
+.admin-view-page[data-admin-page="categories"] .grid,
+.admin-view-page[data-admin-page="customers"] .grid { grid-template-columns: minmax(0, 1fr); width: 100%; }
+.admin-view-page[data-admin-page="products"] .card,
+.admin-view-page[data-admin-page="categories"] .card,
+.admin-view-page[data-admin-page="customers"] .card,
+.admin-view-page[data-admin-page="products"] .table-container,
+.admin-view-page[data-admin-page="categories"] .table-container,
+.admin-view-page[data-admin-page="customers"] .table-container { width: 100%; }
+.admin-view-page[data-admin-page="products"] .table-container,
+.admin-view-page[data-admin-page="categories"] .table-container,
+.admin-view-page[data-admin-page="customers"] .table-container { max-height: 70vh; overflow: auto; }
+.admin-view-page[data-admin-page="products"] .card-title h3,
+.admin-view-page[data-admin-page="categories"] .card-title h3,
+.admin-view-page[data-admin-page="customers"] .card-title h3 { font-size: 1.35rem; }
+.admin-view-page[data-admin-page="products"] .card-title p,
+.admin-view-page[data-admin-page="categories"] .card-title p,
+.admin-view-page[data-admin-page="customers"] .card-title p { font-size: 1rem; }
+.admin-view-page[data-admin-page="products"] .orders-table,
+.admin-view-page[data-admin-page="categories"] .orders-table,
+.admin-view-page[data-admin-page="customers"] .orders-table { width: 100%; font-size: 1.05rem; }
+.admin-view-page[data-admin-page="products"] .orders-table th,
+.admin-view-page[data-admin-page="products"] .orders-table td,
+.admin-view-page[data-admin-page="categories"] .orders-table th,
+.admin-view-page[data-admin-page="categories"] .orders-table td,
+.admin-view-page[data-admin-page="customers"] .orders-table th,
+.admin-view-page[data-admin-page="customers"] .orders-table td { padding: 16px 18px; font-size: 16px; }
+.admin-view-page[data-admin-page="products"] .orders-table th,
+.admin-view-page[data-admin-page="categories"] .orders-table th,
+.admin-view-page[data-admin-page="customers"] .orders-table th { font-size: 13px; }
+
+
+/* PAGE HEADER */
+
+.page-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+
+    margin: 0 0 5px;
+
+    font-size: 25px;
+
+    font-weight: 800;
+}
+
+.page-header p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.header-buttons {
+
+    display: flex;
+
+    gap: 8px;
+}
+
+.header-btn {
+
+    height: 38px;
+
+    border-radius: 7px;
+
+    border: 1px solid var(--border);
+
+    background: var(--card);
+
+    color: #606b7c;
+
+    padding: 0 12px;
+
+    font-size: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    cursor: pointer;
+}
+
+.header-btn.primary {
+
+    background: var(--primary);
+
+    color: white;
+
+    border-color: var(--primary);
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+}
+
+.stat-card {
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    padding: 18px;
+
+    box-shadow: var(--shadow);
+}
+
+.stat-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 14px;
+}
+
+.stat-icon {
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+.stat-icon.green {
+
+    background: #e5f8ec;
+
+    color: #16a34a;
+}
+
+.stat-icon.blue {
+
+    background: #e8f1ff;
+
+    color: #3b82f6;
+}
+
+.stat-icon.purple {
+
+    background: #f0eaff;
+
+    color: #8b5cf6;
+}
+
+.stat-icon.orange {
+
+    background: #fff1dc;
+
+    color: #f59e0b;
+}
+
+.growth {
+
+    padding: 4px 7px;
+
+    border-radius: 20px;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+.growth.up {
+
+    background: #e8f8ee;
+
+    color: #16a34a;
+}
+
+.growth.warning {
+
+    background: #fff2dc;
+
+    color: #d97706;
+}
+
+.stat-label {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    margin-bottom: 4px;
+}
+
+.stat-value {
+
+    font-size: 23px;
+
+    font-weight: 800;
+
+    letter-spacing: -.5px;
+}
+
+.stat-footer {
+
+    margin-top: 7px;
+
+    color: #9ba3b1;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card {
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
+}
+
+.card-header {
+
+    padding: 18px 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.card-title h3 {
+
+    margin: 0 0 3px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.card-title p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.view-all {
+
+    color: var(--primary);
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CHART
+========================================================= */
+
+.chart-wrapper {
+
+    height: 285px;
+
+    padding: 0 20px 20px;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions {
+
+    padding: 0 18px 18px;
+}
+
+.quick-action {
+
+    width: 100%;
+
+    border: 0;
+
+    border-bottom: 1px solid #f0f1f4;
+
+    background: transparent;
+
+    padding: 10px 2px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    color: var(--text);
+
+    text-align: left;
+}
+
+.quick-action:last-child {
+
+    border-bottom: 0;
+}
+
+.quick-action:hover {
+
+    transform: translateX(3px);
+}
+
+.quick-action-icon {
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.quick-action-icon.green {
+
+    background: #e6f8ec;
+
+    color: var(--primary);
+}
+
+.quick-action-icon.blue {
+
+    background: #e8f1ff;
+
+    color: var(--blue);
+}
+
+.quick-action-icon.purple {
+
+    background: #f0eaff;
+
+    color: var(--purple);
+}
+
+.quick-action-icon.orange {
+
+    background: #fff1dc;
+
+    color: var(--orange);
+}
+
+.quick-action span {
+
+    font-size: 10px;
+
+    font-weight: 500;
+}
+
+.quick-action > i {
+
+    margin-left: auto;
+
+    color: #a2aab7;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   ORDERS TABLE
+========================================================= */
+
+.table-container {
+
+    overflow-x: auto;
+}
+
+.admin-long-table {
+    max-height: 70vh;
+    overflow: auto;
+}
+
+.admin-long-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.orders-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 650px;
+}
+
+.orders-table th {
+
+    background: #fafbfc;
+
+    padding: 10px 20px;
+
+    color: #8b94a4;
+
+    text-transform: uppercase;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .5px;
+
+    text-align: left;
+}
+
+.orders-table td {
+
+    padding: 12px 20px;
+
+    border-top: 1px solid #f0f1f4;
+
+    font-size: 9px;
+
+    color: #667184;
+}
+
+.orders-table td strong {
+
+    color: var(--text);
+}
+
+.customer {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.customer-avatar {
+
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+
+    background: #edf1f6;
+
+    color: #536074;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 8px;
+
+    font-weight: 700;
+}
+
+
+/* STATUS */
+
+.status {
+
+    display: inline-block;
+
+    padding: 4px 7px;
+
+    border-radius: 20px;
+
+    font-size: 7px;
+
+    font-weight: 600;
+}
+
+.status.delivered {
+
+    background: #e7f8ed;
+
+    color: #159447;
+}
+
+.status.processing {
+
+    background: #e7f0ff;
+
+    color: #377ee8;
+}
+
+.status.shipped {
+
+    background: #f0eaff;
+
+    color: #8053dd;
+}
+
+.status.pending {
+
+    background: #fff2dc;
+
+    color: #d88905;
+}
+
+
+/* =========================================================
+   TOP PRODUCTS
+========================================================= */
+
+.product-list {
+
+    padding: 0 18px 12px;
+}
+
+.product {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #f0f1f4;
+}
+
+.product:last-child {
+
+    border-bottom: 0;
+}
+
+.product-rank {
+
+    color: #9ba4b2;
+
+    font-size: 8px;
+
+    width: 18px;
+}
+
+.product-image {
+
+    width: 39px;
+    height: 39px;
+
+    border-radius: 8px;
+
+    background: #f3f5f8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #778295;
+
+    font-size: 16px;
+}
+
+.product-details {
+
+    flex: 1;
+}
+
+.product-details strong {
+
+    display: block;
+
+    font-size: 9px;
+}
+
+.product-details span {
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+.product-sales {
+
+    text-align: right;
+}
+
+.product-sales strong {
+
+    display: block;
+
+    font-size: 9px;
+}
+
+.product-sales span {
+
+    color: var(--muted);
+
+    font-size: 7px;
+}
+
+
+/* =========================================================
+   MERCHANTS
+========================================================= */
+
+.merchant-list {
+
+    padding: 0 18px 12px;
+}
+
+.merchant {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #f0f1f4;
+}
+
+.merchant:last-child {
+
+    border-bottom: 0;
+}
+
+.merchant-icon {
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 8px;
+
+    background: #e8f8ee;
+
+    color: var(--primary);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.merchant-info {
+
+    flex: 1;
+}
+
+.merchant-info strong {
+
+    display: block;
+
+    font-size: 9px;
+}
+
+.merchant-info span {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 7px;
+}
+
+.review-btn {
+
+    border: 1px solid #d6efdf;
+
+    background: #effaf3;
+
+    color: var(--primary);
+
+    border-radius: 5px;
+
+    padding: 5px 8px;
+
+    font-size: 7px;
+
+    cursor: pointer;
+}
+
+.merchant-actions{display:flex;align-items:center;gap:6px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+.merchant-actions .review-btn{font-size:11px;padding:7px 10px;white-space:nowrap}
+.merchant-actions .delete-merchant-btn{border-color:#f3c4c4;background:#fff4f4;color:#b42318}
+.merchant-status{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:700;background:#eaf7ee;color:#147a36}
+.merchant-status.pending{background:#fff6e5;color:#9a6300}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity-list {
+
+    padding: 0 18px 12px;
+}
+
+.activity {
+
+    display: flex;
+
+    gap: 10px;
+
+    padding: 9px 0;
+
+    border-bottom: 1px solid #f0f1f4;
+}
+
+.activity:last-child {
+
+    border-bottom: 0;
+}
+
+.activity-icon {
+
+    width: 31px;
+    height: 31px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.activity-icon.green {
+
+    background: #e8f8ee;
+
+    color: #16a34a;
+}
+
+.activity-icon.blue {
+
+    background: #e8f1ff;
+
+    color: #3b82f6;
+}
+
+.activity-icon.purple {
+
+    background: #f0eaff;
+
+    color: #8b5cf6;
+}
+
+.activity-icon.orange {
+
+    background: #fff0dc;
+
+    color: #f59e0b;
+}
+
+.activity-content strong {
+
+    display: block;
+
+    font-size: 8px;
+}
+
+.activity-content span {
+
+    display: block;
+
+    color: #737e90;
+
+    font-size: 7px;
+}
+
+.activity-content small {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #a0a8b5;
+
+    font-size: 7px;
+}
+
+
+/* =========================================================
+   APPROVALS
+========================================================= */
+
+.approval-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+.pending-count {
+
+    background: #fff1dc;
+
+    color: #d97706;
+
+    padding: 4px 7px;
+
+    border-radius: 20px;
+
+    font-size: 7px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+body.dark {
+
+    --background: #0d1422;
+
+    --card: #151f30;
+
+    --text: #eef2f7;
+
+    --muted: #8d98aa;
+
+    --border: #263248;
+}
+
+body.dark .orders-table th {
+
+    background: #121a29;
+}
+
+body.dark .search-box {
+
+    background: #101827;
+}
+
+body.dark .search-box kbd {
+
+    background: #1d293b;
+
+    border-color: #354157;
+}
+
+body.dark .product-image {
+
+    background: #1d293b;
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.45);
+
+    z-index: 1500;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1200px) {
+
+    .stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+
+        width: 180px;
+    }
+}
+
+
+@media(max-width:900px) {
+
+    .sidebar {
+
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+
+        transform: translateX(0);
+    }
+
+    .main {
+
+        margin-left: 0;
+    }
+
+    .mobile-menu {
+
+        display: block;
+    }
+
+    .overlay.show {
+
+        display: block;
+    }
+
+    .profile-info {
+
+        display: none;
+    }
+}
+
+
+@media(max-width:650px) {
+
+    .topbar {
+
+        padding: 0 15px;
+    }
+
+    .search-box {
+
+        display: none;
+    }
+
+    .content {
+
+        padding: 20px 15px 35px;
+    }
+
+    .page-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 14px;
+    }
+
+    .header-buttons {
+
+        width: 100%;
+    }
+
+    .header-btn {
+
+        flex: 1;
+
+        justify-content: center;
+    }
+
+    .stats {
+
+        grid-template-columns: 1fr;
+    }
+
+    .top-title span {
+
+        display: none;
+    }
+
+    .profile > i {
+
+        display: none;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<form hidden>{% csrf_token %}</form>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+
+    <!-- LOGO -->
+
+    <div class="logo-area">
+
+        <div class="logo-icon">
+            <i class="bi bi-shop"></i>
+        </div>
+
+        <div class="logo-text">
+
+            <h3>LocalMart</h3>
+
+            <span>ADMINISTRATION</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="menu-heading">
+        MAIN
+    </div>
+
+    <ul class="menu">
+
+        <li class="active">
+            <a href="#">
+                <i class="bi bi-grid-1x2-fill"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-cart3"></i>
+                Orders
+
+                <span class="menu-count">
+                    {{ admin_order_count }}
+                </span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-box-seam"></i>
+                Products
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-tags"></i>
+                Categories
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-shop-window"></i>
+                Merchants
+
+                <span class="menu-count orange">
+                    <span id="pendingMerchantSidebar">{{ admin_pending_merchants }}</span>
+                </span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-people"></i>
+                Customers
+            </a>
+        </li>
+
+    </ul>
+
+
+    <!-- MANAGEMENT -->
+
+    <div class="menu-heading">
+        MANAGEMENT
+    </div>
+
+    <ul class="menu">
+
+        <li>
+            <a href="#">
+                <i class="bi bi-credit-card"></i>
+                Payments
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Refunds
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-ticket-perforated"></i>
+                Coupons
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-megaphone"></i>
+                Promotions
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-star"></i>
+                Reviews
+            </a>
+        </li>
+
+    </ul>
+
+
+    <!-- ADMINISTRATION -->
+
+    <div class="menu-heading">
+        ADMINISTRATION
+    </div>
+
+    <ul class="menu">
+
+        <li>
+            <a href="#">
+                <i class="bi bi-person-badge"></i>
+                Admin Users
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-shield-check"></i>
+                Roles & Permissions
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-bar-chart"></i>
+                Reports
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-gear"></i>
+                Settings
+            </a>
+        </li>
+
+    </ul>
+
+
+    <!-- BOTTOM -->
+
+    <div class="sidebar-bottom">
+
+        <div class="help-box">
+
+            <div class="help-icon">
+                <i class="bi bi-headset"></i>
+            </div>
+
+            <div>
+
+                <strong>Need Help?</strong>
+
+                <span>
+                    Contact LocalMart support
+                </span>
+
+            </div>
+
+        </div>
+
+        <button class="logout" id="adminLogout" type="button">
+            <i class="bi bi-box-arrow-right"></i>
+            &nbsp; Logout
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- OVERLAY -->
+
+<div
+    class="overlay"
+    id="overlay">
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <header class="topbar">
+
+
+        <div class="top-left">
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+
+            <div class="top-title">
+
+                <h4>Admin Dashboard</h4>
+
+                <span>
+                    Welcome back, {{ admin_user.get_full_name|default:admin_user.username }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="top-actions">
+
+
+            
+
+            <!-- THEME -->
+
+            <button
+                class="icon-btn"
+                id="themeButton">
+
+                <i class="bi bi-moon"></i>
+
+            </button>
+
+
+            <!-- NOTIFICATION -->
+
+            <div class="approval-notification-wrap">
+                <button class="icon-btn" id="merchantApprovalNotification" type="button" aria-label="Pending merchant approvals: {{ admin_pending_merchants }}" aria-expanded="false" aria-controls="merchantApprovalPopup" title="Show pending merchant approvals">
+                    <i class="bi bi-bell" aria-hidden="true"></i>
+                    <span class="approval-notification-badge" id="pendingMerchantNotification" {% if not admin_pending_merchants %}hidden{% endif %}>{{ admin_pending_merchants }}</span>
+                </button>
+                <section class="approval-notification-popup" id="merchantApprovalPopup" aria-label="Pending merchant approvals" hidden>
+                    <header class="approval-popup-header"><strong>Store approvals</strong><span id="merchantPopupPendingCount">{{ admin_pending_merchants }} pending</span></header>
+                    <div class="approval-popup-list" id="merchantNotificationList"><p class="approval-popup-empty">Loading store applications...</p></div>
+                </section>
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div class="profile">
+
+                <div class="profile-avatar">
+                    A
+                </div>
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ admin_user.get_full_name|default:admin_user.username }}
+                    </strong>
+
+                    <span>
+                        Super Admin
+                    </span>
+
+                </div>
+
+                <i class="bi bi-chevron-down"></i>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <section class="content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1 id="adminPageTitle">
+                    Overview
+                </h1>
+
+                <p id="adminPageDescription">
+                    Monitor your LocalMart marketplace,
+                    merchants and customers.
+                </p>
+
+            </div>
+
+
+            <div class="header-buttons">
+
+                <button class="header-btn">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    {{ admin_today }}
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </button>
+
+
+                <a
+                    class="header-btn primary"
+                    id="exportButton"
+                    href="{% url 'admin_export_report' %}?section=overview"
+                    download>
+
+                    <i class="bi bi-download"></i>
+
+                    Export Report
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <div class="stats">
+
+
+            <!-- REVENUE -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <div class="stat-icon green">
+                        <i class="bi bi-currency-rupee"></i>
+                    </div>
+
+                    <span class="growth up">
+                        <i class="bi bi-arrow-up"></i>
+                        Live total
+                    </span>
+
+                </div>
+
+                <div class="stat-label">
+                    Total Revenue
+                </div>
+
+                <div class="stat-value">
+                    ₹{{ admin_revenue|floatformat:2 }}
+                </div>
+
+                <div class="stat-footer">
+                    Compared with last month
+                </div>
+
+            </div>
+
+
+            <!-- ORDERS -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <div class="stat-icon blue">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+
+                    <span class="growth up">
+                        <i class="bi bi-arrow-up"></i>
+                        Live total
+                    </span>
+
+                </div>
+
+                <div class="stat-label">
+                    Total Orders
+                </div>
+
+                <div class="stat-value">
+                    {{ admin_order_count }}
+                </div>
+
+                <div class="stat-footer">
+                    All recorded orders
+                </div>
+
+            </div>
+
+
+            <!-- CUSTOMERS -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <div class="stat-icon purple">
+                        <i class="bi bi-people"></i>
+                    </div>
+
+                    <span class="growth up">
+                        <i class="bi bi-arrow-up"></i>
+                        Unique customers
+                    </span>
+
+                </div>
+
+                <div class="stat-label">
+                    Total Customers
+                </div>
+
+                <div class="stat-value">
+                    {{ admin_customer_count }}
+                </div>
+
+                <div class="stat-footer">
+                    Customers with recorded orders
+                </div>
+
+            </div>
+
+
+            <!-- MERCHANTS -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <div class="stat-icon orange">
+                        <i class="bi bi-shop"></i>
+                    </div>
+
+                    <span class="growth warning">
+                        <span id="pendingMerchantStat">{{ admin_pending_merchants }}</span> pending
+                    </span>
+
+                </div>
+
+                <div class="stat-label">
+                    Active Merchants
+                </div>
+
+                <div class="stat-value">
+                    <span id="activeMerchantCount">{{ admin_merchant_count }}</span>
+                </div>
+
+                <div class="stat-footer">
+                    <span id="pendingMerchantFooter">{{ admin_pending_merchants }}</span> applications awaiting approval
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CHART + QUICK ACTIONS
+        ================================================== -->
+
+        <div class="grid">
+
+
+            <!-- SALES CHART -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+
+                        <h3>
+                            Sales Overview
+                        </h3>
+
+                        <p>
+                            Revenue performance
+                        </p>
+
+                    </div>
+
+
+                    <select
+                        id="periodSelect">
+
+                        <option>
+                            Last 7 Days
+                        </option>
+
+                        <option selected>
+                            Last 30 Days
+                        </option>
+
+                        <option>
+                            Last 6 Months
+                        </option>
+
+                        <option>
+                            This Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="chart-wrapper">
+
+                    <canvas
+                        id="salesChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+
+                        <h3>
+                            Quick Actions
+                        </h3>
+
+                        <p>
+                            Frequently used tools
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+
+                    <button class="quick-action">
+
+                        <div class="quick-action-icon green">
+
+                            <i class="bi bi-plus-lg"></i>
+
+                        </div>
+
+                        <span>
+                            Add Product
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </button>
+
+
+                    <button class="quick-action">
+
+                        <div class="quick-action-icon blue">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <span>
+                            Review Merchants
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </button>
+
+
+                    <button class="quick-action">
+
+                        <div class="quick-action-icon purple">
+
+                            <i class="bi bi-ticket-perforated"></i>
+
+                        </div>
+
+                        <span>
+                            Manage Categories
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </button>
+
+
+                    <button class="quick-action">
+
+                        <div class="quick-action-icon orange">
+
+                            <i class="bi bi-megaphone"></i>
+
+                        </div>
+
+                        <span>
+                            Review Orders
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ORDERS + TOP PRODUCTS
+        ================================================== -->
+
+        <div class="grid">
+
+
+            <!-- RECENT ORDERS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+
+                        <h3>
+                            All Orders
+                        </h3>
+
+                        <p>
+                            Complete order history ({{ admin_order_count }} total)
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="#"
+                        class="view-all">
+                        View All
+                    </a>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table class="orders-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="adminRecentOrders">
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        #LM-10582
+                                    </strong>
+                                </td>
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <div class="customer-avatar">
+                                            RK
+                                        </div>
+
+                                        Rahul Kumar
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    ₹2,480
+                                </td>
+
+                                <td>
+                                    <span class="status delivered">
+                                        Delivered
+                                    </span>
+                                </td>
+
+                                <td>
+                                    Today, 10:42 AM
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        #LM-10581
+                                    </strong>
+                                </td>
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <div class="customer-avatar">
+                                            PS
+                                        </div>
+
+                                        Priya Sharma
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    ₹1,850
+                                </td>
+
+                                <td>
+                                    <span class="status processing">
+                                        Processing
+                                    </span>
+                                </td>
+
+                                <td>
+                                    Today, 09:28 AM
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        #LM-10580
+                                    </strong>
+                                </td>
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <div class="customer-avatar">
+                                            AM
+                                        </div>
+
+                                        Arjun Mehta
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    ₹4,260
+                                </td>
+
+                                <td>
+                                    <span class="status shipped">
+                                        Shipped
+                                    </span>
+                                </td>
+
+                                <td>
+                                    Yesterday
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        #LM-10579
+                                    </strong>
+                                </td>
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <div class="customer-avatar">
+                                            SN
+                                        </div>
+
+                                        Sneha Nair
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    ₹980
+                                </td>
+
+                                <td>
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+                                </td>
+
+                                <td>
+                                    Yesterday
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        #LM-10578
+                                    </strong>
+                                </td>
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <div class="customer-avatar">
+                                            VK
+                                        </div>
+
+                                        Vikram Kumar
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    ₹3,620
+                                </td>
+
+                                <td>
+                                    <span class="status delivered">
+                                        Delivered
+                                    </span>
+                                </td>
+
+                                <td>
+                                    Sep 24
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOP PRODUCTS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+
+                        <h3>
+                            Top Products
+                        </h3>
+
+                        <p>
+                            Best selling products
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="#"
+                        class="view-all">
+                        View All
+                    </a>
+
+                </div>
+
+
+                <div class="product-list">
+
+
+                    <div class="product">
+
+                        <div class="product-rank">
+                            01
+                        </div>
+
+                        <div class="product-image">
+
+                            <i class="bi bi-phone"></i>
+
+                        </div>
+
+                        <div class="product-details">
+
+                            <strong>
+                                Samsung Galaxy S25
+                            </strong>
+
+                            <span>
+                                Electronics
+                            </span>
+
+                        </div>
+
+                        <div class="product-sales">
+
+                            <strong>
+                                ₹1.42L
+                            </strong>
+
+                            <span>
+                                186 sold
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product">
+
+                        <div class="product-rank">
+                            02
+                        </div>
+
+                        <div class="product-image">
+
+                            <i class="bi bi-watch"></i>
+
+                        </div>
+
+                        <div class="product-details">
+
+                            <strong>
+                                Premium Smart Watch
+                            </strong>
+
+                            <span>
+                                Watches
+                            </span>
+
+                        </div>
+
+                        <div class="product-sales">
+
+                            <strong>
+                                ₹98K
+                            </strong>
+
+                            <span>
+                                142 sold
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product">
+
+                        <div class="product-rank">
+                            03
+                        </div>
+
+                        <div class="product-image">
+
+                            <i class="bi bi-bag"></i>
+
+                        </div>
+
+                        <div class="product-details">
+
+                            <strong>
+                                Premium Leather Bag
+                            </strong>
+
+                            <span>
+                                Fashion
+                            </span>
+
+                        </div>
+
+                        <div class="product-sales">
+
+                            <strong>
+                                ₹82K
+                            </strong>
+
+                            <span>
+                                126 sold
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product">
+
+                        <div class="product-rank">
+                            04
+                        </div>
+
+                        <div class="product-image">
+
+                            <i class="bi bi-headphones"></i>
+
+                        </div>
+
+                        <div class="product-details">
+
+                            <strong>
+                                Wireless Headphones
+                            </strong>
+
+                            <span>
+                                Electronics
+                            </span>
+
+                        </div>
+
+                        <div class="product-sales">
+
+                            <strong>
+                                ₹74K
+                            </strong>
+
+                            <span>
+                                108 sold
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MERCHANTS + ACTIVITY
+        ================================================== -->
+
+        <div class="grid">
+
+
+            <!-- MERCHANT APPROVALS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="approval-header">
+
+                        <div class="card-title">
+
+                            <h3>
+                                Merchant Stores
+                            </h3>
+
+                            <p>
+                                Approve pending stores or remove stores you no longer want.
+                            </p>
+
+                        </div>
+
+                        <span class="pending-count" id="pendingMerchantCount">
+                            {{ admin_pending_merchants }} Pending
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="#"
+                        class="view-all">
+                        View All
+                    </a>
+
+                </div>
+
+
+                <div class="merchant-list" id="merchantApprovalList">
+
+
+                    <div class="merchant">
+
+                        <div class="merchant-icon">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <div class="merchant-info">
+
+                            <strong>
+                                Fresh Basket Store
+                            </strong>
+
+                            <span>
+                                Grocery • Hyderabad
+                            </span>
+
+                        </div>
+
+                        <button class="review-btn" type="button">
+                            Review
+                        </button>
+
+                    </div>
+
+
+                    <div class="merchant">
+
+                        <div class="merchant-icon">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <div class="merchant-info">
+
+                            <strong>
+                                Tech World
+                            </strong>
+
+                            <span>
+                                Electronics • Hyderabad
+                            </span>
+
+                        </div>
+
+                        <button class="review-btn">
+                            Review
+                        </button>
+
+                    </div>
+
+
+                    <div class="merchant">
+
+                        <div class="merchant-icon">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <div class="merchant-info">
+
+                            <strong>
+                                Style Hub
+                            </strong>
+
+                            <span>
+                                Fashion • Secunderabad
+                            </span>
+
+                        </div>
+
+                        <button class="review-btn">
+                            Review
+                        </button>
+
+                    </div>
+
+
+                    <div class="merchant">
+
+                        <div class="merchant-icon">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <div class="merchant-info">
+
+                            <strong>
+                                Home Essentials
+                            </strong>
+
+                            <span>
+                                Home • Hyderabad
+                            </span>
+
+                        </div>
+
+                        <button class="review-btn">
+                            Review
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVITY -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+
+                        <h3>
+                            Recent Activity
+                        </h3>
+
+                        <p>
+                            Latest platform activities
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="#"
+                        class="view-all">
+                        View All
+                    </a>
+
+                </div>
+
+
+                <div class="activity-list">
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon green">
+
+                            <i class="bi bi-person-plus"></i>
+
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                New customer registered
+                            </strong>
+
+                            <span>
+                                Rahul Kumar joined LocalMart
+                            </span>
+
+                            <small>
+                                5 minutes ago
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon blue">
+
+                            <i class="bi bi-cart-check"></i>
+
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                New order received
+                            </strong>
+
+                            <span>
+                                Order #LM-10582 was placed
+                            </span>
+
+                            <small>
+                                18 minutes ago
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon purple">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                Merchant application
+                            </strong>
+
+                            <span>
+                                Fresh Basket submitted application
+                            </span>
+
+                            <small>
+                                42 minutes ago
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon orange">
+
+                            <i class="bi bi-credit-card"></i>
+
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                Payment received
+                            </strong>
+
+                            <span>
+                                ₹4,260 payment confirmed
+                            </span>
+
+                            <small>
+                                1 hour ago
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="grid" id="adminProductsPanel">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><h3>Product Catalog</h3><p id="adminCatalogSummary">All categories</p></div><div class="d-flex align-items-center gap-2"><select id="adminCatalogFilter" class="form-select" aria-label="Filter products by category" style="max-width:220px"><option value="">All categories</option><option>Food</option><option>Grocery</option><option>Shopping</option><option>Electronics</option><option>Home Appliances</option></select><button class="header-btn primary" type="button" id="addAdminProduct">Add Product</button></div></div>
+                <div class="table-container"><table class="orders-table"><thead><tr><th>Product</th><th>Category</th><th>Source</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="adminProductRows"></tbody></table></div>
+            </div>
+        </div>
+        <div class="grid" id="adminMerchantProductsPanel"><div class="card"><div class="card-header"><div class="card-title"><h3>Merchant Listings</h3><p>Control products listed by approved merchants</p></div></div><div class="table-container"><table class="orders-table"><thead><tr><th>Product</th><th>Merchant</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminMerchantProductRows"></tbody></table></div></div></div>
+        <div class="grid" id="adminCategoriesPanel">
+            <div class="card"><div class="card-header"><div class="card-title"><h3>Product Categories</h3><p>Create, rename, or remove marketplace categories</p></div><button class="header-btn primary" type="button" id="addAdminCategory">Add Category</button></div><div class="table-container"><table class="orders-table"><thead><tr><th>Category</th><th>Actions</th></tr></thead><tbody id="adminCategoryRows"></tbody></table></div></div>
+        </div>
+        <div class="grid" id="adminCustomersPanel">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><h3>Customers</h3><p>Customer order and spending history</p></div></div>
+                <div class="table-container"><table class="orders-table"><thead><tr><th>Name</th><th>Email</th><th>Orders</th><th>Total spent</th></tr></thead><tbody id="adminCustomerRows"></tbody></table></div>
+            </div>
+        </div>
+        <div class="grid" id="adminCouponsPanel">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><h3>Checkout Coupons</h3><p>Successful redemptions and discount totals for customer checkout offers</p></div><a class="header-btn primary" href="/admin/store/coupon/">Manage checkout coupons</a></div>
+                <div class="table-container"><table class="orders-table"><thead><tr><th>Code</th><th>Offer</th><th>Minimum</th><th>Status</th><th>Redemptions</th><th>Discount given</th><th>Capacity left</th><th></th></tr></thead><tbody id="adminCheckoutCouponRows"></tbody></table></div>
+            </div>
+            <div class="card"><div class="card-header"><div class="card-title"><h3>Merchant Coupons</h3><p>Review, enable, or remove merchant discounts</p></div></div><div class="table-container"><table class="orders-table"><thead><tr><th>Code</th><th>Merchant</th><th>Discount</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminCouponRows"></tbody></table></div></div>
+        </div>
+        <div class="grid" id="adminReviewsPanel"><div class="card"><div class="card-header"><div class="card-title"><h3>Customer Reviews</h3><p>Read feedback and post a merchant response</p></div></div><div class="table-container"><table class="orders-table"><thead><tr><th>Product</th><th>Merchant</th><th>Customer review</th><th>Rating</th><th>Reply</th></tr></thead><tbody id="adminReviewRows"></tbody></table></div></div></div>
+        <div class="grid" id="adminPayoutsPanel"><div class="card"><div class="card-header"><div class="card-title"><h3>Merchant Payouts</h3><p>Track payout status and references</p></div></div><div class="table-container"><table class="orders-table"><thead><tr><th>Merchant</th><th>Amount</th><th>Status</th><th>Reference</th><th>Actions</th></tr></thead><tbody id="adminPayoutRows"></tbody></table></div></div></div>
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    const ADMIN_RECENT_ORDERS = JSON.parse('{{ admin_recent_orders|escapejs }}');
+    const ADMIN_MERCHANTS = JSON.parse('{{ admin_merchant_data|escapejs }}');
+    const ADMIN_SALES_CHART = JSON.parse('{{ admin_sales_chart|escapejs }}');
+    const ADMIN_TOP_PRODUCTS = JSON.parse('{{ admin_top_products|escapejs }}');
+    const ADMIN_ACTIVITY = JSON.parse('{{ admin_activity|escapejs }}');
+    const ADMIN_URLS = {
+        products: "{% url 'admin_products_api' %}", merchantProducts: "{% url 'admin_merchant_products_api' %}", categories: "{% url 'admin_categories_api' %}",
+        customers: "{% url 'admin_customers_api' %}", orders: "{% url 'admin_orders_api' %}",
+        coupons: "{% url 'admin_coupons_api' %}", checkoutCoupons: "{% url 'admin_checkout_coupons_api' %}", reviews: "{% url 'admin_reviews_api' %}", payouts: "{% url 'admin_payouts_api' %}",
+        merchantApprovals: "{% url 'admin_merchant_approvals_api' %}"
+    };
+    const adminCsrf = () => document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+    const adminEscape = value => { const node = document.createElement('span'); node.textContent = value ?? ''; return node.innerHTML; };
+    async function adminRequest(url, method = 'GET', payload = null) {
+        const options = {method, headers: {'X-CSRFToken': adminCsrf()}};
+        if (payload) { options.headers['Content-Type'] = 'application/json'; options.body = JSON.stringify(payload); }
+        const response = await fetch(url, options);
+        const data = await response.json();
+        if (!response.ok || !data.success) throw new Error(data.message || 'Admin action failed.');
+        return data;
+    }
+
+    let adminCatalogProducts = [];
+    let adminMerchantListingCount = 0;
+    function renderAdminCatalog() {
+        const productRows = document.getElementById('adminProductRows');
+        const selectedGroup = document.getElementById('adminCatalogFilter')?.value || '';
+        const visibleProducts = adminCatalogProducts.filter(product => !selectedGroup || product.group === selectedGroup);
+        const sortedProducts = visibleProducts.slice().sort((a, b) => String(a.category || a.category__name).localeCompare(String(b.category || b.category__name)) || a.name.localeCompare(b.name));
+        if (productRows) productRows.innerHTML = sortedProducts.map(p => `<tr><td>${adminEscape(p.name)} <small>${adminEscape(p.brand)}</small></td><td>${adminEscape(p.category || p.category__name)}</td><td>${p.kind === 'store' ? 'Marketplace' : p.kind === 'electronics' ? 'Electronics catalog' : 'Static catalog'}</td><td>${Number.isNaN(Number(p.price)) ? adminEscape(p.price) : `₹${Number(p.price).toLocaleString('en-IN')}`}</td><td>${p.stock === null || p.stock === undefined ? '—' : p.stock}</td><td>${p.kind === 'store' ? `<button class="review-btn" onclick="editAdminProduct(${p.id})">Edit</button> <button class="review-btn" onclick="deleteAdminProduct(${p.id})">Delete</button>` : 'View only'}</td></tr>`).join('') || '<tr><td colspan="6">No products found.</td></tr>';
+        const counts = ['Food', 'Grocery', 'Shopping', 'Electronics', 'Home Appliances'].map(group => `${group}: ${adminCatalogProducts.filter(product => product.group === group).length}`).join(' · ');
+        const groupSummary = selectedGroup ? `${selectedGroup}: ${visibleProducts.length} products` : `${adminCatalogProducts.length} products · ${counts}`;
+        const summary = document.getElementById('adminCatalogSummary');
+        if (summary) summary.textContent = `${groupSummary} · Merchant listings: ${adminMerchantListingCount}`;
+    }
+
+    async function loadAdminCatalog() {
+        try {
+            const [productData, merchantProductData, categoryData, customerData] = await Promise.all([
+                adminRequest(ADMIN_URLS.products), adminRequest(ADMIN_URLS.merchantProducts), adminRequest(ADMIN_URLS.categories), adminRequest(ADMIN_URLS.customers)
+            ]);
+            const productRows = document.getElementById('adminProductRows');
+            productRows?.closest('.table-container')?.classList.add('admin-long-table');
+            adminCatalogProducts = productData.products || [];
+            adminMerchantListingCount = (merchantProductData.products || []).length;
+            renderAdminCatalog();
+            const merchantProductRows = document.getElementById('adminMerchantProductRows');
+            merchantProductRows?.closest('.table-container')?.classList.add('admin-long-table');
+            if (merchantProductRows) merchantProductRows.innerHTML = merchantProductData.products.map(p => `<tr><td>${adminEscape(p.name)} <small>${adminEscape(p.sku)}</small></td><td>${adminEscape(p.merchant__shop_name)}</td><td>₹${Number(p.price).toLocaleString('en-IN')}</td><td>${p.stock}</td><td>${p.is_active ? 'Active' : 'Hidden'}</td><td><button class="review-btn" onclick="toggleMerchantProduct(${p.id}, ${!p.is_active})">${p.is_active ? 'Hide' : 'Activate'}</button> <button class="review-btn" onclick="deleteMerchantProduct(${p.id})">Delete</button></td></tr>`).join('') || '<tr><td colspan="6">No merchant listings.</td></tr>';
+            const categoryRows = document.getElementById('adminCategoryRows');
+            if (categoryRows) categoryRows.innerHTML = categoryData.categories.map(c => `<tr><td>${adminEscape(c.name)}</td><td><button class="review-btn" onclick="editAdminCategory(${c.id}, '${encodeURIComponent(c.name)}')">Rename</button> <button class="review-btn" onclick="deleteAdminCategory(${c.id})">Delete</button></td></tr>`).join('') || '<tr><td colspan="2">No categories found.</td></tr>';
+            const customerRows = document.getElementById('adminCustomerRows');
+            if (customerRows) customerRows.innerHTML = customerData.customers.map(c => `<tr><td>${adminEscape(c.name)}</td><td>${adminEscape(c.email)}</td><td>${c.orders}</td><td>₹${Number(c.spent).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td></tr>`).join('') || '<tr><td colspan="4">No customer orders yet.</td></tr>';
+        } catch (error) { console.error(error); }
+    }
+    document.getElementById('adminCatalogFilter')?.addEventListener('change', renderAdminCatalog);
+    async function loadAdminOperations() {
+        try {
+            const [coupons, checkoutCoupons, reviews, payouts] = await Promise.all([adminRequest(ADMIN_URLS.coupons), adminRequest(ADMIN_URLS.checkoutCoupons), adminRequest(ADMIN_URLS.reviews), adminRequest(ADMIN_URLS.payouts)]);
+            const couponRows = document.getElementById('adminCouponRows');
+            if (couponRows) couponRows.innerHTML = coupons.coupons.map(c => `<tr><td>${adminEscape(c.code)}</td><td>${adminEscape(c.merchant__shop_name)}</td><td>${c.percentage ? `${c.percentage}%` : `₹${c.fixed_amount}`}</td><td>${c.active ? 'Active' : 'Disabled'}</td><td><button class="review-btn" onclick="toggleAdminCoupon(${c.id}, ${!c.active})">${c.active ? 'Disable' : 'Enable'}</button> <button class="review-btn" onclick="deleteAdminCoupon(${c.id})">Delete</button></td></tr>`).join('') || '<tr><td colspan="5">No merchant coupons.</td></tr>';
+            const checkoutCouponRows = document.getElementById('adminCheckoutCouponRows');
+            if (checkoutCouponRows) checkoutCouponRows.innerHTML = checkoutCoupons.coupons.map(c => {
+                const offer = c.discount_type === 'percentage' ? `${Number(c.discount_value)}% off${c.maximum_discount ? ` (max ₹${Number(c.maximum_discount).toLocaleString('en-IN')})` : ''}` : `₹${Number(c.discount_value).toLocaleString('en-IN')} off`;
+                const capacity = c.remaining_capacity === null ? 'Unlimited' : c.remaining_capacity;
+                return `<tr><td><strong>${adminEscape(c.code)}</strong><small>${adminEscape(c.description)}</small></td><td>${offer}</td><td>₹${Number(c.minimum_order).toLocaleString('en-IN')}</td><td>${c.is_active ? 'Active' : 'Disabled'}</td><td>${c.successful_redemptions}</td><td>₹${Number(c.discount_given).toLocaleString('en-IN')}</td><td>${capacity}</td><td><a class="review-btn" href="/admin/store/coupon/${c.id}/change/">Edit</a></td></tr>`;
+            }).join('') || '<tr><td colspan="8">No checkout coupons configured.</td></tr>';
+            const reviewRows = document.getElementById('adminReviewRows');
+            if (reviewRows) reviewRows.innerHTML = reviews.reviews.map(r => `<tr><td>${adminEscape(r.product__name)}</td><td>${adminEscape(r.merchant__shop_name)}</td><td>${adminEscape(r.customer_name)}: ${adminEscape(r.comment)}</td><td>${r.rating}/5</td><td>${adminEscape(r.reply)} <button class="review-btn" onclick="replyAdminReview(${r.id}, '${encodeURIComponent(r.reply || '')}')">Reply</button></td></tr>`).join('') || '<tr><td colspan="5">No reviews yet.</td></tr>';
+            const payoutRows = document.getElementById('adminPayoutRows');
+            if (payoutRows) payoutRows.innerHTML = payouts.payouts.map(p => `<tr><td>${adminEscape(p.merchant__shop_name)}</td><td>₹${Number(p.amount).toLocaleString('en-IN')}</td><td>${adminEscape(p.status)}</td><td>${adminEscape(p.reference)}</td><td><button class="review-btn" onclick="updateAdminPayout(${p.id}, '${p.status === 'paid' ? 'pending' : 'paid'}')">${p.status === 'paid' ? 'Reopen' : 'Mark paid'}</button></td></tr>`).join('') || '<tr><td colspan="5">No payouts.</td></tr>';
+        } catch (error) { console.error(error); }
+    }
+    async function toggleAdminCoupon(id, active) { try { await adminRequest(`${ADMIN_URLS.coupons}${id}/`, 'PATCH', {active}); loadAdminOperations(); } catch (error) { alert(error.message); } }
+    async function deleteAdminCoupon(id) { if (!confirm('Delete this coupon?')) return; try { await adminRequest(`${ADMIN_URLS.coupons}${id}/`, 'DELETE'); loadAdminOperations(); } catch (error) { alert(error.message); } }
+    async function replyAdminReview(id, current) { const reply = prompt('Reply to this review', decodeURIComponent(current)); if (reply === null) return; try { await adminRequest(`${ADMIN_URLS.reviews}${id}/`, 'PATCH', {reply}); loadAdminOperations(); } catch (error) { alert(error.message); } }
+    async function updateAdminPayout(id, status) { const reference = prompt('Payout reference (optional)', ''); if (reference === null) return; try { await adminRequest(`${ADMIN_URLS.payouts}${id}/`, 'PATCH', {status, reference}); loadAdminOperations(); } catch (error) { alert(error.message); } }
+    async function addAdminProduct() {
+        try {
+            const categories = (await adminRequest(ADMIN_URLS.categories)).categories;
+            if (!categories.length) { alert('Create a category first.'); return; }
+            const name = prompt('Product name'); if (!name) return;
+            const categoryText = categories.map(c => `${c.id}: ${c.name}`).join('\n');
+            const category_id = prompt(`Enter category ID:\n${categoryText}`); if (!category_id) return;
+            const price = prompt('Price'); if (price === null) return;
+            const stock = prompt('Stock quantity', '0'); if (stock === null) return;
+            const brand = prompt('Brand (optional)', '') || '';
+            await adminRequest(ADMIN_URLS.products, 'POST', {name, category_id, price, stock, brand}); loadAdminCatalog();
+        } catch (error) { alert(error.message); }
+    }
+    async function editAdminProduct(id) {
+        try {
+            const product = (await adminRequest(`${ADMIN_URLS.products}${id}/`)).products[0];
+            const name = prompt('Product name', product.name); if (name === null) return;
+            const price = prompt('Price', product.price); if (price === null) return;
+            const stock = prompt('Stock', product.stock); if (stock === null) return;
+            await adminRequest(`${ADMIN_URLS.products}${id}/`, 'PATCH', {name, price, stock}); loadAdminCatalog();
+        } catch (error) { alert(error.message); }
+    }
+    async function deleteAdminProduct(id) {
+        if (!confirm('Delete this product?')) return;
+        try { await adminRequest(`${ADMIN_URLS.products}${id}/`, 'DELETE'); loadAdminCatalog(); } catch (error) { alert(error.message); }
+    }
+    async function toggleMerchantProduct(id, is_active) { try { await adminRequest(`${ADMIN_URLS.merchantProducts}${id}/`, 'PATCH', {is_active}); loadAdminCatalog(); } catch (error) { alert(error.message); } }
+    async function deleteMerchantProduct(id) { if (!confirm('Delete this merchant listing?')) return; try { await adminRequest(`${ADMIN_URLS.merchantProducts}${id}/`, 'DELETE'); loadAdminCatalog(); } catch (error) { alert(error.message); } }
+    async function addAdminCategory() {
+        const name = prompt('Category name'); if (!name) return;
+        try { await adminRequest(ADMIN_URLS.categories, 'POST', {name}); loadAdminCatalog(); } catch (error) { alert(error.message); }
+    }
+    async function editAdminCategory(id, name) {
+        const updated = prompt('Category name', decodeURIComponent(name)); if (!updated) return;
+        try { await adminRequest(`${ADMIN_URLS.categories}${id}/`, 'PATCH', {name: updated}); loadAdminCatalog(); } catch (error) { alert(error.message); }
+    }
+    async function deleteAdminCategory(id) {
+        if (!confirm('Delete this category?')) return;
+        try { await adminRequest(`${ADMIN_URLS.categories}${id}/`, 'DELETE'); loadAdminCatalog(); } catch (error) { alert(error.message); }
+    }
+    async function loadAdminOrders() {
+        try {
+            const data = await adminRequest(ADMIN_URLS.orders);
+            const body = document.getElementById('adminRecentOrders'); if (!body) return;
+            body.closest('.table-container')?.classList.add('admin-long-table');
+            body.innerHTML = data.orders.map(o => `<tr><td><strong>#${adminEscape(o.number)}</strong></td><td>${adminEscape(o.customer)}</td><td>₹${Number(o.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td><td>${adminEscape(o.status)} <button class="review-btn" onclick="updateAdminOrder('${o.kind}', ${o.id})">Update</button></td><td>${adminEscape(o.date)}</td></tr>`).join('') || '<tr><td colspan="5">No orders found.</td></tr>';
+        } catch (error) { console.error(error); }
+    }
+    async function updateAdminOrder(kind, id) {
+        const statuses = kind === 'store' ? ['Placed','Processing','Shipped','Delivered','Cancelled','Refunded'] : ['Pending','Confirmed','Processing','Packed','Shipped','Out for Delivery','Delivered','Cancelled','Returned'];
+        const status = prompt(`Enter status:\n${statuses.join(', ')}`); if (!status) return;
+        try { await adminRequest(ADMIN_URLS.orders, 'PATCH', {kind, id, status}); loadAdminOrders(); } catch (error) { alert(error.message); }
+    }
+    document.getElementById('addAdminProduct')?.addEventListener('click', addAdminProduct);
+    document.getElementById('addAdminCategory')?.addEventListener('click', addAdminCategory);
+    loadAdminCatalog();
+    loadAdminOperations();
+    loadAdminOrders();
+    const productList = document.querySelector('.product-list');
+    if (productList) productList.innerHTML = ADMIN_TOP_PRODUCTS.map((p, index) => `<div class="product"><div class="product-rank">${String(index + 1).padStart(2, '0')}</div><div class="product-image"><i class="bi bi-box-seam"></i></div><div class="product-details"><strong>${adminEscape(p.name)}</strong><span>${adminEscape(p.category || 'Product')}</span></div><div class="product-sales"><strong>₹${Number(p.revenue).toLocaleString('en-IN')}</strong><span>${p.sold} sold</span></div></div>`).join('') || '<p class="text-muted p-3">No product sales yet.</p>';
+    const activityList = document.querySelector('.activity-list');
+    if (activityList) activityList.innerHTML = ADMIN_ACTIVITY.map(item => `<div class="activity"><div class="activity-icon ${adminEscape(item.icon)}"><i class="bi bi-activity"></i></div><div class="activity-content"><strong>${adminEscape(item.title)}</strong><span>${adminEscape(item.detail)}</span><small>${adminEscape(item.date)}</small></div></div>`).join('') || '<p class="text-muted p-3">No recent activity.</p>';
+    document.querySelector('#adminRecentOrders')?.closest('.card')?.setAttribute('id', 'adminOrdersPanel');
+    document.querySelector('#merchantApprovalList')?.closest('.card')?.setAttribute('id', 'merchantApprovalPanel');
+
+    // Turn the single long dashboard into separate views that stay inside its shell.
+    const adminContent = document.querySelector('.content');
+    const adminHeader = adminContent?.querySelector('.page-header');
+    const firstSectionPanel = document.getElementById('adminProductsPanel');
+    const adminPages = {};
+    const pageInfo = {
+        dashboard: ['Overview', 'Monitor your LocalMart marketplace, merchants and customers.'],
+        orders: ['Orders', 'Review marketplace orders and their current status.'],
+        products: ['Products', 'Manage marketplace catalog products and merchant listings.'],
+        categories: ['Categories', 'Manage the product categories available across LocalMart.'],
+        merchants: ['Merchants', 'Review merchant applications and approval status.'],
+        customers: ['Customers', 'View customer accounts, order counts and spending.'],
+        payments: ['Payments', 'Track merchant payouts and payment references.'],
+        refunds: ['Refunds', 'Review orders that are marked for a refund or return.'],
+        coupons: ['Coupons', 'Review and manage merchant discount codes.'],
+        promotions: ['Promotions', 'Marketplace promotions and campaign overview.'],
+        reviews: ['Reviews', 'Read customer feedback and merchant responses.'],
+        adminUsers: ['Admin Users', 'Administrator account currently managing this dashboard.'],
+        roles: ['Roles & Permissions', 'Administrator access and available dashboard capabilities.'],
+        reports: ['Reports', 'Export marketplace reporting data.'],
+        settings: ['Settings', 'Dashboard display preferences.']
+    };
+    if (adminContent && adminHeader && firstSectionPanel) {
+        const dashboardPage = document.createElement('section');
+        dashboardPage.className = 'admin-view-page active';
+        dashboardPage.dataset.adminPage = 'dashboard';
+        let movingNode = adminHeader.nextSibling;
+        while (movingNode && movingNode !== firstSectionPanel) {
+            const nextNode = movingNode.nextSibling;
+            dashboardPage.appendChild(movingNode);
+            movingNode = nextNode;
+        }
+        adminHeader.after(dashboardPage);
+        adminPages.dashboard = dashboardPage;
+        Object.entries(pageInfo).filter(([key]) => key !== 'dashboard').forEach(([key, info]) => {
+            const page = document.createElement('section');
+            page.className = 'admin-view-page';
+            page.dataset.adminPage = key;
+            page.innerHTML = `<div class="admin-view-message"><h3>${adminEscape(info[0])}</h3><p>${adminEscape(info[1])}</p></div>`;
+            adminContent.appendChild(page);
+            adminPages[key] = page;
+        });
+        const appendPanel = (pageKey, element) => { if (element) { element.classList.add('admin-page-card'); adminPages[pageKey].appendChild(element); } };
+        appendPanel('orders', document.getElementById('adminOrdersPanel'));
+        appendPanel('products', document.getElementById('adminProductsPanel'));
+        appendPanel('products', document.getElementById('adminMerchantProductsPanel'));
+        appendPanel('categories', document.getElementById('adminCategoriesPanel'));
+        appendPanel('merchants', document.getElementById('merchantApprovalPanel'));
+        appendPanel('customers', document.getElementById('adminCustomersPanel'));
+        appendPanel('payments', document.getElementById('adminPayoutsPanel'));
+        appendPanel('coupons', document.getElementById('adminCouponsPanel'));
+        appendPanel('reviews', document.getElementById('adminReviewsPanel'));
+
+        adminPages.refunds.insertAdjacentHTML('beforeend', '<div class="card admin-page-card"><div class="card-header"><div class="card-title"><h3>Refund and return orders</h3><p>Orders currently identified with refund or return status</p></div></div><div class="table-container"><table class="orders-table"><thead><tr><th>Order</th><th>Customer</th><th>Status</th><th>Date</th></tr></thead><tbody id="adminRefundRows"></tbody></table></div></div>');
+        const refundRows = document.getElementById('adminRefundRows');
+        const refunds = (ADMIN_RECENT_ORDERS || []).filter(order => /refund|return/i.test(String(order.status || '')));
+        if (refundRows) refundRows.innerHTML = refunds.map(order => `<tr><td>${adminEscape(order.id || order.order_id || '—')}</td><td>${adminEscape(order.customer || order.customer_name || '—')}</td><td>${adminEscape(order.status)}</td><td>${adminEscape(order.date || order.created_at || '—')}</td></tr>`).join('') || '<tr><td colspan="4">No refund or return orders in the current order data.</td></tr>';
+        adminPages.promotions.insertAdjacentHTML('beforeend', '<div class="card admin-page-card"><div class="card-header"><div class="card-title"><h3>Promotion campaigns</h3><p>Manage discount codes in Coupons. Marketplace wide campaign management is not configured yet.</p></div><button class="header-btn primary" type="button" data-admin-go="coupons">Open Coupons</button></div></div>');
+        const currentAdminName = '{{ admin_user.get_full_name|default:admin_user.username|escapejs }}';
+        adminPages.adminUsers.insertAdjacentHTML('beforeend', `<div class="card admin-page-card"><div class="table-container"><table class="orders-table"><tbody><tr><th>Administrator</th><td>${adminEscape(currentAdminName)}</td></tr><tr><th>Role</th><td>Super Admin</td></tr></tbody></table></div></div>`);
+        adminPages.roles.insertAdjacentHTML('beforeend', '<div class="card admin-page-card"><div class="card-header"><div class="card-title"><h3>Super Admin</h3><p>Full access to orders, products, categories, merchant approvals, customers, payments, coupons, reviews and reports.</p></div></div></div>');
+        adminPages.reports.insertAdjacentHTML('beforeend', `<div class="card admin-page-card"><div class="card-header"><div class="card-title"><h3>Marketplace report</h3><p>Download the latest marketplace report as a PDF file.</p></div><a class="header-btn primary" href="{% url 'admin_export_report' %}?section=overview"><i class="bi bi-download"></i> Export PDF</a></div></div>`);
+        adminPages.settings.insertAdjacentHTML('beforeend', '<div class="card admin-page-card"><div class="card-header"><div class="card-title"><h3>Display</h3><p>Change the dashboard color theme.</p></div><button class="header-btn" type="button" id="adminSettingsTheme">Toggle theme</button></div></div>');
+
+        const sidebarKey = {'Dashboard':'dashboard','Orders':'orders','Products':'products','Categories':'categories','Merchants':'merchants','Customers':'customers','Payments':'payments','Refunds':'refunds','Coupons':'coupons','Promotions':'promotions','Reviews':'reviews','Admin Users':'adminUsers','Roles & Permissions':'roles','Reports':'reports','Settings':'settings'};
+        const djangoAdminUrl = "{% url 'admin:index' %}";
+        window.showAdminPage = (key, updateHash = true) => {
+            if (!adminPages[key]) key = 'dashboard';
+            Object.entries(adminPages).forEach(([pageKey, page]) => page.classList.toggle('active', pageKey === key));
+            document.getElementById('adminPageTitle').textContent = pageInfo[key][0];
+            document.getElementById('adminPageDescription').textContent = pageInfo[key][1];
+            document.querySelectorAll('.sidebar .menu li').forEach(item => item.classList.toggle('active', sidebarKey[item.querySelector('a')?.textContent.replace(/\s+/g, ' ').trim().replace(/\s+\d+$/, '')] === key));
+            if (updateHash) history.replaceState(null, '', `#admin-${key}`);
+            const exportButton = document.getElementById('exportButton');
+            if (exportButton) {
+                const reportUrl = new URL("{% url 'admin_export_report' %}", window.location.origin);
+                reportUrl.searchParams.set('section', ['orders', 'merchants'].includes(key) ? key : 'overview');
+                exportButton.href = reportUrl.toString();
+                exportButton.setAttribute('download', `localmart-${['orders', 'merchants'].includes(key) ? key : 'overview'}-report.pdf`);
+            }
+            if (key === 'reports') document.getElementById('exportButton')?.classList.add('d-none');
+            else document.getElementById('exportButton')?.classList.remove('d-none');
+            document.querySelector('.sidebar')?.classList.remove('open');
+            document.querySelector('.sidebar-overlay')?.classList.remove('show');
+        };
+        document.querySelectorAll('.sidebar .menu a').forEach(link => {
+            const label = link.textContent.replace(/\s+/g, ' ').trim().replace(/\s+\d+$/, '');
+            const key = sidebarKey[label];
+            if (!key) return;
+            if (key === 'adminUsers' || key === 'roles') {
+                link.href = djangoAdminUrl;
+                return;
+            }
+            link.href = `#admin-${key}`;
+            link.addEventListener('click', event => { event.preventDefault(); window.showAdminPage(key); });
+        });
+        document.querySelectorAll('[data-admin-go]').forEach(button => button.addEventListener('click', () => window.showAdminPage(button.dataset.adminGo)));
+        document.getElementById('adminSettingsTheme')?.addEventListener('click', () => document.getElementById('themeButton')?.click());
+        document.querySelectorAll('.quick-action').forEach(button => button.addEventListener('click', () => {
+            const action = button.innerText.trim();
+            if (action.includes('Add Product')) { window.showAdminPage('products'); addAdminProduct(); }
+            else if (action.includes('Merchant')) window.showAdminPage('merchants');
+            else if (action.includes('Categor')) window.showAdminPage('categories');
+            else window.showAdminPage('orders');
+        }));
+        const pageFromHash = () => window.showAdminPage(location.hash.startsWith('#admin-') ? location.hash.slice(7) : 'dashboard', false);
+        window.addEventListener('hashchange', pageFromHash);
+        pageFromHash();
+    }
+
+    const merchantNotificationWrap = document.querySelector(".approval-notification-wrap");
+    const merchantNotificationButton = document.getElementById("merchantApprovalNotification");
+    const merchantNotificationPopup = document.getElementById("merchantApprovalPopup");
+    merchantNotificationButton?.addEventListener("click", () => {
+        const isOpening = merchantNotificationPopup.hidden;
+        merchantNotificationPopup.hidden = !isOpening;
+        merchantNotificationButton.setAttribute("aria-expanded", String(isOpening));
+    });
+    document.addEventListener("click", event => {
+        if (merchantNotificationWrap && !merchantNotificationWrap.contains(event.target)) {
+            merchantNotificationPopup.hidden = true;
+            merchantNotificationButton?.setAttribute("aria-expanded", "false");
+        }
+    });
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && merchantNotificationPopup && !merchantNotificationPopup.hidden) {
+            merchantNotificationPopup.hidden = true;
+            merchantNotificationButton?.setAttribute("aria-expanded", "false");
+            merchantNotificationButton?.focus();
+        }
+    });
+
+    document.getElementById("adminLogout")?.addEventListener("click", function () {
+        window.location.href = "{% url 'admin_logout' %}";
+    });
+
+    const orderTableBody = document.getElementById("adminRecentOrders");
+    if (orderTableBody) {
+        const statusClass = {
+            delivered: "delivered",
+            processing: "processing",
+            shipped: "shipped",
+            pending: "pending",
+            placed: "pending",
+        };
+        orderTableBody.innerHTML = ADMIN_RECENT_ORDERS.map(order => `
+            <tr>
+                <td><strong>#${adminEscape(order.id)}</strong></td>
+                <td><div class="customer"><div class="customer-avatar">${adminEscape(order.customer.slice(0, 2).toUpperCase())}</div>${adminEscape(order.customer)}</div></td>
+                <td>₹${Number(order.amount).toLocaleString("en-IN", {minimumFractionDigits: 2})}</td>
+                <td><span class="status ${statusClass[order.status] || "processing"}">${adminEscape(order.status)}</span></td>
+                <td>${adminEscape(order.date)}</td>
+            </tr>
+        `).join("") || '<tr><td colspan="5" class="text-center text-muted">No orders found</td></tr>';
+    }
+
+    const approvalList = document.getElementById("merchantApprovalList");
+    if (approvalList) {
+        const renderApprovalNotificationList = () => {
+            const list = document.getElementById("merchantNotificationList");
+            if (!list) return;
+            const pendingMerchants = ADMIN_MERCHANTS.filter(merchant => !merchant.is_approved);
+            list.innerHTML = pendingMerchants.map(merchant => `
+                <div class="approval-popup-item">
+                    <div class="approval-popup-info"><strong>${adminEscape(merchant.shop_name)}</strong><span>${adminEscape(merchant.email || "No email provided")}</span></div>
+                </div>
+            `).join("") || '<p class="approval-popup-empty">No stores are waiting for approval.</p>';
+        };
+        const updateMerchantCounters = () => {
+            const pending = ADMIN_MERCHANTS.filter(merchant => !merchant.is_approved).length;
+            const active = ADMIN_MERCHANTS.filter(merchant => merchant.is_approved).length;
+            const pendingCount = document.getElementById("pendingMerchantCount");
+            if (pendingCount) pendingCount.textContent = `${pending} Pending`;
+            ["pendingMerchantSidebar", "pendingMerchantStat", "pendingMerchantFooter"].forEach(id => {
+                const node = document.getElementById(id);
+                if (node) node.textContent = pending;
+            });
+            const notification = document.getElementById("pendingMerchantNotification");
+            const notificationButton = document.getElementById("merchantApprovalNotification");
+            if (notification) {
+                notification.textContent = pending > 99 ? "99+" : String(pending);
+                notification.hidden = pending === 0;
+            }
+            if (notificationButton) notificationButton.setAttribute("aria-label", `Pending merchant approvals: ${pending}`);
+            const popupCount = document.getElementById("merchantPopupPendingCount");
+            if (popupCount) popupCount.textContent = `${pending} pending`;
+            const activeCount = document.getElementById("activeMerchantCount");
+            if (activeCount) activeCount.textContent = active;
+            renderApprovalNotificationList();
+        };
+        const renderMerchantRows = () => {
+            approvalList.innerHTML = ADMIN_MERCHANTS.map(merchant => `
+            <div class="merchant" data-merchant-id="${merchant.id}" data-approved="${merchant.is_approved}">
+                <div class="merchant-icon"><i class="bi bi-shop"></i></div>
+                <div class="merchant-info"><strong>${adminEscape(merchant.shop_name)}</strong><span>${adminEscape(merchant.email)}</span></div>
+                <div class="merchant-actions">
+                  ${merchant.is_approved ? '<span class="merchant-status">Approved</span>' : `<button class="review-btn" type="button" onclick="approveMerchant(${merchant.id})">Approve</button><span class="merchant-status pending">Pending</span>`}
+                  ${merchant.is_approved ? `<button class="review-btn delete-merchant-btn" type="button" onclick="deleteMerchant(${merchant.id})" aria-label="Delete ${adminEscape(merchant.shop_name)}">Delete</button>` : ''}
+                </div>
+            </div>
+            `).join("") || '<div class="text-muted p-3">No merchant stores registered.</div>';
+        };
+        renderMerchantRows();
+        updateMerchantCounters();
+
+        const refreshMerchantApprovals = async () => {
+            try {
+                const response = await fetch(ADMIN_URLS.merchantApprovals, {credentials: "same-origin", headers: {Accept: "application/json"}});
+                if (!response.ok) return;
+                const data = await response.json();
+                if (!data.success || !Array.isArray(data.merchants)) return;
+                ADMIN_MERCHANTS.splice(0, ADMIN_MERCHANTS.length, ...data.merchants);
+                renderMerchantRows();
+                updateMerchantCounters();
+            } catch (error) { console.error("Unable to refresh merchant approvals.", error); }
+        };
+        refreshMerchantApprovals();
+        window.setInterval(refreshMerchantApprovals, 15000);
+
+        window.approveMerchant = async merchantId => {
+            try {
+                const response = await fetch("{% url 'admin_approve_merchant' 0 %}".replace("/0/", `/${merchantId}/`), {
+                    method: "POST",
+                    headers: {"X-CSRFToken": adminCsrf()}
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) throw new Error(data.message || "Unable to approve merchant.");
+                const merchant = ADMIN_MERCHANTS.find(item => item.id === merchantId);
+                if (merchant) merchant.is_approved = true;
+                renderMerchantRows();
+                updateMerchantCounters();
+            } catch (error) { alert(error.message); }
+        };
+
+        window.deleteMerchant = async merchantId => {
+            const merchant = ADMIN_MERCHANTS.find(item => item.id === merchantId);
+            if (!merchant) return;
+            const confirmed = window.confirm(
+                `Permanently delete ${merchant.shop_name}? This also deletes its merchant products, categories, reviews, and merchant-dashboard orders. The linked login account and customer order history are retained.`
+            );
+            if (!confirmed) return;
+            try {
+                const response = await fetch("{% url 'admin_delete_merchant' 0 %}".replace("/0/", `/${merchantId}/`), {
+                    method: "POST",
+                    headers: {"X-CSRFToken": adminCsrf()}
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) throw new Error(data.message || "Unable to delete merchant store.");
+                const index = ADMIN_MERCHANTS.findIndex(item => item.id === merchantId);
+                if (index !== -1) ADMIN_MERCHANTS.splice(index, 1);
+                renderMerchantRows();
+                updateMerchantCounters();
+            } catch (error) { alert(error.message); }
+        };
+    }
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+const overlay =
+    document.getElementById("overlay");
+
+
+mobileMenu.addEventListener(
+    "click",
+    function () {
+
+        sidebar.classList.toggle("open");
+
+        overlay.classList.toggle("show");
+
+    }
+);
+
+
+overlay.addEventListener(
+    "click",
+    function () {
+
+        sidebar.classList.remove("open");
+
+        overlay.classList.remove("show");
+
+    }
+);
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+const themeButton =
+    document.getElementById("themeButton");
+
+
+const savedTheme =
+    localStorage.getItem(
+        "localmart-admin-theme"
+    );
+
+
+if (savedTheme === "dark") {
+
+    document.body.classList.add("dark");
+
+    themeButton.innerHTML =
+        '<i class="bi bi-sun"></i>';
+
+}
+
+
+themeButton.addEventListener(
+    "click",
+    function () {
+
+        document.body.classList.toggle("dark");
+
+
+        const dark =
+            document.body.classList.contains("dark");
+
+
+        localStorage.setItem(
+            "localmart-admin-theme",
+            dark ? "dark" : "light"
+        );
+
+
+        themeButton.innerHTML = dark
+
+            ? '<i class="bi bi-sun"></i>'
+
+            : '<i class="bi bi-moon"></i>';
+
+    }
+);
+
+
+/* =========================================================
+   SALES CHART
+========================================================= */
+
+const chart =
+    document
+        .getElementById("salesChart")
+        .getContext("2d");
+
+
+const gradient =
+    chart.createLinearGradient(
+        0,
+        0,
+        0,
+        280
+    );
+
+
+gradient.addColorStop(
+    0,
+    "rgba(20,164,77,.20)"
+);
+
+gradient.addColorStop(
+    1,
+    "rgba(20,164,77,0)"
+);
+
+
+const salesChart =
+    new Chart(
+        chart,
+        {
+
+            type: "line",
+
+            data: {
+
+                labels: ADMIN_SALES_CHART.slice(-30).map(point => point.label),
+
+                datasets: [
+
+                    {
+
+                        label: "Revenue",
+
+                        data: ADMIN_SALES_CHART.slice(-30).map(point => point.revenue),
+
+                        borderColor:
+                            "#14a44d",
+
+                        backgroundColor:
+                            gradient,
+
+                        borderWidth: 2,
+
+                        fill: true,
+
+                        tension: .4,
+
+                        pointRadius: 3,
+
+                        pointHoverRadius: 6
+
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        grid: {
+                            color:
+                                "rgba(150,160,180,.12)"
+                        },
+
+                        ticks: {
+
+                            font: {
+                                size: 9
+                            },
+
+                            callback:
+                                function(value) {
+
+                                    if (
+                                        value >=
+                                        100000
+                                    ) {
+
+                                        return "₹" +
+                                            (
+                                                value /
+                                                100000
+                                            ).toFixed(1) +
+                                            "L";
+
+                                    }
+
+                                    return "₹" +
+                                        (
+                                            value /
+                                            1000
+                                        ) +
+                                        "K";
+                                }
+
+                        }
+
+                    },
+
+                    x: {
+
+                        grid: {
+                            display: false
+                        },
+
+                        ticks: {
+
+                            font: {
+                                size: 9
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   PERIOD SELECT
+========================================================= */
+
+document
+    .getElementById("periodSelect")
+    .addEventListener(
+        "change",
+        function () {
+            const count = this.value === "Last 7 Days" ? 7 : this.value === "Last 6 Months" ? 180 : this.value === "This Year" ? 365 : 30;
+            const points = this.value === "This Year"
+                ? ADMIN_SALES_CHART.filter(point => point.date.startsWith(String(new Date().getFullYear())))
+                : ADMIN_SALES_CHART.slice(-count);
+            salesChart.data.labels = points.map(point => point.label);
+            salesChart.data.datasets[0].data = points.map(point => point.revenue);
+            salesChart.update();
+        }
+    );
+
+
+/* =========================================================
+   GLOBAL SEARCH
+========================================================= */
+
+const globalSearch =
+    document.getElementById(
+        "globalSearch"
+    );
+
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.ctrlKey &&
+            event.key.toLowerCase() === "k"
+        ) {
+
+            event.preventDefault();
+
+            globalSearch.focus();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DASHBOARD SEARCH
+========================================================= */
+
+globalSearch.addEventListener(
+    "input",
+    function() {
+
+        const value =
+            this.value.toLowerCase().trim();
+
+        document.querySelectorAll("#adminRecentOrders tr, #adminProductRows tr, #adminMerchantProductRows tr, #adminCategoryRows tr, #adminCustomerRows tr, #adminCouponRows tr, #adminReviewRows tr, #adminPayoutRows tr, #merchantApprovalList .merchant").forEach(row => {
+            row.hidden = value !== "" && !row.textContent.toLowerCase().includes(value);
+        });
+
+    }
+);
+
+
+/* =========================================================
+   SIDEBAR ACTIVE MENU
+========================================================= */
+
+document
+    .querySelectorAll(".menu li")
+    .forEach(
+        function(item) {
+
+            item.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .querySelectorAll(
+                            ".menu li"
+                        )
+                        .forEach(
+                            function(menuItem) {
+
+                                menuItem
+                                    .classList
+                                    .remove(
+                                        "active"
+                                    );
+
+                            }
+                        );
+
+                    this.classList.add(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

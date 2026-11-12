@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Grocery | LocalMart</title>
+
+<!-- Bootstrap -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+<!-- Bootstrap Icons -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
+
+<!-- Google Font -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
+
+<!-- Grocery CSS -->
+<link
+    rel="stylesheet"
+    href="/static/css/grocery.css"
+>
+
+
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar navbar-expand-lg bg-white sticky-top">
+
+
+<div class="container compact-header">
+
+    <!-- Logo -->
+    <a
+        class="navbar-brand logo"
+        href="/"
+    >
+
+        <i class="bi bi-shop text-success"></i>
+
+        LocalMart
+
+    </a>
+
+
+    <!-- Mobile Toggle -->
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#menu"
+        aria-controls="menu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+
+    <!-- Navbar Content -->
+    <div
+        class="collapse navbar-collapse"
+        id="menu"
+    >
+
+
+        <!-- Search -->
+        <form
+            class="search-box mx-auto"
+            method="GET"
+            action="/grocery/"
+        >
+
+            <div class="input-group compact-search">
+
+                <span class="search-icon"><i class="bi bi-search"></i></span>
+
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Search grocery essentials"
+                    value=""
+                >
+
+            </div>
+
+        </form>
+
+
+        <!-- Navigation -->
+        <ul class="navbar-nav align-items-lg-center ms-auto compact-nav">
+
+
+            <!-- Home -->
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="/"
+                >
+
+                    <i class="bi bi-house"></i>
+
+                    Home
+
+                </a>
+
+            </li>
+
+
+            <!-- Wishlist -->
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="/wishlist/"
+                >
+
+                    <i class="bi bi-heart"></i>
+
+                    Wishlist
+
+                </a>
+
+            </li>
+
+
+            <!-- Cart -->
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="/cart/"
+                >
+
+                    <i class="bi bi-cart3"></i>
+
+                    Cart
+
+                </a>
+
+            </li>
+
+
+            <!-- Account Dropdown -->
+            <li class="nav-item dropdown ms-lg-2">
+
+                <button
+                    class="btn btn-success rounded-pill dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+
+                    <i class="bi bi-person-circle"></i>
+
+                    Account
+
+                </button>
+
+
+                <ul class="dropdown-menu dropdown-menu-end">
+
+
+                    
+
+
+                    <!-- Orders -->
+                    <li>
+
+<a href="/my-orders/">
+    <i class="bi bi-bag-check me-2">
+        
+    </i>
+    My Orders
+</a>
+                    </li>
+
+
+                    <!-- Profile -->
+                    
+
+
+
+                    </li>
+
+
+                </ul>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+
+</nav>
+
+<main class="grocery-page-shell">
+
+<!-- =========================
+     LOCATION BAR
+========================= -->
+
+<section class="container pt-4">
+    <div class="grocery-location-bar">
+        <span class="location-pill"><i class="bi bi-geo-alt-fill"></i> Delivering to</span>
+        <strong>Koramangala, Bengaluru</strong>
+        <span class="delivery-time">10-15 min</span>
+    </div>
+</section>
+
+<!-- =========================
+     HERO CAROUSEL
+========================= -->
+
+<section class="container py-4">
+
+    <div id="groceryHeroCarousel" class="carousel slide grocery-hero-carousel" data-bs-ride="carousel">
+
+        <div class="carousel-indicators" id="groceryHeroIndicators"></div>
+
+        <div class="carousel-inner" id="groceryHeroSlides"></div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#groceryHeroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#groceryHeroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     SHOP BY CATEGORY
+========================= -->
+
+<section class="container py-5">
+
+    <div class="grocery-category-layout">
+
+        <aside class="grocery-category-sidebar">
+
+            <div class="grocery-category-header">
+
+                <h3>Shop by category</h3>
+
+                <button type="button" class="btn btn-sm btn-outline-success category-reset-btn" data-category="all">
+                    All
+                </button>
+
+            </div>
+
+            <div class="grocery-category-list" id="categorySidebar" aria-label="Category navigation"></div>
+
+        </aside>
+
+        <div class="grocery-category-main">
+
+            <div class="section-title d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                <h2>Browse essentials</h2>
+
+                <button type="button" class="btn btn-sm btn-outline-success category-reset-btn" data-category="all">
+                    All Products
+                </button>
+
+            </div>
+
+            <div class="category-scroll" id="categoryOptions" aria-label="Shop by category"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     OFFER BANNER
+========================= -->
+
+<section class="container py-5">
+
+
+<div class="offer-banner">
+
+    <div class="row align-items-center">
+
+
+        <div class="col-lg-8">
+
+            <h2>
+
+                🔥 Grocery Mega Sale
+
+            </h2>
+
+
+            <p>
+
+                Flat 50% OFF on selected grocery items.
+
+                Use Coupon
+
+                <strong>LOCAL50</strong>
+
+            </p>
+
+        </div>
+
+
+        <div class="col-lg-4 text-lg-end">
+
+            <a
+                href="#groceryProducts"
+                class="btn btn-light btn-lg"
+            >
+
+                Shop Now
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =========================
+     BEST SELLING PRODUCTS
+========================= -->
+
+<section class="container py-5">
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="fw-bold">
+
+        Best Selling Products
+
+    </h2>
+
+
+    <a
+        href="#groceryProducts"
+        class="text-success fw-semibold"
+    >
+
+        View All
+
+    </a>
+
+</div>
+
+
+<div
+    class="row g-4"
+    id="groceryProducts"
+>
+
+    <!-- Products loaded by grocery.js -->
+
+</div>
+
+
+</section>
+
+</main>
+
+<!-- =========================
+     FLOATING CART
+========================= -->
+
+<div class="floating-cart">
+
+
+<a
+    href="/cart/"
+    class="text-decoration-none"
+>
+
+    <button type="button">
+
+        <i class="bi bi-cart3"></i>
+
+        <span id="cartCount" class="cart-count">
+
+            0
+
+        </span>
+
+    </button>
+
+</a>
+
+
+</div>
+
+<!-- =========================
+     MOBILE BOTTOM NAV
+========================= -->
+
+<nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+
+    <a href="/">
+        <i class="bi bi-house"></i>
+        Home
+    </a>
+
+    <a href="/grocery/" class="active">
+        <i class="bi bi-bag"></i>
+        Grocery
+    </a>
+
+    <a href="/wishlist/">
+        <i class="bi bi-heart"></i>
+        Wishlist
+    </a>
+
+    <a href="/cart/">
+        <i class="bi bi-cart3"></i>
+        Cart
+    </a>
+
+</nav>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+{% include "partials/home-footer.html" %}
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Grocery JavaScript -->
+
+<script src="/static/js/grocery.js"></script>
+
+</body>
+
+</html>

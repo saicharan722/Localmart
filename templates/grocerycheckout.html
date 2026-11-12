@@ -1,0 +1,634 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Grocery Checkout | LocalMart</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <style>
+
+        body {
+            background: #f7f8f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: #ffffff;
+        }
+
+        .logo {
+            color: #14a94a !important;
+            font-size: 24px;
+        }
+
+        .checkout-card {
+            background: #ffffff;
+            border: 0;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .product-item:last-child {
+            border-bottom: 0;
+        }
+
+        .product-image {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f8f8f8;
+            padding: 5px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .product-unit {
+            font-size: 12px;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: #111;
+        }
+
+        .quantity {
+            font-size: 12px;
+            color: #555;
+        }
+
+        .pay-button {
+            background: #14a94a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .pay-button:hover {
+            background: #0e8f3d;
+        }
+
+        .empty-checkout {
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        .empty-checkout i {
+            font-size: 48px;
+            color: #14a94a;
+        }
+
+        .secure-text {
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 768px) {
+
+            .container {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .checkout-card {
+                border-radius: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar shadow-sm">
+
+    <div class="container py-3">
+
+        <a
+            href="{% url 'grocery' %}"
+            class="navbar-brand logo fw-bold">
+
+            <i class="bi bi-shop me-1"></i>
+            LocalMart
+
+        </a>
+
+        <span class="fw-bold">
+
+            <i class="bi bi-shield-check text-success me-1"></i>
+            Secure Checkout
+
+        </span>
+
+    </div>
+
+</nav>
+
+
+<div class="container py-4 py-md-5">
+
+    <div class="row g-4">
+
+        <!-- DELIVERY DETAILS -->
+
+        <div class="col-lg-7">
+
+            <div class="checkout-card">
+
+                <div class="p-4">
+
+                    <h4 class="fw-bold mb-4">
+
+                        <i class="bi bi-person-fill text-success me-2"></i>
+
+                        Delivery Details
+
+                    </h4>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="customerName"
+                            class="form-label fw-semibold">
+
+                            Full Name
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            class="form-control"
+                            placeholder="Enter your name"
+                            required>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="customerEmail"
+                            class="form-label fw-semibold">
+
+                            Email
+
+                        </label>
+
+                        <input
+                            type="email"
+                            id="customerEmail"
+                            class="form-control"
+                            placeholder="Enter email"
+                            required>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="customerPhone"
+                            class="form-label fw-semibold">
+
+                            Phone Number
+
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            class="form-control"
+                            placeholder="+91 XXXXX XXXXX"
+                            required>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="customerAddress"
+                            class="form-label fw-semibold">
+
+                            Delivery Address
+
+                        </label>
+
+                        <textarea
+                            id="customerAddress"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Enter complete delivery address"
+                            required></textarea>
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            <button type="button" id="locateCheckoutAddress" class="btn btn-outline-success">Locate address</button>
+                            <button type="button" id="centerCheckoutOnGps" class="btn btn-outline-secondary">Use device GPS</button>
+                        </div>
+                        <div id="checkoutDeliveryMap" style="height:300px;border-radius:14px;margin-top:12px"></div>
+                        <p class="small text-muted mt-2 mb-1">Check the result, move the pin to your exact entrance, then confirm before paying.</p>
+                        <button type="button" id="confirmCheckoutPin" class="btn btn-success" disabled>Confirm delivery location</button>
+                        <div id="checkoutPinNote" class="small mt-2" aria-live="polite">Locate your address to place a delivery pin.</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ORDER SUMMARY -->
+
+        <div class="col-lg-5">
+
+            <div class="checkout-card">
+
+                <div class="p-4">
+
+                    <h4 class="fw-bold mb-3">
+
+                        <i class="bi bi-basket2-fill text-success me-2"></i>
+
+                        Grocery Order Summary
+
+                    </h4>
+
+
+                    <!-- ITEMS WILL BE INSERTED HERE -->
+
+                    <div id="checkoutItems">
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>Subtotal</span>
+
+                        <strong id="checkoutSubtotal">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mt-2">
+
+                        <span>Delivery</span>
+
+                        <strong class="text-success">
+                            FREE
+                        </strong>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mt-2">
+
+                        <span>GST & Taxes</span>
+
+                        <strong id="checkoutTax">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <div class="d-flex justify-content-between">
+
+                        <h5 class="fw-bold">
+                            Total
+                        </h5>
+
+                        <h5
+                            class="fw-bold text-success"
+                            id="checkoutTotal">
+
+                            ₹0.00
+
+                        </h5>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="payButton"
+                        class="btn btn-success pay-button w-100 mt-4 py-3"
+                        disabled>
+
+                        <i class="bi bi-shield-check me-2"></i>
+
+                        Pay Securely
+
+                    </button>
+
+
+                    <a
+                        href="{% url 'cart' %}"
+                        class="btn btn-outline-success w-100 mt-3 py-2">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+
+                        Back to Grocery Cart
+
+                    </a>
+
+
+                    <div class="secure-text">
+
+                        <i class="bi bi-lock-fill me-1"></i>
+
+                        Secure payment powered by Razorpay
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const razorpayKey = "{{ razorpay_key_id }}";
+
+    /*
+        IMPORTANT:
+        Grocery checkout uses this key only.
+    */
+
+    const GROCERY_CART_KEY = "localmartGroceryCart";
+
+    function getGroceryCart() {
+
+        try {
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem(GROCERY_CART_KEY)
+                );
+
+            return Array.isArray(cart) ? cart : [];
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read Grocery Cart:",
+                error
+            );
+
+            return [];
+
+        }
+
+    }
+
+
+    function formatPrice(value) {
+
+        return "₹" +
+            Number(value || 0).toFixed(2);
+
+    }
+
+
+    function renderCheckout() {
+
+        const cart = getGroceryCart();
+
+        const itemsContainer =
+            document.getElementById("checkoutItems");
+
+        const subtotalElement =
+            document.getElementById("checkoutSubtotal");
+
+        const taxElement =
+            document.getElementById("checkoutTax");
+
+        const totalElement =
+            document.getElementById("checkoutTotal");
+
+        if (!cart.length) {
+
+            itemsContainer.innerHTML = `
+
+                <div class="empty-checkout">
+
+                    <i class="bi bi-cart-x"></i>
+
+                    <h6 class="fw-bold mt-3">
+                        Your Grocery Cart is Empty
+                    </h6>
+
+                    <p class="text-muted small">
+                        Add some grocery products before checkout.
+                    </p>
+
+                    <a
+                        href="{% url 'grocery' %}"
+                        class="btn btn-success">
+
+                        Continue Shopping
+
+                    </a>
+
+                </div>
+
+            `;
+
+            subtotalElement.textContent = "₹0.00";
+            taxElement.textContent = "₹0.00";
+            totalElement.textContent = "₹0.00";
+
+            document.getElementById("payButton").disabled = true;
+
+            return;
+
+        }
+
+
+        let subtotal = 0;
+
+
+        itemsContainer.innerHTML = cart.map(item => {
+
+            const price =
+                Number(item.price || 0);
+
+            const quantity =
+                Number(item.quantity || 1);
+
+            const itemTotal =
+                price * quantity;
+
+            subtotal += itemTotal;
+
+
+            return `
+
+                <div class="product-item">
+
+                    <img
+                        src="${escapeHTML(item.image || "")}"
+                        class="product-image"
+                        alt="${escapeHTML(item.name || "Product")}"
+                        onerror="this.style.display='none';">
+
+                    <div class="flex-grow-1">
+
+                        <div class="product-name">
+
+                            ${escapeHTML(
+                                item.name || "Grocery Product"
+                            )}
+
+                        </div>
+
+                        <div class="product-unit">
+
+                            ${escapeHTML(
+                                item.unit || ""
+                            )}
+
+                        </div>
+
+                        <div class="quantity">
+
+                            Qty: ${quantity}
+
+                        </div>
+
+                    </div>
+
+                    <div class="product-price">
+
+                        ${formatPrice(itemTotal)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+        /*
+            Same 5% GST used by your existing
+            LocalMart Razorpay checkout.
+        */
+
+        const tax =
+            subtotal * 0.05;
+
+        const total =
+            subtotal + tax;
+
+
+        subtotalElement.textContent =
+            formatPrice(subtotal);
+
+        taxElement.textContent =
+            formatPrice(tax);
+
+        totalElement.textContent =
+            formatPrice(total);
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            renderCheckout();
+
+            console.log(
+                "Grocery Checkout loaded"
+            );
+
+            console.log(
+                "Grocery Cart:",
+                getGroceryCart()
+            );
+
+        }
+    );
+
+</script>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="{% static 'js/grocery-checkout-location.js' %}"></script>
+
+<script src="{% static 'js/grocery-checkout.js' %}?v=confirmed-delivery-pin-1"></script>
+
+
+</body>
+
+</html>

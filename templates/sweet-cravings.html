@@ -1,0 +1,475 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Indian Sweets - LocalMart</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/sweet-cravings.css' %}"
+    >
+{% include "partials/grocery-chrome-assets.html" %}
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+{% include "partials/grocery-navbar.html" %}
+
+<!-- ================= BREADCRUMB ================= -->
+
+<div class="breadcrumb-wrapper">
+
+    <div class="breadcrumb">
+
+        <a href="/">Home</a>
+
+
+        <a href="/grocery/">Grocery</a>
+
+
+        <a href="/packaged-food/">Biscuits, Drinks & Packaged Foods</a>
+
+
+        <strong>Indian Sweets</strong>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PAGE ================= -->
+
+<main class="page-container">
+
+
+    
+
+
+<!-- SWEET CATEGORIES -->
+
+<section class="jm-sweets-category-section">
+
+    <div class="jm-sweets-heading">
+        <h2>Indian Sweets</h2>
+
+        <button
+            type="button"
+            class="jm-category-arrow"
+            onclick="scrollSweetCategories(1)"
+            aria-label="Scroll categories"
+        >
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+
+    <div class="jm-category-container">
+
+        <!-- All Sweets -->
+        <div
+            class="jm-category-card sweet-category active"
+            data-category="all"
+            role="button"
+            tabindex="0"
+            aria-label="All Indian Sweets"
+        >
+            <div class="jm-category-image">
+                <img
+                    src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/products/pictures/item/free/original/7lf3uIUCwd-indian-sweets-20240717.png"
+                    alt="All Indian Sweets"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="jm-category-name">
+                All Sweets
+            </div>
+        </div>
+
+
+       
+        <!-- Tinned & Packed Sweets -->
+        <div
+            class="jm-category-card sweet-category"
+            data-category="tinned-packed-sweets"
+            role="button"
+            tabindex="0"
+            aria-label="Tinned and Packed Sweets"
+        >
+            <div class="jm-category-image">
+                <img
+                    src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/products/pictures/item/free/original/vpesaNcryLF-tinned-packed-sweets-20200520.png"
+                    alt="Tinned & Packed Sweets"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="jm-category-name">
+                Tinned &amp; Packed Sweets
+            </div>
+        </div>
+
+
+        <!-- Chikki -->
+        <div
+            class="jm-category-card sweet-category"
+            data-category="chikki"
+            role="button"
+            tabindex="0"
+            aria-label="Chikki"
+        >
+            <div class="jm-category-image">
+                <img
+                    src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/products/pictures/item/free/original/LVHeLOhM1s-chikki-20200520.png"
+                    alt="Chikki"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="jm-category-name">
+                Chikki
+            </div>
+        </div>
+
+
+        <!-- Ladoo -->
+        <div
+            class="jm-category-card sweet-category"
+            data-category="ladoo"
+            role="button"
+            tabindex="0"
+            aria-label="Ladoo"
+        >
+            <div class="jm-category-image">
+                <img
+                    src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/products/pictures/item/free/original/7lf3uIUCwd-indian-sweets-20240717.png"
+                    alt="Ladoo"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="jm-category-name">
+                Ladoo
+            </div>
+        </div>
+
+
+        
+
+</section>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <section class="catalog-layout">
+
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="filters-sidebar">
+
+            <div class="filter-header">
+
+                <h3>Filters</h3>
+
+                
+
+            </div>
+
+
+            
+
+            <!-- Category -->
+
+            <div class="filter-section">
+
+                <h4>
+                    Categories
+                    <i class="bi bi-chevron-up"></i>
+                </h4>
+
+                <input
+                    type="text"
+                    id="categoryFilterSearch"
+                    class="filter-search"
+                    placeholder="Search categories"
+                >
+
+                <div id="categoryFilters">
+
+                    <label class="check-row">
+                        <input type="checkbox" value="gulab-jamun">
+                        <span>Gulab Jamun</span>
+                    </label>
+
+                    
+
+                    <label class="check-row">
+                        <input type="checkbox" value="ladoo">
+                        <span>Ladoo</span>
+                    </label>
+
+                   
+
+                    <label class="check-row">
+                        <input type="checkbox" value="peda">
+                        <span>Peda</span>
+                    </label>
+
+                    
+
+                </div>
+
+            </div>
+
+
+            
+              
+
+            
+
+           
+
+        </aside>
+
+
+        <!-- ================= PRODUCTS ================= -->
+
+        <div class="products-area">
+
+
+            <!-- Toolbar -->
+
+            <div class="products-toolbar">
+
+                <div>
+
+                    <h2 id="selectedCategoryTitle">
+                        Indian Sweets
+                    </h2>
+
+                    <span id="productCount">
+                        0 Products
+                    </span>
+
+                </div>
+
+
+                <div class="toolbar-actions">
+
+                    <button
+                        class="mobile-filter-btn"
+                        id="mobileFilterBtn"
+                    >
+                        <i class="bi bi-funnel"></i>
+                        Filter
+                    </button>
+
+
+                    <label for="sortProducts">
+                        Sort By
+                    </label>
+
+                    <select id="sortProducts">
+
+                        <option value="relevance">
+                            Relevance
+                        </option>
+
+                        <option value="price-low">
+                            Price: Low to High
+                        </option>
+
+                        <option value="price-high">
+                            Price: High to Low
+                        </option>
+
+                        <option value="discount">
+                            Discount
+                        </option>
+
+                        <option value="rating">
+                            Customer Rating
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product Grid -->
+
+            <div
+                id="productsGrid"
+                class="products-grid"
+            ></div>
+
+
+            <!-- Empty -->
+
+            <div
+                id="emptyState"
+                class="empty-state"
+            >
+
+                <div>
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <h3>No products found</h3>
+
+                <p>
+                    Try changing your search or filters.
+                </p>
+
+                <button id="resetProducts">
+                    View All Products
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= MOBILE FILTER OVERLAY ================= -->
+
+<div
+    id="filterOverlay"
+    class="filter-overlay"
+></div>
+
+
+<!-- ================= CART DRAWER ================= -->
+
+<div
+    id="drawerOverlay"
+    class="drawer-overlay"
+></div>
+
+
+<aside
+    id="cartDrawer"
+    class="cart-drawer"
+>
+
+    <div class="cart-header">
+
+        <div>
+
+            <h3>Your Cart</h3>
+
+            <span id="cartItemSummary">
+                0 items
+            </span>
+
+        </div>
+
+        <button id="closeCart">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+    </div>
+
+
+    <div
+        id="cartBody"
+        class="cart-body"
+    ></div>
+
+
+    <div
+        id="cartEmpty"
+        class="cart-empty"
+    >
+
+        <i class="bi bi-cart-x"></i>
+
+        <h3>Your cart is empty</h3>
+
+        <p>
+            Add some delicious sweets to continue.
+        </p>
+
+    </div>
+
+
+    <div
+        id="cartFooter"
+        class="cart-footer"
+    >
+
+        <div class="bill-row">
+
+            <span>Subtotal</span>
+
+            <strong id="cartSubtotal">
+                ₹0
+            </strong>
+
+        </div>
+
+        <div class="bill-row">
+
+            <span>Delivery</span>
+
+            <strong class="free">
+                FREE
+            </strong>
+
+        </div>
+
+        <div class="bill-total">
+
+            <span>Total</span>
+
+            <strong id="cartTotal">
+                ₹0
+            </strong>
+
+        </div>
+
+        <button
+            id="checkoutBtn"
+            class="checkout-btn"
+        >
+            Proceed to Checkout
+            <i class="bi bi-arrow-right"></i>
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
+    id="lmToast"
+    class="lm-toast"
+></div>
+
+<!-- FOOTER -->
+
+{% include "partials/grocery-footer.html" %}
+
+<script src="{% static 'js/sweet-cravings.js' %}"></script>
+
+</body>
+</html>
+

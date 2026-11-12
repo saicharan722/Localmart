@@ -1,0 +1,32 @@
+.localmart-shared-logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    color: #198754 !important;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -.5px !important;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+.localmart-shared-logo .localmart-logo-word {
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: inherit !important;
+}
+.localmart-shared-logo .localmart-logo-mart { color: #222 !important; }
+.localmart-shared-logo .localmart-logo-icon {
+    margin-right: 8px;
+    color: #198754 !important;
+    font-size: 30px !important;
+    line-height: 1 !important;
+}
+@media (max-width: 640px) {
+    .localmart-shared-logo { font-size: 28px !important; }
+    .localmart-shared-logo .localmart-logo-icon { font-size: 26px !important; }
+}

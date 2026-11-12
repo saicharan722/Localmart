@@ -1,0 +1,1068 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>LocalMart | Local Merchant E-Commerce</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% include "partials/localmart-logo-assets.html" %}
+
+<style>
+  :root{
+    --lm-green:#2e7d4f;
+    --lm-green-dark:#1f5c39;
+    --lm-amber:#f5a623;
+    --lm-ink:#1c2620;
+    --lm-muted:#6b7a72;
+    --lm-bg:#f7f8f6;
+    --lm-card:#ffffff;
+    --lm-radius:16px;
+    --lm-shadow:0 10px 30px rgba(28,38,32,.08);
+  }
+
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--lm-ink);
+    background:var(--lm-bg);
+  }
+
+  h1,h2,h3,h4,h5,h6{
+    font-family:'Poppins', sans-serif;
+  }
+
+  a{ text-decoration:none; }
+
+  /* NAVBAR */
+  .navbar{ padding:.75rem 0; }
+  .logo{
+    font-family:'Poppins', sans-serif;
+    font-weight:800;
+    font-size:1.5rem;
+    color:var(--lm-ink) !important;
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+  }
+  .logo i{ font-size:1.6rem; }
+  .logo.localmart-shared-logo{font-size:32px!important;font-weight:800!important;letter-spacing:-.5px!important;color:#198754!important;gap:0!important}
+  .logo.localmart-shared-logo .localmart-logo-mart{color:#222!important}
+  .logo.localmart-shared-logo .localmart-logo-icon{font-size:30px!important;margin-right:8px}
+
+  .search-box{ width:100%; max-width:480px; }
+  .search-box .form-control{
+    border-radius:999px 0 0 999px;
+    border:1px solid #e2e6e2;
+    padding:.6rem 1.1rem;
+  }
+  .search-box .btn{
+    border-radius:0 999px 999px 0;
+    background:var(--lm-green);
+    border-color:var(--lm-green);
+    padding-inline:1.2rem;
+  }
+
+  .navbar-nav{
+    display:flex;
+    align-items:center;
+    gap:30px;
+    margin-left:auto;
+}
+
+.navbar-nav .nav-link{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-weight:600;
+    padding:0;
+    color:var(--lm-ink);
+}
+  .navbar-nav .nav-link:hover{ color:var(--lm-green); }
+
+  .home-location{position:relative;z-index:1031;margin:0 16px 0 10px}
+  .home-location-trigger{display:flex;align-items:center;gap:10px;max-width:290px;padding:8px 12px;border:1px solid #e4ebe5;border-radius:13px;background:#fff;color:var(--lm-ink);text-align:left;cursor:pointer}
+  .home-location-trigger>.bi-geo-alt-fill{font-size:20px;color:#198754}
+  .home-location-copy{display:grid;min-width:0;line-height:1.25}
+  .home-location-copy small{font-size:9px;font-weight:800;letter-spacing:.8px;color:#758078}
+  .home-location-copy strong{max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+  .home-location-chevron{font-size:11px;color:#69756c}
+  .home-location-panel{position:absolute;top:calc(100% + 12px);left:0;width:min(360px,calc(100vw - 28px));padding:20px;border:1px solid #e7eee8;border-radius:16px;background:#fff;box-shadow:0 18px 48px #17231a24}
+  .home-location-panel h2{margin:0 0 5px;font:700 18px 'Poppins',sans-serif}
+  .home-location-panel>p{margin:0 0 14px;color:#718077;font-size:12px}
+  .home-use-gps{width:100%;padding:12px;border:1px solid #d9ebde;border-radius:10px;background:#eff8f1;color:#168344;text-align:left;font-weight:700}
+  .home-use-gps.is-tracking{background:#e8f5ec;border-color:#198754}
+  .home-address-form{margin-top:14px}.home-address-form label{display:block;margin-bottom:5px;font-size:11px;font-weight:700}
+  .home-address-form>div{display:flex;gap:7px}.home-address-form input{min-width:0;flex:1;padding:10px;border:1px solid #dce5de;border-radius:9px;font:inherit;font-size:13px}
+  .home-address-form button{width:42px;border:0;border-radius:9px;background:#198754;color:#fff}
+  .home-location-suggestions{display:grid;gap:5px;margin-top:7px;max-height:230px;overflow:auto}
+  .home-location-suggestion,.home-recent-button{width:100%;display:grid;gap:3px;padding:10px;border:0;border-radius:9px;background:#f7faf7;color:#233329;text-align:left;cursor:pointer}
+  .home-location-suggestion:hover,.home-recent-button:hover{background:#edf7ef}
+  .home-location-suggestion strong,.home-recent-button strong{font-size:12px}
+  .home-location-suggestion small,.home-recent-button small{color:#718077;font-size:11px}
+  .home-recent-location{margin-top:14px}.home-recent-location>small{display:block;margin:0 0 6px;color:#758078;font-size:10px;font-weight:800;letter-spacing:.5px}
+  .home-location-message{min-height:18px;margin:10px 0 0!important;color:#68776d!important;font-size:11px!important}
+  .home-location-attribution{margin:8px 0 0!important;color:#7b867e!important;font-size:10px!important}
+  .home-location-attribution a{color:#55745f;text-decoration:underline}
+  .home-location-trigger.is-loading>.bi-geo-alt-fill{animation:lm-location-pulse 1.1s ease-in-out infinite}
+  .home-use-gps:disabled{opacity:.7;cursor:wait}
+  @keyframes lm-location-pulse{50%{opacity:.42;transform:scale(.9)}}
+
+  /* SECOND NAV */
+  .bg-white.border-top.border-bottom .nav-link{
+    font-weight:600;
+    color:var(--lm-muted);
+    padding:.4rem 1.1rem;
+    border-radius:999px;
+    transition:.2s;
+  }
+  .bg-white.border-top.border-bottom .nav-link:hover{
+    background:#eef6f0;
+    color:var(--lm-green-dark);
+  }
+  .bg-white.border-top.border-bottom .nav-link.active{
+    background:#eef6f0;
+  }
+
+  /* HERO */
+  .hero-slide{
+    padding:3.5rem 3rem;
+    min-height:420px;
+    display:flex;
+    align-items:center;
+    border-radius:1.5rem;
+  }
+  .hero-product{
+    max-height:320px;
+    object-fit:cover;
+    box-shadow:var(--lm-shadow);
+  }
+  .hero-slide h1{ font-weight:800; line-height:1.15; }
+  .hero-slide .badge{ font-weight:600; letter-spacing:.02em; }
+  .hero-slide .btn-lg{ border-radius:999px; font-weight:600; padding:.7rem 1.6rem; }
+
+  .offer-box{
+    background:linear-gradient(135deg, var(--lm-green), var(--lm-green-dark));
+    color:#fff;
+    border-radius:var(--lm-radius);
+    padding:1.75rem;
+    box-shadow:var(--lm-shadow);
+  }
+  .offer-box h6{ letter-spacing:.08em; opacity:.85; font-weight:700; }
+  .offer-box h1{ font-weight:800; font-size:2.6rem; margin:.25rem 0; }
+  .offer-box h3{ font-weight:700; }
+  .offer-box .btn{ border-radius:999px; font-weight:600; }
+
+  .feature-card{
+    background:var(--lm-card);
+    border-radius:var(--lm-radius);
+    padding:1.4rem 1rem;
+    text-align:center;
+    box-shadow:var(--lm-shadow);
+    height:100%;
+  }
+  .feature-card i{
+    font-size:1.8rem;
+    color:var(--lm-green);
+    margin-bottom:.5rem;
+    display:inline-block;
+  }
+  .feature-card h6{ font-weight:700; margin-bottom:.2rem; }
+  .feature-card p{ color:var(--lm-muted); font-size:.9rem; margin:0; }
+
+  /* CATEGORY CARDS */
+  .category-card{
+    background:var(--lm-card);
+    border-radius:var(--lm-radius);
+    overflow:hidden;
+    box-shadow:var(--lm-shadow);
+    cursor:pointer;
+    transition:transform .25s ease, box-shadow .25s ease;
+    text-align:center;
+  }
+  .category-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 16px 34px rgba(28,38,32,.14);
+  }
+  .category-card img{
+    width:100%;
+    height:140px;
+    object-fit:cover;
+  }
+  .category-card h5{
+    padding:.85rem 0;
+    margin:0;
+    font-weight:700;
+    font-size:1rem;
+  }
+
+  /* NEWSLETTER */
+  .newsletter-section{
+    background:linear-gradient(120deg, var(--lm-green-dark), var(--lm-green));
+  }
+  .newsletter-section .input-group .form-control{
+    border-radius:999px 0 0 999px;
+    border:none;
+    padding:.85rem 1.2rem;
+  }
+  .newsletter-section .input-group .btn{
+    border-radius:0 999px 999px 0;
+    font-weight:700;
+  }
+
+  .merchant-store-card{height:100%;overflow:hidden;border:1px solid #e8eee9;border-radius:18px;background:#fff;box-shadow:0 8px 24px #1c26200d;transition:transform .2s,box-shadow .2s}
+  .merchant-store-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px #1c26201a}
+  .merchant-store-card img{width:100%;height:155px;object-fit:cover;background:#edf5ee}
+  .merchant-store-placeholder{height:155px;display:grid;place-items:center;background:linear-gradient(135deg,#e9f5ec,#f7faf7);color:#198754;font-size:42px}
+  .merchant-store-card .btn{border-radius:999px;font-weight:700}
+  .home-category-nav{position:sticky;top:var(--home-navbar-height,0px);z-index:1019}
+
+  @media (max-width: 991px){
+    .hero-slide{ padding:2rem 1.5rem; text-align:center; }
+    .hero-slide .col-md-6 + .col-md-6{ margin-top:1.5rem; }
+    .home-location{margin:12px 0 10px}
+    .home-location-panel{max-width:calc(100vw - 32px)}
+    .navbar-nav{margin-left:0}
+  }
+  /* Full-width LocalMart promotional carousel. */
+  .localmart-hero{position:relative;width:calc(100% - clamp(32px,6vw,96px));max-width:1520px;height:clamp(480px,72vh,700px);min-height:480px;margin:0 auto;overflow:hidden;border-radius:28px;background:#102019;box-shadow:0 24px 70px rgba(14,48,27,.18)}
+  .localmart-hero .carousel-inner,.localmart-hero .carousel-item{height:100%}.localmart-hero .carousel-item{position:relative;overflow:hidden}
+  .localmart-hero-image{position:absolute;inset:0 0 0 auto;width:50%;height:100%;object-fit:contain;object-position:center;background:#14251b}
+  .localmart-hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,24,14,.96) 0%,rgba(8,35,20,.92) 38%,rgba(8,35,20,.55) 54%,rgba(0,0,0,.04) 78%),linear-gradient(0deg,rgba(4,20,12,.2),transparent 50%)}
+  .localmart-hero-content{position:relative;z-index:1;display:flex;align-items:center;width:100%;height:100%;margin:0 auto;padding:clamp(28px,7vw,100px);color:#fff}
+  .hero-section.py-4{padding:20px 0!important}
+  .localmart-hero-copy{max-width:48%}.localmart-hero .carousel-item.active .localmart-hero-copy{animation:localmartHeroCopy .65s both}.localmart-hero-kicker{display:inline-flex;align-items:center;gap:.55rem;margin-bottom:1.25rem;color:#ddffe5;font-size:.78rem;font-weight:800;letter-spacing:.19em;text-transform:uppercase}.localmart-hero-kicker:before{content:"";width:28px;height:2px;background:#55e27f}
+  .localmart-hero h1{max-width:650px;margin:0 0 .75rem;color:#fff;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:800;letter-spacing:-.045em;line-height:1.02;text-wrap:balance}.localmart-hero-description{max-width:480px;margin:0 0 1.1rem;color:rgba(255,255,255,.88);font-size:clamp(.92rem,1.2vw,1.08rem);line-height:1.5}
+  .localmart-hero-offer{display:flex;align-items:center;gap:.7rem;margin:0 0 1.15rem}.localmart-hero-offer strong{color:#fff;font-size:clamp(1.8rem,3.2vw,3rem);font-weight:900;letter-spacing:-.05em;line-height:1}.localmart-hero-offer span{padding:.45rem .65rem;border:1px solid rgba(255,255,255,.42);border-radius:999px;background:rgba(255,255,255,.12);font-size:.68rem;font-weight:800;letter-spacing:.1em}
+  .localmart-hero-cta{display:inline-flex;align-items:center;gap:.55rem;padding:.78rem 1.2rem;border:0;border-radius:999px;background:#14a94a;color:#fff;font-size:.95rem;font-weight:800;text-decoration:none;box-shadow:0 12px 30px rgba(5,105,43,.35);transition:transform .2s,background .2s,box-shadow .2s}.localmart-hero-cta:hover,.localmart-hero-cta:focus{transform:translateY(-3px);background:#10883d;color:#fff;box-shadow:0 16px 34px rgba(5,105,43,.45)}
+  .localmart-hero-arrow{position:absolute;z-index:2;top:50%;display:grid;width:48px;height:48px;place-items:center;border:1px solid rgba(255,255,255,.42);border-radius:50%;background:rgba(8,24,15,.35);color:#fff;font-size:1.2rem;transform:translateY(-50%);backdrop-filter:blur(8px);transition:background .2s}.localmart-hero-arrow:hover{background:#14a94a}.localmart-hero-prev{left:clamp(12px,3vw,44px)}.localmart-hero-next{right:clamp(12px,3vw,44px)}
+  .localmart-hero .carousel-indicators{z-index:3;bottom:24px;gap:8px;margin-bottom:0}.localmart-hero .carousel-indicators [data-bs-target]{width:8px;height:8px;margin:0;border:0;border-radius:99px;background:#fff;opacity:.55;transition:width .25s,opacity .25s}.localmart-hero .carousel-indicators .active{width:30px;background:#56e47f;opacity:1}
+  @keyframes localmartHeroCopy{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:767.98px){.hero-section.py-4{padding:14px 0!important}.localmart-hero{width:calc(100% - 24px);height:64svh;min-height:460px;max-height:600px;border-radius:22px}.localmart-hero-image{object-position:center}.localmart-hero-shade{background:linear-gradient(0deg,rgba(4,20,12,.88),rgba(5,24,14,.63) 54%,rgba(5,24,14,.08))}.localmart-hero-content{align-items:flex-end;padding:26px 26px 66px}.localmart-hero-copy{max-width:560px}.localmart-hero-kicker{margin-bottom:.65rem}.localmart-hero h1{font-size:clamp(2.35rem,9vw,3.5rem)}.localmart-hero-description{max-width:420px;margin-bottom:.8rem;font-size:.95rem}.localmart-hero-offer{margin-bottom:.9rem}.localmart-hero-offer strong{font-size:2.35rem}.localmart-hero-arrow{top:38%;width:40px;height:40px}.localmart-hero-prev{left:12px}.localmart-hero-next{right:12px}.localmart-hero .carousel-indicators{bottom:14px}}
+  @media(max-width:767.98px){.localmart-hero-image{inset:0 0 auto;width:100%;height:52%;object-fit:contain;background:#14251b}.localmart-hero-shade{background:linear-gradient(0deg,rgba(4,20,12,.98) 0%,rgba(5,24,14,.9) 43%,rgba(5,24,14,.18) 76%,rgba(5,24,14,.04) 100%)}.localmart-hero-copy{max-width:100%}}
+  @media(min-width:768px) and (max-width:991.98px){.localmart-hero{height:68vh;min-height:520px}.localmart-hero-content{padding:36px}.localmart-hero-copy{max-width:52%}.localmart-hero h1{font-size:clamp(1.9rem,3.4vw,2.5rem)}.localmart-hero-description{font-size:.9rem;line-height:1.4;margin-bottom:.8rem}.localmart-hero-offer{margin-bottom:.85rem}}
+  @media(max-width:767.98px){.localmart-hero-content{padding-top:20px;padding-bottom:58px}.localmart-hero h1{font-size:clamp(1.8rem,7vw,2.5rem);line-height:1.04;margin-bottom:.6rem}.localmart-hero-description{font-size:.86rem;line-height:1.35;margin-bottom:.55rem}.localmart-hero-offer{margin-bottom:.65rem}.localmart-hero-offer strong{font-size:1.9rem}.localmart-hero-offer span{font-size:.62rem;padding:.38rem .55rem}.localmart-hero-cta{padding:.68rem 1rem;font-size:.88rem}}
+  @media(max-width:390px){.localmart-hero{min-height:440px}.localmart-hero-content{padding-right:22px;padding-left:22px}.localmart-hero h1{font-size:1.8rem}.localmart-hero-kicker{font-size:.68rem}}
+  /* The existing delivery feature strip remains visible below the new hero. */
+  .hero-section>.container>.row.g-4{display:none}
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand logo localmart-shared-logo" href="{% url 'index' %}" aria-label="LocalMart home">
+
+<i class="bi bi-shop localmart-logo-icon"></i><span class="localmart-logo-word">Local</span><span class="localmart-logo-word localmart-logo-mart">Mart</span>
+
+</a>
+
+<button class="navbar-toggler"
+data-bs-toggle="collapse"
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<div class="home-location" id="homeLocationControl">
+  <button type="button" class="home-location-trigger" id="homeLocationTrigger" aria-expanded="false" aria-controls="homeLocationPanel">
+    <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+    <span class="home-location-copy"><small>DELIVER TO</small><strong id="homeLocationLabel">Detecting location…</strong></span>
+    <i class="bi bi-chevron-down home-location-chevron" aria-hidden="true"></i>
+  </button>
+  <section class="home-location-panel" id="homeLocationPanel" hidden aria-label="Choose delivery location">
+    <h2>Choose your location</h2>
+    <p>Use a fresh device GPS fix or search for a place.</p>
+    <button type="button" class="home-use-gps" id="homeUseGps"><i class="bi bi-crosshair"></i> Use my current location</button>
+    <div class="home-address-form">
+      <label for="homeAddressInput">Search for area, street or city</label>
+      <div><input id="homeAddressInput" type="search" maxlength="160" autocomplete="off" placeholder="Search location"><button type="button" id="homeAddressSearch" aria-label="Search locations"><i class="bi bi-search"></i></button></div>
+      <div class="home-location-suggestions" id="homeLocationSuggestions" role="listbox" aria-label="Location search results" hidden></div>
+    </div>
+    <p class="home-location-message" id="homeLocationMessage" aria-live="polite"></p>
+    <div class="home-recent-location" id="homeRecentLocation" hidden><small>LAST SELECTED LOCATION</small><button type="button" class="home-recent-button" id="homeRecentLocationButton"></button></div>
+    <p class="home-location-attribution">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · Search by Photon</p>
+  </section>
+</div>
+
+
+<ul class="navbar-nav">
+
+<li class="nav-item">
+
+
+
+</li>
+
+
+
+
+
+
+</li>
+
+
+
+<!-- Merchant Dropdown -->
+<li class="nav-item dropdown">
+    <button
+        class="btn btn-success rounded-pill dropdown-toggle"
+        type="button"
+        id="dashboardDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+
+        <i class="bi bi-person-circle"></i>
+        Dashboards
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dashboardDropdown">
+        <li>
+            <a class="dropdown-item" href="{% url 'merchant_login' %}">
+                <i class="bi bi-shop me-2"></i>Merchant Login
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{% url 'admin_login' %}">
+                <i class="bi bi-shield-lock me-2"></i>Admin Login
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item" href="{% url 'partner_login' %}">
+                <i class="bi bi-bicycle me-2"></i>Delivery Partner Login
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+
+
+
+
+
+
+<!-- USER INFO + ACCOUNT DROPDOWN -->
+
+<li class="nav-item d-flex align-items-center gap-3">
+
+    <!-- USER NAME AND EMAIL -->
+    <div
+        id="loggedInUser"
+        class="text-end {% if not user_data %}d-none{% endif %}">
+
+        <div
+            id="navUserName"
+            class="fw-bold text-dark">
+            {{ nav_user_name }}
+        </div>
+
+        <div
+            id="navUserEmail"
+            class="small text-muted">
+            {{ nav_user_email }}
+        </div>
+
+    </div>
+
+
+    <!-- ACCOUNT DROPDOWN -->
+    <div class="dropdown">
+
+        <button
+            class="btn btn-success dropdown-toggle rounded-pill"
+            type="button"
+            id="accountMenuDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+
+            <i class="bi bi-person-circle"></i>
+            Account
+
+        </button>
+
+
+        <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="accountMenuDropdown">
+
+            {% if user_data %}
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item text-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </button>
+                    </form>
+                </li>
+            {% else %}
+                <li>
+                    <a class="dropdown-item" href="{% url 'login' %}">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'signup' %}">
+                        <i class="bi bi-person-plus me-2"></i>Sign Up
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+
+    </div>
+
+</li>
+
+
+
+
+
+
+</nav>
+<!-- SECOND NAV -->
+
+<div class="bg-white border-top border-bottom home-category-nav">
+
+<div class="container">
+
+<ul class="nav justify-content-center py-2">
+
+<li class="nav-item">
+
+
+
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'food' %}">
+        Food
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'grocery' %}">
+        Grocery
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'fashion' %}">
+        Shopping
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'electronics' %}">
+        Electronics
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'home_appliances' %}">
+        Home Appliances
+    </a>
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<section class="hero-section py-4">
+
+<div id="localmartHero" class="carousel slide carousel-fade localmart-hero" data-bs-ride="carousel" data-bs-interval="4500" data-bs-pause="hover" data-bs-keyboard="true" data-bs-touch="true" aria-label="LocalMart promotional offers">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#localmartHero" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Food offers"></button><button type="button" data-bs-target="#localmartHero" data-bs-slide-to="1" aria-label="Grocery offers"></button><button type="button" data-bs-target="#localmartHero" data-bs-slide-to="2" aria-label="Shopping offers"></button><button type="button" data-bs-target="#localmartHero" data-bs-slide-to="3" aria-label="Electronics offers"></button><button type="button" data-bs-target="#localmartHero" data-bs-slide-to="4" aria-label="Home appliance offers"></button>
+  </div>
+  <div class="carousel-inner">
+    <article class="carousel-item active"><img class="localmart-hero-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp-DuY3qT8mhgqzFDR6rS4VjcnV8njzcHdHgU5Ee7gjQ&s=10" alt="Freshly prepared restaurant meal" fetchpriority="high"><div class="localmart-hero-shade"></div><div class="localmart-hero-content"><div class="localmart-hero-copy"><div class="localmart-hero-kicker">LocalMart · Food</div><h1>Delicious food, delivered with love.</h1><p class="localmart-hero-description">Order from your favourite neighbourhood restaurants and enjoy the good stuff at home.</p><div class="localmart-hero-offer"><strong>50%</strong><span>UP TO<br>OFF</span></div><a class="localmart-hero-cta" href="{% url 'food' %}">Order Food <i class="bi bi-arrow-right"></i></a></div></div></article>
+    <article class="carousel-item"><img class="localmart-hero-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq1T1r8c3uqpQ9Ysh8T_suLKc6epmFcjyPEbIy5-mnsQ&s=10assign" alt="Fresh vegetables and local grocery produce" loading="lazy"><div class="localmart-hero-shade"></div><div class="localmart-hero-content"><div class="localmart-hero-copy"><div class="localmart-hero-kicker">LocalMart · Grocery</div><h1>Fresh groceries, right to your door.</h1><p class="localmart-hero-description">Daily essentials and fresh picks from the stores around your neighbourhood.</p><div class="localmart-hero-offer"><strong>40%</strong><span>UP TO<br>OFF</span></div><a class="localmart-hero-cta" href="{% url 'grocery' %}">Shop Grocery <i class="bi bi-arrow-right"></i></a></div></div></article>
+    <article class="carousel-item"><img class="localmart-hero-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdENUdoNhH0n11_aqSPfXyRJfUs71gJCyXrzEchs5Dmw&s=10" alt="Contemporary fashion collection in a boutique" loading="lazy"><div class="localmart-hero-shade"></div><div class="localmart-hero-content"><div class="localmart-hero-copy"><div class="localmart-hero-kicker">LocalMart · Shopping</div><h1>Find your next favourite look.</h1><p class="localmart-hero-description">Explore fashion, footwear and more from local shops with great taste.</p><div class="localmart-hero-offer"><strong>70%</strong><span>UP TO<br>OFF</span></div><a class="localmart-hero-cta" href="{% url 'fashion' %}">Shop Now <i class="bi bi-arrow-right"></i></a></div></div></article>
+    <article class="carousel-item"><img class="localmart-hero-image" src="https://img.magnific.com/premium-photo/electronics-sale-banner-template_1689822-489.jpg?semt=ais_hybrid&amp;w=740&amp;q=80" alt="Electronics sale promotion" loading="lazy"><div class="localmart-hero-shade"></div><div class="localmart-hero-content"><div class="localmart-hero-copy"><div class="localmart-hero-kicker">LocalMart · Electronics</div><h1>Smart deals for brighter days.</h1><p class="localmart-hero-description">Mobiles, laptops, accessories and everyday tech from trusted nearby stores.</p><div class="localmart-hero-offer"><strong>60%</strong><span>UP TO<br>OFF</span></div><a class="localmart-hero-cta" href="{% url 'electronics' %}">Explore Electronics <i class="bi bi-arrow-right"></i></a></div></div></article>
+    <article class="carousel-item"><img class="localmart-hero-image" src="https://images.livemint.com/img/2022/04/02/600x338/Vijay_Sales_1648883947173_1648883947459.jpeg" alt="Bright modern kitchen with home appliances" loading="lazy"><div class="localmart-hero-shade"></div><div class="localmart-hero-content"><div class="localmart-hero-copy"><div class="localmart-hero-kicker">LocalMart · Home Appliances</div><h1>Make more room for living.</h1><p class="localmart-hero-description">Bring home useful upgrades and thoughtful appliances at neighbourhood prices.</p><div class="localmart-hero-offer"><strong>55%</strong><span>UP TO<br>OFF</span></div><a class="localmart-hero-cta" href="{% url 'home_appliances' %}">Shop Appliances <i class="bi bi-arrow-right"></i></a></div></div></article>
+  </div>
+  <button class="localmart-hero-arrow localmart-hero-prev" type="button" data-bs-target="#localmartHero" data-bs-slide="prev" aria-label="Previous offer"><i class="bi bi-chevron-left"></i></button><button class="localmart-hero-arrow localmart-hero-next" type="button" data-bs-target="#localmartHero" data-bs-slide="next" aria-label="Next offer"><i class="bi bi-chevron-right"></i></button>
+</div>
+
+<div class="container">
+
+<div class="row g-4">
+
+<!-- Left Slider -->
+
+<div class="col-lg-8">
+
+<div id="heroSlider" class="carousel slide carousel-fade shadow rounded-4 overflow-hidden" data-bs-ride="carousel">
+
+<div class="carousel-indicators">
+
+<button type="button" data-bs-target="#heroSlider" data-bs-slide-to="0" class="active"></button>
+
+<button type="button" data-bs-target="#heroSlider" data-bs-slide-to="1"></button>
+
+<button type="button" data-bs-target="#heroSlider" data-bs-slide-to="2"></button>
+
+<button type="button" data-bs-target="#heroSlider" data-bs-slide-to="3"></button>
+
+</div>
+
+<div class="carousel-inner">
+
+<!-- Slide 1 -->
+
+<div class="carousel-item active">
+
+<div class="hero-slide bg-success text-white">
+
+<div class="row align-items-center">
+
+<div class="col-md-6">
+
+<span class="badge bg-warning text-dark mb-3">
+
+Fresh Local Products
+
+</span>
+
+<h1 class="display-5 fw-bold">
+
+Everything You Need In One Place
+
+</h1>
+
+<p class="lead">
+
+Fresh groceries, electronics, fashion, stationery, food and home essentials delivered to your doorstep.
+
+</p>
+
+<a href="#" class="btn btn-warning btn-lg me-3">
+
+Shop Now
+
+</a>
+
+<a href="#" class="btn btn-outline-light btn-lg">
+
+Explore
+
+</a>
+
+</div>
+
+<div class="col-md-6 text-center">
+
+<img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=80"
+
+class="img-fluid rounded-4 hero-product">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Slide 2 -->
+
+<div class="carousel-item">
+
+<div class="hero-slide bg-primary text-white">
+
+<div class="row align-items-center">
+
+<div class="col-md-6">
+
+<h1 class="display-5 fw-bold">
+
+Mega Electronics Sale
+
+</h1>
+
+<p>
+
+Apple • Samsung • Dell • HP • Sony
+
+</p>
+
+<a class="btn btn-light btn-lg">
+
+Shop Electronics
+
+</a>
+
+</div>
+
+<div class="col-md-6 text-center">
+
+<img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=900&q=80"
+
+class="img-fluid rounded-4 hero-product">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Slide 3 -->
+
+<div class="carousel-item">
+
+<div class="hero-slide bg-danger text-white">
+
+<div class="row align-items-center">
+
+<div class="col-md-6">
+
+<h1 class="display-5 fw-bold">
+
+Latest Fashion Collection
+
+</h1>
+
+<p>
+
+Flat 60% OFF on Premium Brands
+
+</p>
+
+<a class="btn btn-warning btn-lg">
+
+Shop Fashion
+
+</a>
+
+</div>
+
+<div class="col-md-6 text-center">
+
+<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80"
+
+class="img-fluid rounded-4 hero-product">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Slide 4 -->
+
+<div class="carousel-item">
+
+<div class="hero-slide bg-dark text-white">
+
+<div class="row align-items-center">
+
+<div class="col-md-6">
+
+<h1 class="display-5 fw-bold">
+
+Home Appliances Festival
+
+</h1>
+
+<p>
+
+Save up to 70% Today
+
+</p>
+
+<a class="btn btn-success btn-lg">
+
+Shop Appliances
+
+</a>
+
+</div>
+
+<div class="col-md-6 text-center">
+
+<img src="https://images.unsplash.com/photo-1586208958839-06c17cacdf08?auto=format&fit=crop&w=900&q=80"
+
+class="img-fluid rounded-4 hero-product">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<button class="carousel-control-prev"
+
+type="button"
+
+data-bs-target="#heroSlider"
+
+data-bs-slide="prev">
+
+<span class="carousel-control-prev-icon"></span>
+
+</button>
+
+<button class="carousel-control-next"
+
+type="button"
+
+data-bs-target="#heroSlider"
+
+data-bs-slide="next">
+
+<span class="carousel-control-next-icon"></span>
+
+</button>
+
+</div>
+
+</div>
+
+<!-- Right Side Offers -->
+
+<div class="col-lg-4">
+
+<div class="offer-box mb-4">
+
+<h6>LIMITED OFFER</h6>
+
+<h1>70% OFF</h1>
+
+<p>On First Purchase</p>
+
+<button class="btn btn-light w-100">
+
+Claim Offer
+
+</button>
+
+</div>
+
+<div class="offer-box bg-warning text-white">
+<h5 class="text-white">Today's Special</h5>
+
+<h3 class="text-white">Buy 2 Get 1 Free</h3>
+
+<p class="text-white">Selected Products</p>
+
+<button class="btn btn-light w-100">
+    View Deals
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Features -->
+
+<div class="row mt-4 g-3">
+
+<div class="col-lg-3 col-6">
+
+<div class="feature-card">
+
+<i class="bi bi-truck"></i>
+
+<h6>Fast Delivery</h6>
+
+<p>Within 30 Minutes</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3 col-6">
+
+<div class="feature-card">
+
+<i class="bi bi-patch-check"></i>
+
+<h6>Trusted Sellers</h6>
+
+<p>100% Genuine</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3 col-6">
+
+<div class="feature-card">
+
+<i class="bi bi-arrow-repeat"></i>
+
+<h6>Easy Returns</h6>
+
+<p>7 Days Return</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3 col-6">
+
+<div class="feature-card">
+
+<i class="bi bi-credit-card"></i>
+
+<h6>Secure Payment</h6>
+
+<p>100% Safe</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="container py-5">
+
+<h2 class="mb-4 text-center">Shop By Category</h2>
+
+<div class="row g-4 justify-content-center">
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="category-card" onclick="openCategory('food')">
+
+<img src="https://images.unsplash.com/photo-1682862279256-b2a9e4f3d22c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aW5kaWFuJTIwZm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D"
+
+     class="img-fluid ">
+<h5>Food</h5>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="category-card" onclick="openCategory('grocery')">
+
+<img src="https://images.unsplash.com/photo-1685640206182-c51b8aa9b686?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGdyb2NlcnklMjBpbWFnZXN8ZW58MHx8MHx8fDA%3D"
+     class="img-fluid ">
+<h5>Grocery</h5>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="category-card" onclick="openCategory('shopping')">
+
+<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvcHBpbmclMjBpbWFnZXN8ZW58MHx8MHx8fDA%3D" class="img-fluid">
+
+<h5>Shopping</h5>
+
+</div>
+
+</div>
+
+
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="category-card" onclick="openCategory('electronics')">
+
+<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk8BDg4OExETJhUVJk81LTVPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT//AABEIALQA9gMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABQYDBAcCAf/EADwQAAEDAwEGAwUHAwQCAwAAAAEAAgMEBREhBhIxQVFhEyJxFDKBkcEHI0JSobHRFWJyM0Ph8CSSFheC/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEB/9oADAMBAAIRAxEAPwDpyIiAiIgIiICIiAiIgIiICIiAiIgIiHggIo29XVlppGzOiMrnv3WsBxn4rUoNqrXVuDJZTSy/ln8oPo7gfnlBOovjSHAOaQQeGF9QEREBERAREQEREBERAREQEREBERAREQERMoCIiAiIgIiICIiCnbcT/wDl0NPzaHyfRVl7I3jzAeqkdrqjxdpJm72RDE1g9eJUR4i1iM9LU19ucDbqx8TR/t58v/qdFO0O3T4sMutGe8sP1af5KrW/1Xhzg4eb5IOo269225NzSVcb3fkJw4fAqQXFJIWbwfG4xuHAt5KSoNqr5a8N8YVcI/BLqfnxUius5RU22/aHaqgiO4MloX83OBfH8xw+IVspaqmq4WzUk8c0buDo3Bw+YUGZERAREQEREBERAREQEREBF5kkZFG6SRwaxoyXE4AUHU7SwB27Rxmb+86N/koJiqqqejp31FVKyGFgy57zgBV+5bc2W3ODJnVJe5u80CF2HDsSqztVda6qih9okHsjXtkkiawalrgfoteptUu1d2FLHUMip3NE9PUBu80sxgj1yeHZWCVP2p2sHS3VhHXLP5UlQfaJs/VyMjfNLTvfp96wgD4qF/8AqiAwgf1mXxce94A3c+mfqom4fZfd4GudQ1VNWAD3STE8noM5H6hQdYp6iGoj34JWSN6scCFlyuAPgv8As1UAyRVlC8HRwJDT6EaFdB2G20nukz6C7GPxg0GKZox4mvukddeXIFBfkREBEWvXztpaConecNjjc4n0CDlFzq/arxXTj8dQ4fLy/Ra/id1oxSvdG10mN93mce54r34i0ja8ReTItfxF5MiDMZFjc/usResbnoPUm673m/FY6eaqt83jW6rlp38csdjPryPxXlz1jc5BbrX9pFxoy1l3pmVMY4yx+VwHpwP6LqFLMyppYqiI5jlYHt9CMhcCpqZ9xr6W3xA79TM1mRyBOp+S7/BEyCCOGIYZG0NaOgGgWVe0REBERAREQEREBEXxBHbRiM7P1wlaXR+Ed4AZyPRc0oasUm4yVxkpXaskGpaD9F1iZjJonxSDLHjdI6grl10pYLbO6gaXBsJw3f1JHLXnorglnU8FbSlhLZIXjlrlV02S+WaV01grpGsJz4ecfpwK8QTzUby6kk3QeLDq13wU5bdoYppmwV8Dqcu0ErTvMP1B7aqiK/8AmW2lGPDnpQ9w4l1MXfq04WSD7ULtG/dqqGmeRxblzD9VdZK2z0NP40lQyc/lYcnP0VK2m2nbcYnUkFJEYTpgtypBZKDb6xXO3Si6ReAWjzQyN3xJ/j1VZsE1uqNt4X2amdTUz3ECNzs64OvYacFUCyZ0jI917idGtGSfQLpWwGyFTb6j+rXNhik3cQwH3m5/E7vg4A7oOgoi+ZUH08FXdvKoU2yFfr/qtEI//R3fqpmsr6aiiMlTKyNvDLnYVH2mvVJfaN9A9s0MG8HCYDVrhqPKdSPTJ7IKEJMk6r74i+1tuqqLDw4TwO9yaP3Xfwey0vEwcHII5FaG54i8l61vE7pv90RnL15L1gL18L1BkL15LliLl5c7Azngirt9l1u9s2hmuD25ZRR7rMj8btP2z811pVX7ObZ/T9lYZHtxLVkzP+PD9MK1KAiIgIiICIiAiIgLyV6RBryZxoqftNaPb2OcDuTN91+P37K6uAWlU04kB0VwcbkfPS1Hs1UwxS54Hg7uCvM9Q0Mw8Za87h+Kv11ttsuD3UUj4ZJOPhh43h3HRVOv2ZrKRp8F3tEI4b2jx/P6Kog6Bz3+TfccHdOT8lvsg826Bl50x1K17db6gT+HDDISX5ORwVytOzkrniao1dxA6IqQ2S2XNHXi6VrmF7WbsMTTnczxce6uowRkFRVvo3U7cZ0XuGrbNWy0skhZIxxxGdN4ciOqgkt8Dv6KA2julwoW4p6T7gt81QTkM+CnWtAH8L0WAjB1HMdVByqeSorn+PUTGRruMx93HcHh8FrTNaQwFo3QcQsOoceeHcjpnHpoOJvV52Ximc+rtzmU9Tj8erTp04BUquhmoJfAqmmOXG7nd+5cOwH00/t5qjRD56eSTw5HFzR99vak9tdHf9wteenoaxri4CklGnDyE9xxZ9FuPiaWtaQHQM824/IbI7+yQnI0Wq6CTf3BvPqH4bueVj428sOxg6ctNOSqImst9VRuAkZlrvdcNQ70dwP7rS8RWCOaSJs/hObJDpvhzC/f/wAmHA+Ix2WKaio6sFzHezSaYZK7yH/Fx1b/AIu4dVBCb6+byz1lvqaKTw5mOHMAjX/n4LTyRxRWTK27VROud1paFgz48oafTn+i0Mq9/ZRbfab1PcJG5ZSs3W/5O/4QdagibDAyJgw1jQ0egXtBwRQEREBERAREQEREAryXAAkkAAZOV9Kqu3of/SoXte8NZL52tJwQQdT8v1Qbly2qt1HlsL/aZRyj935qn3XaS4V+8zxPAiP4ItPmVEsG83eDh9V9du4zJpjnlaiMIaWPEjCWvacgg6g9Va7DffaZY6G5DekeQyOVo94ngHd1UX1Ic4RU8ZlkJwN0E/orLs7srdZ6+lrq9wpooXtkawjLjjgMck1V0jt0TTkMb64W5HTtbwAwvckjImOkleGMGpc44AVXu22McQMdpjE7+czwQxvoOLv27qCy1NRTUUJmqpmRRji55wFHh9rv9P4lJPHN4Z96M4cw/uFza4VFbcZvGrqiSd/Abx0b6NGgWtTyVNDUCpoZ3wTs4PaeI6Ecx2KQdQZWVVtIZXgzQDhO0atH9w+qkm1LJYw+Bwka4ZDhwVXsO2FPX7tJd2sp6k6B/wDtyHtn3T2UtPbZ6d7p7RKInu1dG4Zjf8OR7hBuyBzzl2vbktKso4amIxTxNkYeTglHdWyy+zVkZp6r8hOjv8St9zM5QUG57MVFKXSWsidgOTTSDOfTqoNhdP40IY8y8JY5XbgjHry6YK6o+DeOGjJK0Lts5S3Wm8OqyHjVj2HBae/X4oOayRsle8eeSOmHuAObI1x789fiRyWtJE4guwTNLx8NgD2D+5p6/TJVkuVhnoXxRVoza4nD7xpc54B46jX9N0BRtyoTRD2kzxVHjMzBNSt+8DcY3jk8ABjOS7+7iUEaKp8LZGyCKelGAA9280+gGrfUaeqxOtlJXFvsk3hvcM7kmSD/AIu5+h1XuYx+H905xYdZKmJoDif7mdB699V7gtk1dI+aMOiieMeNvbzXDu04HwxgdAggq621NA8tnjcMc+S7L9nFtFv2Tp3ubiWqJmdnjg8P0/dQFjs3tT4Yp2GaiYfMJcuDx0GeX6LokQayNrY2taxoAa1owAOiDKi+Ar6oCIiAiIgIiICIiAVgqaeOohdFI0Oa7QgrOsTpomkB0jATpqUHOtoNmK23SOntMTpo3cYRqR6LXtWxl1uThJc3Gkh47mhefoP1XUMNdyBR2jdArRE2nZ+2WaL/AMaBocB5pHauPqSsVftDBANyiZ47uG9wYPjz+CiamrqLnk1EnkBwYW6Nae/X4/ovApyERpV09XcH71XK545M4MHwWk6n+KmjTdl4dTdloQT6c9FryQHop59N2WtLT41I0QQMtMHAhwBB5FTFj2lrrQWwTb1VSk48NzsvZ/iefovsNvmrZvCpIt89eQ9Va7LsrS0T21FWG1FQOBI0b6BQStXQ09fAPEj1IDmngWlaIqau2ODK0OnpuAma3zN/yH1W/JdKCKpFNJVxNlzjdLua2Xsa9uHAELKvNNLDPC2WB7XsdqHNPFZSARwULUW2ejmdVWuTw3H34j7j/hyPdbFBeIqqTwJ2mmqhxieePoeaDcljD2lrgCDpgjiqvddlaeSpdW0YZHU40DySwkdQrY7GNThQVbdnTSupbUwTSjR0uPIz+SqK7PaKON8FbX0jIK45+5p3kiU+nP8AZSVFZ3zlr6pgbGPdhbwA79Vhqq+1WCQyXKd1TXPGXAeZ57dAFGSfaOGyBtLaRuH8Uk2vyA+qqL1T0zYmgNGMLaboudU/2pRiUtqrWWtB96KbePyIH7q1Wja6y3bDIaoRyn/blG6VFTwXpfG8Oq+qAiIgIiICIvhKD6o+7Xigs8Alrpwze91g1c/0Cx366ts9nmrS0OcwYY3q48P1XE7ndKitrpKqqldNO/8AETw7DoB0QXm67e1lQ0tttMIo86lzgXuH0WH2moLWSCeHdkf92HP5kceevbmqDDJNJPg6nPBb9pePbw10cUO84BznEnIzy6dfgrg6La70aGrYJppZKd7Q1xJyB3VzjkZKxskbg9jhkEcwubuLJIvFBaIydRnTPZb9jutTbpdxrXS0pOrOncFXcFgutqLpTU0YDJ/xN/DJ6rQoZo6nfYWmOoi0kid7zf8AhWSmnhrKds0Lw5jtQeijrraBWObPA4wVcX+nK39j1ClRrmDsvDoF8orgN91Lcmtp6pg1ycNeOoWV0zql3h0LN7rKeAVGlUCOEZkx2HMr3SWaatIfVAxQ/k5lS9Da4oH+NKfFm/O76LNVVscALIwZJMe6OA9SpVfY46S3Up0ZDE3mVAXW+T1G9FR5hi5v/E7+F6qvFqZN+dxceQHAegWpJTqwQskW8HAgnPHupC0XyttrhFK51TSZ91x80Y7HmOxSWBrWlzzgAak6YUfTw1N5qDBbWlsQOH1BGnwQdFo6uCtp2z079+N36disFwtcFbH943DxwcNCF6s9Ay2W6KkjOQzi7qeZW8sitmz3GU+z1NxlfS8254joSFtVUbLRZppKSHekYzETR+Jx0A+amTwVC2+2j9kqY6CB2SBvOx1VFdkpTl4ucjZ524e/d03gdSP31WxFPs3I0RPsbonEtaHPmc45PLOh6fNRFRURSwskfEJa12SHnl69uaktlKGGvuXtVVIGW+gO897zgSScfnzVRgvmxM7CZqCDcb+TeLh8zqqlPFU0Uvh1Eb43jkfouzVO2VkicWB8suOO4xeDHs/tXTPbFuSOAy5pGHt7qKoeze3NxtLmxTPNVS51jkdkgf2ldZs93o71RNqqGXeafeafeYehC5DtNsbVWZzpqbMtPn4tWlszfaiy3FlRA4lp8skfJ7eiQd8HBFhpKmKrpYqiFwMcrA5p7FZlAREQFikd0WVY3tyghdoY46m1y08sZe17eA5dFzU7NTucQMhvZq63LAH+8MrX9hiHBg1WhzSOwOpm53TnrhaFVQAHhggg5C6rPQsc0jdCql6trYI5JXENYwbxJ0wERQo610dQWsge540A3iGn4K5UV3oHwMErzSzAeeKSTcDjjTGcAnvn/iq0u5JWOqnNwB7gPRe62ofVysjgbl54HHDuguttuoku9PBa6mSYiQNfvAYLeY00Pr2XQcZGq55sJQex1IlAySCC48yuhjgpqo68UsD6GWWWFsjomFzcjPBU6jvbGXCD2ep0ec41xz0I+YV7r2h9BUtP4onD9CuQU01TRP8AaKWnM+CI3YIxr16eqYOp0F1guUD2RPDJt0ga8e46qAori6Cr/pl2aKep4RyH3Jh68j+680FRTVVN9yHQSxHzNPldG7utueOmvFMKW5sAkziOYDj6dCiN90PULRuVTSW6ATVjw0E4Y3i556Ac1pROv1qzReAK2MaRTOJy3seq3bVs691Ubhd3mpq3cN7gzsByCqoyltVbf5Wy1odT0XFsQPmd6r1tTexsqymobZBuyFokOG6Buca9eHDv2Vwq5PY6CedsZkMUZeGN4uwOC5nc9s6K4vbLPbZYZSzcL/eIaDnABGucnKgvOyt/p75QNLZmOqo2gzsDcbpPTt/CnVC7O2e32+I1dFA2N9Wxr349M/VTSg+O4aDPZcC2g9rkvlTPWh3iuldkYOmvBd7ecNJ6LmW3lE+qf47WjQ+bA1KuCiske8lod5naZ/K3qpCnqwynZAJZPAYTusacGRx59v3UXLG+IYLS1ztT6L3TTFrs/i4NxyVRP4qIGudLQRSMPBjXjLOfA8f3WrTXU2+vbVU0DqeWM+80aeh7IKlwh3C7GRqGnGey13Dea4ngAg6nYb3BtLQPbLEGTMA32cng8CM8uKo+0mzTbXcvaIR91K4bgHJ3HReaa5VNno7fDRSCOsjp5PEIAO62R+81pzpnQHtlTtqZXXyubcLk90kcOjCRhuegH7oLnYIX01lo4JPfjiDXeuFKBadKfIFuBZV9REQEwiIPJavJYFkTCDWcwKi/aVU+DQ09GBpM4vf3DcYHz/ZX940Kqu2duhuNCxr2EyMd5HDllUcvpY3zs3skxA8OBKsNktBkeH41PE4W5a9nHNI3j5QdAArpbbayFo8uMKj1aKEU8bdMYUyOAC8xxhrcLHWtldRzCB27MY3CM9HYOP1UERtFfYbc0UzGOnqpQQ2JnIdXdAucXekgoIX1L6vFc73YmHeZjof5WNl7qIaepdDEG1jpCJZCSX5zjiVDFrjJ4lU4ucckA8kGea7VMM1PcKSYuLm7sjHa5xyPUK50O19srrcHTfdTtGHQEE69jzC55KQ90u7nAGcAL7bBiUa6EoO37KVklxswqJm4IkexoJyd0HTJUpU1UVLEXyO9Gji7sFD7EgDZ2PHAyPP6r1caaeKpfMWuqI5DxA8zO2OY/wC90EnSVkNbGQ3R34mO4j+Qoq4bJ2ytqGTmFjS0EYA01K3LZQPil9pm8ryMNjH4QevdYdpLo+2UkfhjzTO3Q78qg3JZ3U8IhpWBxY0DJ4DChJ9o6ynkcHxQv3eQzr8Vgp760U2646nio2rkdOcsj8q1Ba7TeYbvA7djdDM0eaJ5BI7gjiFqXSgbMDkKI2XikN638FoYx29noeSuMsQcFBy2/WAv+9hHnaCCDwIVWlpTE9pcxzCBrkc12Ssog7Oig6i2McSHsDh0IVHOmeYjGvopSgsVwujxFCPZ4+L5pOQ7DiT/ANyrZFa4I3ZZCxp7NwpCCBzD5dERr2zY6z0QElRJNWScT4p8pPoPrlTzQ3LWRtDY26ADQBYIYnuOpUhBDjGQorNTtwNVtNXhjcLIoCIiAiIgIiIPjhkLWmpWzDDhlbSINOKhjj4BbTWBoXpEBeSMr0iDmm2my8v9WNztbCfG/wBeMYGT1ULSbNzOcHVAJd+XkuwyQMkGHDK1/YIQcgK0UCHZ4Y1jbr2WFuw0MlaJGzSxxk5cwAa+h5LpAo4xyXoUzAchKMdsp2UlBHTxNDWRjAC2sI0ADAX1QfMKC2ropay3N8HVzDkN6qeXlzQ5pa4ZBQcqpfuakioDmkcA4KZpop61+7BGQzm8jT4K1y2inkk3y0fELahpI4gN1oWqNS1W5lFF5R5jxJ4lSWAUAXpTRgkhDgtKSjyVKJgKCHFBrqssdGGqS3Qm6FaNZkDRyWZrAF7wF9UHwBfURAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/2Q==" class="img-fluid">
+
+<h5>Electronics </h5>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4 col-6">
+
+<div class="category-card" onclick="openCategory('home-appliances')">
+
+<img src="https://media.istockphoto.com/id/1211554164/photo/3d-render-of-home-appliances-collection-set.jpg?s=612x612&w=0&k=20&c=blm3IyPyZo5ElWLOjI-hFMG-NrKQ0G76JpWGyNttF8s=" class="img-fluid">
+
+<h5>Home Appliances</h5>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+
+{% if approved_merchants %}
+<section class="container py-5" aria-labelledby="localStoresTitle">
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+    <div>
+      <span class="text-success fw-semibold small text-uppercase">Independent businesses</span>
+      <h2 id="localStoresTitle" class="mb-1">Shop from Local Stores</h2>
+      <p class="text-secondary mb-0">Discover approved shops and products from your community.</p>
+    </div>
+  </div>
+  <div class="row g-4">
+    {% for merchant in approved_merchants %}
+    <div class="col-xl-3 col-lg-4 col-sm-6">
+      <article class="merchant-store-card">
+        <a href="{% url 'merchant_store' merchant.slug %}" aria-label="Visit {{ merchant.shop_name }}">
+          {% if merchant.logo %}<img src="{{ merchant.logo }}" alt="{{ merchant.shop_name }}" loading="lazy">
+          {% else %}<div class="merchant-store-placeholder"><i class="bi bi-shop-window"></i></div>{% endif %}
+        </a>
+        <div class="p-3 p-lg-4">
+          <h3 class="h5 fw-bold mb-1"><a class="text-dark" href="{% url 'merchant_store' merchant.slug %}">{{ merchant.shop_name }}</a></h3>
+          <p class="text-success small fw-semibold mb-2">{% with merchant.categories.all|first as first_category %}{% if first_category %}{{ first_category.name }}{% else %}Local Store{% endif %}{% endwith %}</p>
+          <p class="text-secondary small mb-2">{{ merchant.address|default:"LocalMart merchant"|truncatechars:70 }}</p>
+          {% if merchant.average_rating %}<p class="small mb-3"><i class="bi bi-star-fill text-warning"></i> {{ merchant.average_rating|floatformat:1 }} customer rating</p>{% endif %}
+          <a href="{% url 'merchant_store' merchant.slug %}" class="btn btn-outline-success w-100">Visit Store</a>
+        </div>
+      </article>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- ================= NEWSLETTER ================= -->
+
+<section class="newsletter-section py-5">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-7">
+
+<h2 class="fw-bold text-white">
+
+Stay Updated with LocalMart
+
+</h2>
+
+<p class="text-white-50">
+
+Get exclusive offers, new arrivals, local store updates, festival discounts and special coupons directly in your inbox.
+
+</p>
+
+</div>
+
+<div class="col-lg-5">
+
+<div class="input-group">
+
+<input type="email"
+class="form-control form-control-lg"
+placeholder="Enter your email">
+
+<button class="btn btn-warning btn-lg">
+
+Subscribe
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+{% include "partials/home-footer.html" %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/homepage-location.js' %}?v=6"></script>
+
+<script src="js/food.js"></script>
+
+<script>
+    this,
+    document.addEventListener('DOMContentLoaded', function () {
+        var mainNavbar = document.querySelector('.navbar.sticky-top');
+        if (mainNavbar) {
+            var updateCategoryNavOffset = function () {
+                document.documentElement.style.setProperty('--home-navbar-height', mainNavbar.getBoundingClientRect().height + 'px');
+            };
+            updateCategoryNavOffset();
+            if (window.ResizeObserver) new ResizeObserver(updateCategoryNavOffset).observe(mainNavbar);
+            window.addEventListener('resize', updateCategoryNavOffset);
+        }
+        try {
+            var hero = document.getElementById('localmartHero');
+            if (hero && window.bootstrap && window.bootstrap.Carousel) {
+                bootstrap.Carousel.getOrCreateInstance(hero, { interval: 4500, ride: 'carousel', pause: 'hover', keyboard: true, touch: true, wrap: true });
+            }
+        } catch (e) {
+            console.warn('Carousel init failed', e);
+        }
+    });
+
+   
+    function openCategory(category)
+     { if (category === "grocery") 
+     { window.location.href = "{% url 'grocery' %}"; } else if (category === "food")
+      { window.location.href = "{% url 'food' %}"; } else if (category === "shopping") 
+      { window.location.href = "{% url 'fashion' %}"; } else if (category === "stationery")
+       { window.location.href = "{% url 'stationery' %}"; } else if (category === "electronics") 
+       { window.location.href = "{% url 'electronics' %}"; } else if (category === "home-appliances") 
+       { window.location.href = "{% url 'home_appliances' %}"; } }
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1182 @@
+/* =========================================================
+   LOCALMART
+   ATTA, RICE, OIL & DALS
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    background: #f7f7f7;
+
+    color: #1f1f1f;
+
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.atta-rice-oil-dals-page {
+    width: min(1440px, 100%);
+
+    margin: auto;
+
+    padding:
+        20px 32px 60px;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.atta-rice-oil-dals-page .breadcrumb {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+
+    color: #777;
+
+    margin-bottom: 20px;
+}
+
+.atta-rice-oil-dals-page .breadcrumb a {
+    color: #555;
+}
+
+.atta-rice-oil-dals-page .breadcrumb a:hover {
+    color: #111;
+}
+
+
+/* =========================================================
+   CATEGORY HEADING
+========================================================= */
+
+.atta-rice-oil-dals-heading {
+    margin-bottom: 24px;
+}
+
+.atta-rice-oil-dals-heading h1 {
+    margin: 0;
+
+    font-size: 30px;
+
+    font-weight: 700;
+}
+
+.atta-rice-oil-dals-heading p {
+    margin:
+        7px 0 0;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   SUBCATEGORY
+========================================================= */
+
+.atta-rice-oil-dals-subcategory-wrapper {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+
+.atta-rice-oil-dals-subcategory-list {
+    display: flex;
+
+    gap: 18px;
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    scroll-behavior: smooth;
+
+    padding:
+        5px 8px 12px;
+
+    scrollbar-width: none;
+}
+
+.atta-rice-oil-dals-subcategory-list::-webkit-scrollbar {
+    display: none;
+}
+
+
+.atta-rice-oil-dals-subcategory {
+    flex: 0 0 105px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    color: #555;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+
+.atta-rice-oil-dals-subcategory-image {
+    width: 82px;
+
+    height: 82px;
+
+    border-radius: 50%;
+
+    background: #f2f2f2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: 1px solid #eee;
+
+    margin-bottom: 8px;
+
+    transition:
+        border .2s ease,
+        transform .2s ease;
+}
+
+
+.atta-rice-oil-dals-subcategory-image img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+.atta-rice-oil-dals-subcategory:hover {
+    color: #111;
+}
+
+
+.atta-rice-oil-dals-subcategory:hover
+.atta-rice-oil-dals-subcategory-image {
+    transform: scale(1.04);
+}
+
+
+.atta-rice-oil-dals-subcategory.active {
+    color: #111;
+
+    font-weight: 700;
+}
+
+
+.atta-rice-oil-dals-subcategory.active
+.atta-rice-oil-dals-subcategory-image {
+    border:
+        2px solid #111;
+}
+
+
+/* =========================================================
+   SUBCATEGORY ARROWS
+========================================================= */
+
+.atta-rice-oil-dals-subcategory-arrow {
+    position: absolute;
+
+    z-index: 5;
+
+    width: 34px;
+
+    height: 34px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #fff;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, .15);
+
+    cursor: pointer;
+
+    font-size: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.atta-rice-oil-dals-subcategory-arrow:hover {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, .20);
+}
+
+
+.atta-rice-oil-dals-subcategory-arrow.left {
+    left: -8px;
+}
+
+
+.atta-rice-oil-dals-subcategory-arrow.right {
+    right: -8px;
+}
+
+
+/* =========================================================
+   PRODUCT TOOLBAR
+========================================================= */
+
+.atta-rice-oil-dals-product-toolbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+.atta-rice-oil-dals-product-toolbar h2 {
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 700;
+}
+
+
+.atta-rice-oil-dals-product-toolbar span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TOOLBAR ACTIONS
+========================================================= */
+
+.atta-rice-oil-dals-toolbar-actions {
+    display: flex;
+
+    gap: 12px;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
+.atta-rice-oil-dals-search-box {
+    width: 230px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 12px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius: 8px;
+
+    background: white;
+}
+
+
+.atta-rice-oil-dals-search-box span {
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #777;
+}
+
+
+.atta-rice-oil-dals-search-box input {
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    font-size: 13px;
+
+    background: transparent;
+}
+
+
+.atta-rice-oil-dals-search-box input::placeholder {
+    color: #999;
+}
+
+
+/* =========================================================
+   SORT
+========================================================= */
+
+#attaRiceOilDalsSort {
+    height: 42px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius: 8px;
+
+    background: #fff;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+
+#attaRiceOilDalsSort:focus {
+    border-color: #0b8f4d;
+}
+
+
+/* =========================================================
+   PRODUCTS GRID
+========================================================= */
+
+.atta-rice-oil-dals-products-grid,
+#attaRiceOilDalsProducts {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.atta-rice-oil-dals-product-card {
+    position: relative;
+
+    background: #fff;
+
+    border:
+        1px solid #ededed;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.atta-rice-oil-dals-product-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, .08);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.atta-rice-oil-dals-product-card .product-image-box {
+    position: relative;
+
+    height: 215px;
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 14px;
+}
+
+
+.atta-rice-oil-dals-product-card .product-image {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    transition:
+        transform .25s ease;
+}
+
+
+.atta-rice-oil-dals-product-card:hover
+.product-image {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   DISCOUNT BADGE
+========================================================= */
+
+.atta-rice-oil-dals-product-card .discount-badge {
+    position: absolute;
+
+    left: 10px;
+
+    top: 10px;
+
+    z-index: 2;
+
+    background: #e9f7ef;
+
+    color: #0a8f4d;
+
+    padding:
+        4px 7px;
+
+    border-radius: 4px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   WISHLIST
+========================================================= */
+
+.atta-rice-oil-dals-product-card .wishlist-btn {
+    position: absolute;
+
+    right: 10px;
+
+    top: 10px;
+
+    z-index: 2;
+
+    width: 32px;
+
+    height: 32px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, .95);
+
+    box-shadow:
+        0 2px 7px rgba(0, 0, 0, .12);
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        transform .2s ease;
+}
+
+
+.atta-rice-oil-dals-product-card .wishlist-btn:hover {
+    transform: scale(1.08);
+}
+
+
+.atta-rice-oil-dals-product-card .wishlist-btn.active {
+    color: #e53935;
+}
+
+
+/* =========================================================
+   PRODUCT INFO
+========================================================= */
+
+.atta-rice-oil-dals-product-card .product-info {
+    padding: 12px;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.atta-rice-oil-dals-product-card .product-rating {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    padding:
+        3px 6px;
+
+    background: #eef7ee;
+
+    border-radius: 5px;
+
+    color: #287a3d;
+
+    font-size: 11px;
+
+    margin-bottom: 7px;
+}
+
+
+/* =========================================================
+   PRODUCT NAME
+========================================================= */
+
+.atta-rice-oil-dals-product-card .product-name {
+    height: 40px;
+
+    margin:
+        0 0 6px;
+
+    overflow: hidden;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    font-size: 14px;
+
+    line-height: 19px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   PRODUCT UNIT
+========================================================= */
+
+.atta-rice-oil-dals-product-card .product-unit {
+    color: #777;
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   PRODUCT BOTTOM
+========================================================= */
+
+.atta-rice-oil-dals-product-card .product-bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.atta-rice-oil-dals-product-card .price-area {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    min-width: 0;
+}
+
+
+.atta-rice-oil-dals-product-card .current-price {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.atta-rice-oil-dals-product-card .mrp {
+    font-size: 12px;
+
+    color: #999;
+
+    text-decoration: line-through;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.atta-rice-oil-dals-product-card .add-btn {
+    min-width: 62px;
+
+    height: 34px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid #0b8f4d;
+
+    border-radius: 7px;
+
+    background: #fff;
+
+    color: #0b8f4d;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+
+.atta-rice-oil-dals-product-card .add-btn:hover {
+    background: #0b8f4d;
+
+    color: #fff;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   QUANTITY CONTROL
+========================================================= */
+
+.atta-rice-oil-dals-product-card .quantity-control {
+    display: flex;
+
+    align-items: center;
+
+    height: 34px;
+
+    border-radius: 7px;
+
+    overflow: hidden;
+
+    border:
+        1px solid #0b8f4d;
+
+    background: #0b8f4d;
+
+    color: #fff;
+}
+
+
+.atta-rice-oil-dals-product-card .quantity-control button {
+    width: 27px;
+
+    height: 32px;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    line-height: 1;
+}
+
+
+.atta-rice-oil-dals-product-card .quantity-control button:hover {
+    background:
+        rgba(255, 255, 255, .12);
+}
+
+
+.atta-rice-oil-dals-product-card .quantity-control span {
+    min-width: 22px;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   EMPTY PRODUCTS
+========================================================= */
+
+.atta-rice-oil-dals-no-products,
+.no-products {
+    grid-column: 1 / -1;
+
+    padding:
+        60px 20px;
+
+    text-align: center;
+
+    color: #777;
+}
+
+
+.atta-rice-oil-dals-no-products h3,
+.no-products h3 {
+    margin:
+        0 0 8px;
+
+    color: #333;
+
+    font-size: 18px;
+}
+
+
+.atta-rice-oil-dals-no-products p,
+.no-products p {
+    margin: 0;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PRODUCT COUNT
+========================================================= */
+
+#attaRiceOilDalsProductCount {
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.atta-rice-oil-dals-toast {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 30px;
+
+    transform:
+        translate(-50%, 100px);
+
+    background: #222;
+
+    color: white;
+
+    padding:
+        12px 20px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease,
+        visibility .3s ease;
+
+    z-index: 9999;
+}
+
+
+.atta-rice-oil-dals-toast.show {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translate(-50%, 0);
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.atta-rice-oil-dals-loading {
+    grid-column: 1 / -1;
+
+    padding: 60px 20px;
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .atta-rice-oil-dals-page {
+        padding-left: 24px;
+
+        padding-right: 24px;
+    }
+
+
+    .atta-rice-oil-dals-products-grid,
+    #attaRiceOilDalsProducts {
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .atta-rice-oil-dals-product-toolbar {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .atta-rice-oil-dals-toolbar-actions {
+        width: 100%;
+    }
+
+
+    .atta-rice-oil-dals-search-box {
+        flex: 1;
+
+        width: auto;
+    }
+
+
+    #attaRiceOilDalsSort {
+        width: 170px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .atta-rice-oil-dals-page {
+        padding:
+            14px 12px 40px;
+    }
+
+
+    .atta-rice-oil-dals-heading h1 {
+        font-size: 24px;
+    }
+
+
+    .atta-rice-oil-dals-heading p {
+        font-size: 13px;
+    }
+
+
+    .atta-rice-oil-dals-subcategory-wrapper {
+        margin-bottom: 22px;
+    }
+
+
+    .atta-rice-oil-dals-subcategory-list {
+        gap: 12px;
+    }
+
+
+    .atta-rice-oil-dals-subcategory {
+        flex-basis: 90px;
+
+        font-size: 11px;
+    }
+
+
+    .atta-rice-oil-dals-subcategory-image {
+        width: 70px;
+
+        height: 70px;
+    }
+
+
+    .atta-rice-oil-dals-subcategory-arrow {
+        width: 30px;
+
+        height: 30px;
+
+        font-size: 20px;
+    }
+
+
+    .atta-rice-oil-dals-products-grid,
+    #attaRiceOilDalsProducts {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-image-box {
+        height: 170px;
+
+        padding: 10px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-info {
+        padding: 10px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-name {
+        font-size: 13px;
+
+        line-height: 18px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .current-price {
+        font-size: 14px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .mrp {
+        font-size: 11px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .add-btn {
+        min-width: 55px;
+
+        height: 32px;
+
+        padding:
+            0 9px;
+
+        font-size: 12px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .quantity-control {
+        height: 32px;
+    }
+
+
+    .atta-rice-oil-dals-product-card
+    .quantity-control button {
+        height: 30px;
+
+        width: 25px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .atta-rice-oil-dals-page {
+        padding:
+            12px 8px 35px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-image-box {
+        height: 150px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-bottom {
+        align-items: flex-end;
+    }
+
+
+    .atta-rice-oil-dals-product-card .price-area {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 1px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .wishlist-btn {
+        width: 29px;
+
+        height: 29px;
+
+        right: 7px;
+
+        top: 7px;
+    }
+
+
+    .atta-rice-oil-dals-product-card
+    .discount-badge {
+        left: 7px;
+
+        top: 7px;
+
+        font-size: 10px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-rating {
+        font-size: 10px;
+
+        padding:
+            2px 5px;
+    }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL DEVICES
+========================================================= */
+
+@media (max-width: 350px) {
+
+    .atta-rice-oil-dals-products-grid,
+    #attaRiceOilDalsProducts {
+        gap: 7px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-image-box {
+        height: 135px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-info {
+        padding: 8px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .product-name {
+        font-size: 12px;
+
+        line-height: 17px;
+    }
+
+
+    .atta-rice-oil-dals-product-card .current-price {
+        font-size: 13px;
+    }
+
+}

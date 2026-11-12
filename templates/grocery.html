@@ -1,0 +1,1885 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Grocery | LocalMart</title>
+
+
+<!-- =====================================================
+     BOOTSTRAP
+====================================================== -->
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     BOOTSTRAP ICONS
+====================================================== -->
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     GOOGLE FONT
+====================================================== -->
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     GROCERY CSS
+====================================================== -->
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+
+    /* =====================================================
+       GLOBAL
+    ===================================================== */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: #fff;
+        color: #222;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+
+    /* =====================================================
+       LOCALMART NAVBAR
+    ===================================================== */
+
+    .navbar {
+        z-index: 1050;
+    }
+
+    .navbar-brand {
+        font-size: 25px;
+        letter-spacing: -0.5px;
+        color: #198754 !important;
+    }
+
+    .navbar-brand i {
+        font-size: 24px;
+    }
+
+    .navbar-brand span {
+        color: #222;
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    .search-box {
+        width: min(100%, 650px);
+    }
+
+    .search-box .input-group {
+        background: #f7f7f7;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #e5e5e5;
+    }
+
+    .search-box .form-control {
+        height: 44px;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        padding-left: 16px;
+        font-size: 14px;
+    }
+
+    .search-box .btn {
+        width: 48px;
+        border-radius: 0;
+    }
+
+
+    /* =====================================================
+       NAV LINKS
+    ===================================================== */
+
+    .navbar-nav {
+        gap: 8px;
+    }
+
+    .navbar-nav .nav-link {
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 9px 11px;
+        white-space: nowrap;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #198754;
+    }
+
+    .navbar-nav .nav-link i {
+        margin-right: 4px;
+    }
+
+
+    /* =====================================================
+       WISHLIST
+    ===================================================== */
+
+    .wishlist-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 9px 11px;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .wishlist-link:hover {
+        color: #198754;
+    }
+
+    .wishlist-link .badge {
+        font-size: 10px;
+    }
+
+
+    /* =====================================================
+       ACCOUNT
+    ===================================================== */
+
+    #accountDropdown {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .dropdown-menu {
+        border: 0;
+        border-radius: 12px;
+        box-shadow: 0 10px 35px rgba(0,0,0,.12);
+        padding: 8px;
+    }
+
+    .dropdown-item {
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .dropdown-item:hover {
+        background: #f0f9f4;
+        color: #198754;
+    }
+
+
+    /* =====================================================
+       GROCERY HERO
+    ===================================================== */
+
+    .grocery-hero {
+        margin: 22px auto;
+        max-width: 1450px;
+        padding: 0 20px;
+    }
+
+    .grocery-hero-inner {
+        min-height: 310px;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+
+        display: flex;
+        align-items: center;
+
+        padding: 45px 65px;
+
+        background:
+            linear-gradient(
+                110deg,
+                #e8f8ef 0%,
+                #f5fff8 55%,
+                #e9f8ef 100%
+            );
+    }
+
+    .grocery-hero-content {
+        max-width: 650px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .grocery-hero-tag {
+        display: inline-block;
+        background: #fff;
+        color: #198754;
+        padding: 7px 13px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 13px;
+    }
+
+    .grocery-hero h1 {
+        margin: 0 0 12px;
+        font-size: 42px;
+        line-height: 1.15;
+        font-weight: 700;
+    }
+
+    .grocery-hero p {
+        margin: 0 0 20px;
+        color: #666;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .grocery-hero-btn {
+        border-radius: 8px;
+        padding: 11px 22px;
+        font-weight: 600;
+    }
+
+    .grocery-hero-art {
+        position: absolute;
+        right: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        width: 300px;
+        height: 250px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 120px;
+    }
+
+    .grocery-hero-art::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        background: #ccefdc;
+        border-radius: 50%;
+    }
+
+    .grocery-hero-art span {
+        position: relative;
+        z-index: 2;
+    }
+
+
+    /* =====================================================
+       CATEGORY SECTION
+    ===================================================== */
+
+    .grocery-category-section {
+        padding: 35px 0 20px;
+    }
+
+    .grocery-category-section h2 {
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    .grocery-category-subtitle {
+        color: #777;
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       CATEGORY GRID
+    ===================================================== */
+
+    #groceryCategories {
+        display: grid;
+
+        grid-template-columns:
+            repeat(6, minmax(0, 1fr));
+
+        gap: 18px;
+    }
+
+    .category-card {
+        background: #fff;
+        border: 1px solid #eeeeee;
+        border-radius: 14px;
+        padding: 12px;
+
+        text-align: center;
+
+        cursor: pointer;
+
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease,
+            border-color .2s ease;
+    }
+
+    .category-card:hover {
+        transform: translateY(-4px);
+        border-color: #b9dfca;
+
+        box-shadow:
+            0 8px 25px
+            rgba(0,0,0,.08);
+    }
+
+    .category-image-wrapper {
+        width: 100%;
+        height: 145px;
+
+        border-radius: 12px;
+
+        background: #f6fbf8;
+
+        overflow: hidden;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 10px;
+    }
+
+    .category-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .category-name {
+        min-height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 14px;
+        line-height: 19px;
+        font-weight: 600;
+
+        color: #222;
+    }
+
+    .category-offer {
+        color: #198754;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+
+
+    /* =====================================================
+       BENEFITS
+    ===================================================== */
+
+    .grocery-benefits {
+        margin: 35px auto;
+        max-width: 1450px;
+        padding: 0 20px;
+    }
+
+    .benefits-inner {
+        background: #f5faf7;
+        border-radius: 16px;
+        padding: 25px;
+    }
+
+    .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .benefit-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .benefit-icon {
+        width: 46px;
+        height: 46px;
+
+        flex-shrink: 0;
+
+        border-radius: 50%;
+
+        background: #fff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #198754;
+        font-size: 21px;
+    }
+
+    .benefit-item strong {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 2px;
+    }
+
+    .benefit-item span {
+        color: #777;
+        font-size: 11px;
+    }
+
+
+    /* =====================================================
+       FOOD PAGE STYLE FOOTER
+    ===================================================== */
+
+    .lm-footer {
+        margin-top: 50px;
+        background: #111;
+        color: #fff;
+    }
+
+    .lm-footer-container {
+        max-width: 1450px;
+        margin: auto;
+
+        padding: 55px 30px 45px;
+
+        display: grid;
+
+        grid-template-columns:
+            1.5fr
+            1fr
+            1fr
+            1fr
+            1.2fr;
+
+        gap: 40px;
+    }
+
+    .lm-footer-logo {
+        font-size: 29px;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .lm-footer-logo span {
+        color: #198754;
+    }
+
+    .lm-footer-brand p {
+        max-width: 310px;
+        color: #aaa;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .lm-social-icons {
+        display: flex;
+        gap: 9px;
+        margin-top: 20px;
+    }
+
+    .lm-social-icons a {
+        width: 36px;
+        height: 36px;
+
+        border: 1px solid #444;
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #fff;
+        font-size: 15px;
+
+        transition: .2s;
+    }
+
+    .lm-social-icons a:hover {
+        background: #198754;
+        border-color: #198754;
+    }
+
+    .lm-footer-column h3 {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .lm-footer-column > a {
+        display: block;
+
+        color: #aaa;
+
+        font-size: 13px;
+
+        margin-bottom: 12px;
+
+        transition: .2s;
+    }
+
+    .lm-footer-column > a:hover {
+        color: #fff;
+        padding-left: 3px;
+    }
+
+    .lm-contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 13px;
+    }
+
+    .lm-contact-item span {
+        font-size: 15px;
+    }
+
+    .lm-contact-item p {
+        margin: 0;
+        color: #aaa;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       NEWSLETTER
+    ===================================================== */
+
+    .lm-footer-newsletter {
+        max-width: 1390px;
+        margin: auto;
+
+        padding: 25px 30px;
+
+        border-top: 1px solid #292929;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 30px;
+    }
+
+    .lm-footer-newsletter h3 {
+        margin: 0 0 5px;
+        font-size: 16px;
+    }
+
+    .lm-footer-newsletter p {
+        margin: 0;
+        color: #999;
+        font-size: 12px;
+    }
+
+    .lm-newsletter-form {
+        display: flex;
+        width: min(100%, 430px);
+    }
+
+    .lm-newsletter-form input {
+        flex: 1;
+
+        height: 42px;
+
+        border: 1px solid #444;
+        border-right: 0;
+
+        background: #1b1b1b;
+        color: #fff;
+
+        padding: 0 13px;
+
+        outline: none;
+    }
+
+    .lm-newsletter-form button {
+        border: 0;
+
+        padding: 0 20px;
+
+        background: #198754;
+        color: #fff;
+
+        font-weight: 600;
+
+        border-radius: 0 6px 6px 0;
+    }
+
+
+    /* =====================================================
+       FOOTER BOTTOM
+    ===================================================== */
+
+    .lm-footer-bottom {
+        border-top: 1px solid #292929;
+
+        padding: 18px 30px;
+
+        text-align: center;
+    }
+
+    .lm-footer-bottom p {
+        margin: 0;
+        color: #888;
+        font-size: 12px;
+    }
+
+
+    /* =====================================================
+       FLOATING CART
+    ===================================================== */
+
+    .floating-cart {
+        position: fixed;
+
+        right: 20px;
+        bottom: 20px;
+
+        z-index: 1100;
+
+        border: 0;
+
+        background: #198754;
+        color: #fff;
+
+        padding: 12px 20px;
+
+        border-radius: 30px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        box-shadow:
+            0 8px 25px
+            rgba(0,0,0,.2);
+
+        display: none;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media(max-width: 1200px) {
+
+        #groceryCategories {
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+        }
+
+        .lm-footer-container {
+            grid-template-columns:
+                repeat(3, 1fr);
+        }
+
+    }
+
+
+    @media(max-width: 992px) {
+
+        .search-box {
+            margin: 12px 0 !important;
+        }
+
+        .navbar-nav {
+            padding-bottom: 10px;
+        }
+
+        .grocery-hero-inner {
+            padding: 40px;
+        }
+
+        .grocery-hero-art {
+            right: 20px;
+            opacity: .5;
+        }
+
+        #groceryCategories {
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+        }
+
+        .benefits-grid {
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+
+    }
+
+
+    @media(max-width: 768px) {
+
+        .grocery-hero {
+            padding: 0 12px;
+        }
+
+        .grocery-hero-inner {
+            min-height: 300px;
+            padding: 30px 25px;
+        }
+
+        .grocery-hero h1 {
+            font-size: 30px;
+        }
+
+        .grocery-hero p {
+            font-size: 13px;
+        }
+
+        .grocery-hero-art {
+            display: none;
+        }
+
+        #groceryCategories {
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+        .category-image-wrapper {
+            height: 120px;
+        }
+
+        .benefits-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .lm-footer-container {
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            padding:
+                40px 22px;
+        }
+
+        .lm-footer-brand {
+            grid-column: 1 / -1;
+        }
+
+        .lm-footer-newsletter {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 25px 22px;
+        }
+
+        .lm-newsletter-form {
+            width: 100%;
+        }
+
+        .floating-cart {
+            display: block;
+        }
+
+    }
+
+
+    @media(max-width: 576px) {
+
+        .navbar-brand {
+            font-size: 22px;
+        }
+
+        .grocery-hero-inner {
+            border-radius: 15px;
+        }
+
+        .grocery-hero h1 {
+            font-size: 26px;
+        }
+
+        .grocery-category-section {
+            padding-top: 25px;
+        }
+
+        .grocery-category-section h2 {
+            font-size: 21px;
+        }
+
+        #groceryCategories {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .category-image-wrapper {
+            height: 110px;
+        }
+
+        .category-name {
+            font-size: 12px;
+        }
+
+        .lm-footer-container {
+            grid-template-columns: 1fr;
+        }
+
+        .lm-footer-brand {
+            grid-column: auto;
+        }
+
+        .lm-footer-newsletter {
+            padding:
+                25px 18px;
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   LOCALMART GROCERY HERO
+===================================================== */
+
+.grocery-hero-carousel {
+    width: 100%;
+    padding: 14px 0 18px;
+    background: #f7f7f7;
+}
+
+
+/* =====================================================
+   HERO SLIDE
+===================================================== */
+
+.grocery-hero-slide {
+
+    width: 100%;
+    min-height: 390px;
+
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            105deg,
+            #e3f6e7 0%,
+            #f5fbf6 48%,
+            #ffffff 100%
+        );
+
+}
+
+
+/* =====================================================
+   DIFFERENT CATEGORY BACKGROUNDS
+===================================================== */
+
+.grocery-hero-slide-1 {
+    background:
+        linear-gradient(
+            105deg,
+            #e4f7e7,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-2 {
+    background:
+        linear-gradient(
+            105deg,
+            #fff1d7,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-3 {
+    background:
+        linear-gradient(
+            105deg,
+            #fff4c9,
+            #fffdf4
+        );
+}
+
+.grocery-hero-slide-4 {
+    background:
+        linear-gradient(
+            105deg,
+            #f0e5ff,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-5 {
+    background:
+        linear-gradient(
+            105deg,
+            #ffe8ee,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-6 {
+    background:
+        linear-gradient(
+            105deg,
+            #e8f2ff,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-7 {
+    background:
+        linear-gradient(
+            105deg,
+            #e1f8ff,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-8 {
+    background:
+        linear-gradient(
+            105deg,
+            #ffe8ed,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-9 {
+    background:
+        linear-gradient(
+            105deg,
+            #fff0d8,
+            #ffffff
+        );
+}
+
+.grocery-hero-slide-10 {
+    background:
+        linear-gradient(
+            105deg,
+            #e4f7e9,
+            #ffffff
+        );
+}
+
+
+/* =====================================================
+   LEFT CONTENT
+===================================================== */
+
+.grocery-hero-content {
+
+    width: 48%;
+
+    padding:
+        50px
+        20px
+        55px
+        75px;
+
+    position: relative;
+
+    z-index: 3;
+
+}
+
+
+.grocery-hero-brand {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 15px;
+
+    color: #198754;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+
+}
+
+
+.grocery-hero-brand i {
+
+    font-size: 17px;
+
+}
+
+
+.grocery-hero-content h1 {
+
+    max-width: 550px;
+
+    margin: 0 0 13px;
+
+    color: #171717;
+
+    font-size:
+        clamp(
+            34px,
+            4.3vw,
+            58px
+        );
+
+    font-weight: 800;
+
+    line-height: 1.05;
+
+}
+
+
+.grocery-hero-offer {
+
+    margin: 0 0 8px;
+
+    color: #198754;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+}
+
+
+.grocery-hero-description {
+
+    max-width: 470px;
+
+    margin: 0 0 25px;
+
+    color: #555;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+}
+
+
+.grocery-hero-shop-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 12px 24px;
+
+    border-radius: 28px;
+
+    background: #198754;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+
+}
+
+
+.grocery-hero-shop-btn:hover {
+
+    background: #157347;
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+}
+
+
+/* =====================================================
+   CATEGORY IMAGE
+===================================================== */
+
+.grocery-hero-image {
+
+    width: 52%;
+
+    height: 390px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+.grocery-hero-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    object-position: center;
+
+    padding: 10px;
+
+    transition:
+        transform .7s ease;
+
+}
+
+
+.carousel-item.active
+.grocery-hero-image img {
+
+    transform: scale(1.05);
+
+}
+
+
+/* =====================================================
+   CAROUSEL CONTROLS
+===================================================== */
+
+.grocery-hero-carousel
+.carousel-control-prev,
+.grocery-hero-carousel
+.carousel-control-next {
+
+    width: 58px;
+
+    z-index: 5;
+
+}
+
+
+.grocery-hero-carousel
+.carousel-control-prev-icon,
+.grocery-hero-carousel
+.carousel-control-next-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 50%;
+
+    background-color:
+        rgba(0, 0, 0, .55);
+
+    background-size: 45%;
+
+}
+
+
+.grocery-hero-carousel
+.carousel-control-prev:hover
+.carousel-control-prev-icon,
+.grocery-hero-carousel
+.carousel-control-next:hover
+.carousel-control-next-icon {
+
+    background-color:
+        rgba(0, 0, 0, .75);
+
+}
+
+
+/* =====================================================
+   INDICATORS
+===================================================== */
+
+.grocery-hero-carousel
+.carousel-indicators {
+
+    bottom: 12px;
+
+    margin-bottom: 0;
+
+    z-index: 6;
+
+}
+
+
+.grocery-hero-carousel
+.carousel-indicators button {
+
+    width: 8px;
+
+    height: 8px;
+
+    margin:
+        0
+        4px;
+
+    border: 0;
+
+    border-radius: 20px;
+
+    opacity: .45;
+
+    transition:
+        width .25s ease,
+        opacity .25s ease;
+
+}
+
+
+.grocery-hero-carousel
+.carousel-indicators button.active {
+
+    width: 25px;
+
+    opacity: 1;
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .grocery-hero-content {
+
+        padding-left: 45px;
+
+    }
+
+    .grocery-hero-content h1 {
+
+        font-size: 40px;
+
+    }
+
+    .grocery-hero-slide {
+
+        min-height: 350px;
+
+    }
+
+    .grocery-hero-image {
+
+        height: 350px;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .grocery-hero-carousel {
+
+        padding:
+            8px
+            0
+            12px;
+
+    }
+
+
+    .grocery-hero-slide {
+
+        min-height: 470px;
+
+        flex-direction: column;
+
+        justify-content: space-between;
+
+        border-radius: 18px;
+
+    }
+
+
+    .grocery-hero-content {
+
+        width: 100%;
+
+        padding:
+            27px
+            25px
+            5px;
+
+        text-align: center;
+
+    }
+
+
+    .grocery-hero-brand {
+
+        justify-content: center;
+
+        margin-bottom: 10px;
+
+        font-size: 10px;
+
+    }
+
+
+    .grocery-hero-content h1 {
+
+        font-size: 31px;
+
+        line-height: 1.1;
+
+        margin-bottom: 8px;
+
+    }
+
+
+    .grocery-hero-offer {
+
+        font-size: 17px;
+
+        margin-bottom: 5px;
+
+    }
+
+
+    .grocery-hero-description {
+
+        font-size: 13px;
+
+        line-height: 1.5;
+
+        margin:
+            0
+            auto
+            14px;
+
+    }
+
+
+    .grocery-hero-shop-btn {
+
+        padding:
+            9px
+            19px;
+
+        font-size: 13px;
+
+    }
+
+
+    .grocery-hero-image {
+
+        width: 100%;
+
+        height: 245px;
+
+        padding:
+            0
+            18px
+            18px;
+
+    }
+
+
+    .grocery-hero-image img {
+
+        padding: 0;
+
+        object-fit: contain;
+
+    }
+
+
+    .grocery-hero-carousel
+    .carousel-control-prev,
+    .grocery-hero-carousel
+    .carousel-control-next {
+
+        width: 35px;
+
+    }
+
+
+    .grocery-hero-carousel
+    .carousel-control-prev-icon,
+    .grocery-hero-carousel
+    .carousel-control-next-icon {
+
+        width: 30px;
+
+        height: 30px;
+
+    }
+
+}
+
+
+
+
+</style>
+
+
+{% include "partials/grocery-chrome-assets.html" %}
+</head>
+
+<body>
+
+<!-- =====================================================
+     FOOD-STYLE NAVBAR
+===================================================== -->
+
+{% include "partials/grocery-navbar.html" %}
+<section class="grocery-hero-carousel">
+
+    <div class="container-fluid px-lg-4">
+
+        <div id="groceryHeroCarousel"
+             class="carousel slide"
+             data-bs-ride="carousel"
+             data-bs-interval="3500">
+
+            <!-- Indicators -->
+            <div class="carousel-indicators" id="groceryHeroIndicators"></div>
+
+            <!-- Slides -->
+            <div class="carousel-inner" id="groceryHeroSlides"></div>
+
+            <!-- Previous -->
+            <button class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#groceryHeroCarousel"
+                    data-bs-slide="prev">
+
+                <span class="carousel-control-prev-icon"></span>
+
+                <span class="visually-hidden">
+                    Previous
+                </span>
+
+            </button>
+
+            <!-- Next -->
+            <button class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#groceryHeroCarousel"
+                    data-bs-slide="next">
+
+                <span class="carousel-control-next-icon"></span>
+
+                <span class="visually-hidden">
+                    Next
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =====================================================
+     GROCERY CATEGORIES
+===================================================== -->
+
+<section
+    class="grocery-category-section"
+    id="categories"
+>
+
+
+<div class="container">
+
+
+    <div
+        class="d-flex
+               justify-content-between
+               align-items-center
+               mb-4"
+    >
+
+        <div>
+
+            <h2 class="mb-1">
+                Shop by Category
+            </h2>
+
+            <div class="grocery-category-subtitle">
+                Everything you need for your everyday shopping
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- grocery.js renders categories here -->
+
+    <div
+        id="groceryCategories"
+        class="category-grid"
+    >
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =====================================================
+     QUICK BENEFITS
+===================================================== -->
+
+<section class="grocery-benefits">
+
+
+<div class="benefits-inner">
+
+    <div class="benefits-grid">
+
+
+        <div class="benefit-item">
+
+            <div class="benefit-icon">
+
+                <i class="bi bi-lightning-charge-fill"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Fast Delivery
+                </strong>
+
+                <span>
+                    Fresh groceries delivered quickly
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="benefit-item">
+
+            <div class="benefit-icon">
+
+                <i class="bi bi-basket2-fill"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Fresh Products
+                </strong>
+
+                <span>
+                    Quality products from local stores
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="benefit-item">
+
+            <div class="benefit-icon">
+
+                <i class="bi bi-tag-fill"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Best Offers
+                </strong>
+
+                <span>
+                    Great deals every day
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="benefit-item">
+
+            <div class="benefit-icon">
+
+                <i class="bi bi-shield-check"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Secure Payments
+                </strong>
+
+                <span>
+                    Safe and secure checkout
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =====================================================
+     FOOD-STYLE PROFESSIONAL FOOTER
+===================================================== -->
+
+{% include "partials/grocery-footer.html" %}
+
+<!-- =====================================================
+     FLOATING CART
+===================================================== -->
+
+<button
+class="floating-cart"
+onclick="openCart()"
+
+>
+
+
+<i class="bi bi-cart3 me-1"></i>
+
+View Cart
+
+
+</button>
+
+<!-- =====================================================
+     BOOTSTRAP JAVASCRIPT
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<!-- =====================================================
+     GROCERY JAVASCRIPT
+===================================================== -->
+
+<script src="{% static 'js/grocery.js' %}"></script>
+
+<script src="{% static 'js/atta-rice-oil-dals.js' %}"></script>
+
+<!-- =====================================================
+     CART FALLBACK
+===================================================== -->
+
+<script>
+
+    if (typeof window.openCart !== "function") {
+
+        window.openCart = function () {
+
+            window.location.href =
+                "{% url 'cart' %}";
+
+        };
+
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            try {
+
+                const possibleKeys = [
+                    "localmartGroceryCart",
+                    "localmartCart"
+                ];
+
+
+                let cart = [];
+
+
+                for (
+                    const key of possibleKeys
+                ) {
+
+                    const stored =
+                        localStorage.getItem(key);
+
+                    if (stored) {
+
+                        const parsed =
+                            JSON.parse(stored);
+
+                        if (
+                            Array.isArray(parsed)
+                        ) {
+
+                            cart = parsed;
+                            break;
+
+                        }
+
+                    }
+
+                }
+
+
+                const count =
+                    cart.reduce(
+                        function (
+                            total,
+                            item
+                        ) {
+
+                            return total +
+                                Number(
+                                    item.quantity || 1
+                                );
+
+                        },
+                        0
+                    );
+
+
+                const cartBadge =
+                    document.getElementById(
+                        "cartCount"
+                    );
+
+
+                if (cartBadge) {
+
+                    cartBadge.textContent =
+                        count;
+
+                }
+
+
+                const wishlistData =
+                    localStorage.getItem(
+                        "localmartGroceryWishlist"
+                    );
+
+
+                if (wishlistData) {
+
+                    const wishlist =
+                        JSON.parse(
+                            wishlistData
+                        );
+
+
+                    const wishlistBadge =
+                        document.getElementById(
+                            "wishlistCount"
+                        );
+
+
+                    if (
+                        wishlistBadge &&
+                        Array.isArray(wishlist)
+                    ) {
+
+                        wishlistBadge.textContent =
+                            wishlist.length;
+
+                    }
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.warn(
+                    "LocalMart storage error:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

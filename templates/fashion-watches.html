@@ -1,0 +1,419 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta
+    name="description"
+    content="LocalMart Watches - Smart watches, casual watches and premium watches."
+>
+
+<title>Watches | LocalMart</title>
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    rel="stylesheet"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/fashion.css' %}"
+>
+
+<style>
+    :root{--watch-pink:#ff3f6c;--watch-ink:#282c3f;--watch-muted:#7e818c;--watch-line:#eaeaec}
+    body{font-family:Arial,Helvetica,sans-serif!important;color:var(--watch-ink);background:#fff}
+    .fashion-header{position:sticky;top:0;z-index:20;background:#fff!important;box-shadow:0 2px 8px #00000012;border-bottom:1px solid #f5f5f6}
+    .fashion-header-inner{max-width:1440px!important;min-height:78px;padding:0 4%!important;gap:34px}
+    .fashion-logo-icon{background:var(--watch-pink)!important}.fashion-logo-text{font-weight:800;color:var(--watch-ink)!important}
+    .fashion-nav{gap:27px!important}.fashion-nav a{color:var(--watch-ink)!important;font-weight:700!important;font-size:13px!important}.fashion-nav a.active{color:var(--watch-pink)!important}
+    .fashion-search{flex:1;max-width:460px;background:#f5f5f6!important;border-radius:4px;padding:0 12px!important}
+    .fashion-search input{background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important}
+    .fashion-actions{gap:20px!important}.fashion-action{color:var(--watch-ink)!important;text-decoration:none!important;position:relative}
+    .fashion-hero,.fashion-section:not(.watch-listing),.fashion-category-section,.fashion-benefits{display:none!important}
+    .watch-listing{max-width:1440px;margin:0 auto;padding:25px 4% 60px}
+    .watch-crumb{font-size:13px;color:#94969f;margin-bottom:16px}.watch-crumb b{color:var(--watch-ink)}
+    .watch-heading{display:flex;align-items:baseline;gap:8px;margin:0 0 22px}.watch-heading h1{font-size:20px;margin:0;font-weight:700}.watch-heading span{font-size:14px;color:var(--watch-muted)}
+    .watch-toolbar{border-top:1px solid var(--watch-line);border-bottom:1px solid var(--watch-line);display:flex;justify-content:space-between;align-items:center;padding:13px 0;margin-bottom:0}
+    .watch-toolbar strong{font-size:14px}.watch-sort{border:1px solid #d4d5d9;background:#fff;padding:10px 14px;font-size:13px;min-width:210px}
+    .watch-layout{display:grid;grid-template-columns:245px minmax(0,1fr);border-bottom:1px solid var(--watch-line)}
+    .watch-filters{border-right:1px solid var(--watch-line);padding:18px 20px 30px 0}.watch-filter{padding:15px 0;border-bottom:1px solid var(--watch-line)}
+    .watch-filter h3{font-size:13px;letter-spacing:.4px;text-transform:uppercase;margin:0 0 13px;font-weight:700}
+    .watch-option{display:flex;align-items:center;gap:8px;font-size:13px;color:#535766;margin:10px 0;cursor:pointer}.watch-option input{accent-color:var(--watch-pink)}
+    .watch-price-fields{display:flex;gap:8px}.watch-price-fields input{width:50%;min-width:0;border:1px solid #d4d5d9;padding:8px;font-size:12px}
+    .watch-filter button{border:0;background:none;color:var(--watch-pink);font-size:12px;font-weight:bold;padding:0}
+    .watch-results{padding:18px 0 25px 20px}.watch-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px 18px}
+    .watch-card{position:relative;min-width:0;transition:box-shadow .15s ease}.watch-card:hover{box-shadow:0 2px 14px #00000018}
+    .watch-image-wrap{position:relative;aspect-ratio:3/4;background:#f5f5f6;overflow:hidden}.watch-image-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+    .watch-rating{position:absolute;left:9px;bottom:9px;background:#fff;padding:4px 7px;font-size:11px;font-weight:bold;box-shadow:0 1px 4px #0002}
+    .watch-heart{position:absolute;right:10px;top:10px;border:0;border-radius:50%;background:#fff;width:34px;height:34px;color:#282c3f;box-shadow:0 1px 6px #0002}
+    .watch-heart.active{color:var(--watch-pink)}.watch-card-info{padding:10px 9px 12px}.watch-brand{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .watch-name{font-size:13px;color:#535766;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:4px 0 8px}
+    .watch-prices{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px}.watch-current{font-weight:700}.watch-mrp{color:#7e818c;text-decoration:line-through;font-size:12px}.watch-off{color:#ff905a;font-size:12px}
+    .watch-bag{width:100%;margin-top:10px;background:#fff;border:1px solid #d4d5d9;border-radius:2px;padding:8px;font-size:12px;font-weight:700;color:#282c3f}.watch-bag:hover{border-color:var(--watch-pink);color:var(--watch-pink)}
+    .watch-empty{padding:50px 20px;color:var(--watch-muted);text-align:center}.watch-empty h2{font-size:18px;color:var(--watch-ink)}
+    .watch-mobile-filter{display:none}
+    @media(max-width:1050px){.watch-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.fashion-header-inner{gap:18px}.fashion-nav{gap:14px!important}}
+    @media(max-width:760px){.fashion-header-inner{min-height:64px;flex-wrap:wrap;padding:9px 15px!important;gap:10px}.fashion-nav{order:3;width:100%;justify-content:center}.fashion-search{max-width:none;min-width:160px}.fashion-actions{gap:8px!important}.fashion-action span{display:none}.watch-listing{padding:18px 14px 40px}.watch-layout{display:block}.watch-filters{display:none;border:1px solid var(--watch-line);padding:15px;margin-bottom:10px}.watch-filters.open{display:block}.watch-results{padding:14px 0}.watch-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 9px}.watch-mobile-filter{display:inline-flex;border:1px solid var(--watch-line);background:#fff;padding:9px 13px;font-weight:700;font-size:12px}.watch-toolbar{gap:8px}.watch-sort{min-width:155px;padding:9px 8px}.watch-heading h1{font-size:18px}}
+</style>
+
+
+{% include "fashion-shared-style.html" %}
+</head>
+
+<body>
+
+{% with fashion_page="watches" %}{% include "fashion-shared-navbar.html" %}{% endwith %}
+
+<main>
+
+<section class="fashion-hero">
+
+
+<div class="fashion-hero-content">
+
+    <span class="fashion-hero-tag">
+        WATCH COLLECTION
+    </span>
+
+    <h1>
+        Time Meets
+        <br>
+        Your Style
+    </h1>
+
+    <p>
+        Discover smart watches, classic watches
+        and premium styles for every occasion.
+    </p>
+
+    <div class="fashion-hero-buttons">
+
+        <a href="#watch-products" class="fashion-primary-btn">
+            SHOP WATCHES
+            <i class="bi bi-arrow-right"></i>
+        </a>
+
+        <a href="{% url 'fashion' %}" class="fashion-secondary-btn">
+            ALL FASHION
+        </a>
+
+    </div>
+
+</div>
+
+<div class="fashion-hero-visual">
+
+    <div class="hero-circle hero-circle-one"></div>
+    <div class="hero-circle hero-circle-two"></div>
+
+    <div class="hero-fashion-card">
+
+        <i class="bi bi-watch"></i>
+
+        <span>
+            TIME
+        </span>
+
+        <strong>
+            STYLE
+        </strong>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<section class="fashion-section">
+
+
+<div class="fashion-section-heading">
+
+    <div>
+
+        <span class="section-small-title">
+            WATCHES
+        </span>
+
+        <h2>
+            Shop By Category
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="department-grid">
+
+    <a href="#watch-products" class="department-card department-watches">
+
+        <div class="department-icon">
+            <i class="bi bi-watch"></i>
+        </div>
+
+        <h3>Smart Watches</h3>
+
+        <p>
+            Connected watches for everyday life
+        </p>
+
+        <span>
+            Shop Now
+            <i class="bi bi-arrow-right"></i>
+        </span>
+
+    </a>
+
+
+    <a href="#watch-products" class="department-card">
+
+        <div class="department-icon">
+            <i class="bi bi-clock"></i>
+        </div>
+
+        <h3>Analog Watches</h3>
+
+        <p>
+            Classic designs for every occasion
+        </p>
+
+        <span>
+            Shop Now
+            <i class="bi bi-arrow-right"></i>
+        </span>
+
+    </a>
+
+
+    <a href="#watch-products" class="department-card">
+
+        <div class="department-icon">
+            <i class="bi bi-gem"></i>
+        </div>
+
+        <h3>Premium</h3>
+
+        <p>
+            Elegant watches with premium styling
+        </p>
+
+        <span>
+            Shop Now
+            <i class="bi bi-arrow-right"></i>
+        </span>
+
+    </a>
+
+
+    <a href="#watch-products" class="department-card">
+
+        <div class="department-icon">
+            <i class="bi bi-lightning-charge"></i>
+        </div>
+
+        <h3>Sports Watches</h3>
+
+        <p>
+            Durable styles for active lifestyles
+        </p>
+
+        <span>
+            Shop Now
+            <i class="bi bi-arrow-right"></i>
+        </span>
+
+    </a>
+
+</div>
+
+
+</section>
+
+<section class="fashion-category-section" id="watch-products">
+
+
+<div class="fashion-section-heading">
+
+    <div>
+
+        <span class="section-small-title">
+            TRENDING NOW
+        </span>
+
+        <h2>
+            Watch Collection
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="category-strip">
+
+    <a href="#watch-products">
+        <div class="category-icon">
+            <i class="bi bi-watch"></i>
+        </div>
+        <span>Smart</span>
+    </a>
+
+    <a href="#watch-products">
+        <div class="category-icon">
+            <i class="bi bi-clock"></i>
+        </div>
+        <span>Analog</span>
+    </a>
+
+    <a href="#watch-products">
+        <div class="category-icon">
+            <i class="bi bi-gem"></i>
+        </div>
+        <span>Premium</span>
+    </a>
+
+    <a href="#watch-products">
+        <div class="category-icon">
+            <i class="bi bi-lightning-charge"></i>
+        </div>
+        <span>Sports</span>
+    </a>
+
+</div>
+
+
+</section>
+
+<section class="fashion-benefits">
+
+
+<div class="benefit-item">
+    <i class="bi bi-truck"></i>
+    <div>
+        <strong>Fast Delivery</strong>
+        <span>Quick delivery to your doorstep</span>
+    </div>
+</div>
+
+<div class="benefit-item">
+    <i class="bi bi-arrow-repeat"></i>
+    <div>
+        <strong>Easy Returns</strong>
+        <span>Simple return experience</span>
+    </div>
+</div>
+
+<div class="benefit-item">
+    <i class="bi bi-shield-check"></i>
+    <div>
+        <strong>Secure Payments</strong>
+        <span>Safe and secure checkout</span>
+    </div>
+</div>
+
+<div class="benefit-item">
+    <i class="bi bi-tag"></i>
+    <div>
+        <strong>Great Deals</strong>
+        <span>Premium watches at great prices</span>
+    </div>
+</div>
+
+
+</section>
+
+<section class="watch-listing" id="watch-products">
+    <div class="watch-crumb"><a href="{% url 'index' %}" class="text-decoration-none text-secondary">Home</a> <i class="bi bi-chevron-right"></i> Fashion <i class="bi bi-chevron-right"></i> <b>Watches</b></div>
+    <div class="watch-heading"><h1>Watches</h1><span>({{ fashion_product_count }} items)</span></div>
+    <form method="get" action="{% url 'fashion_watches' %}" id="watchFilterForm">
+        <input type="hidden" name="category" value="watches">
+        {% if request.GET.q %}<input type="hidden" name="q" value="{{ request.GET.q }}">{% endif %}
+        <div class="watch-toolbar">
+            <button class="watch-mobile-filter" type="button" id="watchMobileFilter"><i class="bi bi-funnel me-1"></i> FILTER</button>
+            <strong>FILTERS</strong>
+            <select class="watch-sort" name="sort" aria-label="Sort watches" onchange="this.form.submit()">
+                <option value="recommended" {% if selected_sort == 'recommended' %}selected{% endif %}>Recommended</option>
+                <option value="price-low" {% if selected_sort == 'price-low' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price-high" {% if selected_sort == 'price-high' %}selected{% endif %}>Price: High to Low</option>
+                <option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Customer Rating</option>
+            </select>
+        </div>
+        <div class="watch-layout">
+            <aside class="watch-filters" id="watchFilters">
+                <div class="watch-filter"><h3>Category</h3>{% for item in fashion_types %}<label class="watch-option"><input type="radio" name="type" value="{{ item }}" {% if selected_type == item %}checked{% endif %} onchange="this.form.submit()"> {{ item }}</label>{% endfor %}<label class="watch-option"><input type="radio" name="type" value="all" {% if selected_type == 'all' %}checked{% endif %} onchange="this.form.submit()"> All Watches</label></div>
+                <div class="watch-filter"><h3>Brand</h3>{% for brand in fashion_brands %}<label class="watch-option"><input type="checkbox" name="brand" value="{{ brand }}" {% if brand in selected_brands %}checked{% endif %} onchange="this.form.submit()"> {{ brand }}</label>{% endfor %}</div>
+                <div class="watch-filter"><h3>Color</h3>{% for color in fashion_colors %}<label class="watch-option"><input type="checkbox" name="color" value="{{ color }}" {% if color in selected_colors %}checked{% endif %} onchange="this.form.submit()"> {{ color }}</label>{% endfor %}</div>
+                <div class="watch-filter"><h3>Price</h3><div class="watch-price-fields"><input type="number" name="min_price" value="{{ min_price }}" min="0" placeholder="Min ₹"><input type="number" name="max_price" value="{{ max_price }}" min="0" placeholder="Max ₹"></div><button type="submit" class="mt-2">Apply price</button></div>
+                <div class="watch-filter"><h3>Discount</h3><select class="form-select form-select-sm" name="discount" onchange="this.form.submit()"><option value="0" {% if min_discount == '0' %}selected{% endif %}>All discounts</option><option value="40" {% if min_discount == '40' %}selected{% endif %}>40% and above</option><option value="50" {% if min_discount == '50' %}selected{% endif %}>50% and above</option><option value="60" {% if min_discount == '60' %}selected{% endif %}>60% and above</option></select></div>
+                <div class="watch-filter"><button type="button" onclick="window.location.href='{% url 'fashion_watches' %}?category=watches&discount=40'">Clear all filters</button></div>
+            </aside>
+            <div class="watch-results">
+                {% if fashion_products %}
+                <div class="watch-grid">
+                    {% for product in fashion_products %}
+                    <article class="watch-card">
+                        <div class="watch-image-wrap"><img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy"><span class="watch-rating">{{ product.rating }} <i class="bi bi-star-fill text-success"></i></span><button type="button" class="watch-heart" data-wishlist="{% url 'fashion_toggle_wishlist' product.id %}" aria-label="Add {{ product.name }} to wishlist"><i class="bi bi-heart"></i></button></div>
+                        <div class="watch-card-info"><div class="watch-brand">{{ product.brand }}</div><div class="watch-name" title="{{ product.name }}">{{ product.name }}</div><div class="watch-prices"><span class="watch-current">₹{{ product.price }}</span><span class="watch-mrp">₹{{ product.mrp }}</span><span class="watch-off">({{ product.discount }}% OFF)</span></div><button type="button" class="watch-bag" data-add-bag="{% url 'fashion_add_to_cart' product.id %}"><i class="bi bi-bag-plus me-1"></i> ADD TO BAG</button></div>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% else %}<div class="watch-empty"><h2>We couldn't find any watches</h2><p>Try changing your search or filters.</p><a class="btn btn-outline-secondary btn-sm" href="{% url 'fashion_watches' %}?category=watches&discount=40">Clear all filters</a></div>{% endif %}
+            </div>
+        </div>
+    </form>
+</section>
+
+</main>
+
+{% include "fashion-shared-footer.html" %}
+
+<script src="{% static 'js/fashion-shared.js' %}"></script>
+<script>
+    document.getElementById('watchMobileFilter')?.addEventListener('click', () => {
+        document.getElementById('watchFilters')?.classList.toggle('open');
+    });
+    document.querySelectorAll('[data-add-bag]').forEach(button => button.addEventListener('click', async () => {
+        button.disabled = true;
+        try {
+            const response = await fetch(button.dataset.addBag, {headers:{'X-Requested-With':'XMLHttpRequest'}});
+            const data = await response.json();
+            if (!response.ok || !data.ok) throw new Error(data.error || 'Could not add this watch to your bag.');
+            window.localmartFashionRefreshCounts?.();
+            button.innerHTML = '<i class="bi bi-check2 me-1"></i> ADDED TO BAG';
+            setTimeout(() => { button.innerHTML = '<i class="bi bi-bag-plus me-1"></i> ADD TO BAG'; }, 1500);
+        } catch(error) { alert(error.message); }
+        finally { button.disabled = false; }
+    }));
+    document.querySelectorAll('[data-wishlist]').forEach(button => button.addEventListener('click', async () => {
+        try {
+            const response = await fetch(button.dataset.wishlist, {headers:{'X-Requested-With':'XMLHttpRequest'}});
+            const data = await response.json();
+            if (!response.ok || !data.ok) throw new Error(data.error || 'Could not update your wishlist.');
+            button.classList.toggle('active', data.active);
+            button.innerHTML = `<i class="bi bi-heart${data.active ? '-fill' : ''}"></i>`;
+            window.localmartFashionRefreshCounts?.();
+        } catch(error) { alert(error.message); }
+    }));
+</script>
+
+</body>
+</html>

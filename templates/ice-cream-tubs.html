@@ -1,0 +1,582 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ice Creams & More | LocalMart</title>
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Ice Cream CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/ice-cream-tubs.css' %}"
+    >
+{% include "partials/grocery-chrome-assets.html" %}
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+{% include "partials/grocery-navbar.html" %}
+
+
+
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
+
+<div
+    class="mobile-nav"
+    id="mobileNav"
+>
+
+    <a href="/">
+
+        <i class="bi bi-house"></i>
+
+        Home
+
+    </a>
+
+
+    <a href="/wishlist/">
+
+        <i class="bi bi-heart"></i>
+
+        Wishlist
+
+    </a>
+
+
+    <button
+        id="mobileCartBtn"
+        type="button"
+    >
+
+        <i class="bi bi-cart3"></i>
+
+        Cart
+
+    </button>
+
+
+    
+
+</div>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+
+
+<!-- =========================================================
+     ICE CREAM CATEGORY + FILTER SECTION
+========================================================= -->
+
+<section class="category-section">
+
+    <div class="container">
+
+        <!-- CATEGORY HEADING -->
+        <div class="section-heading category-heading">
+
+            <div>
+                <span class="section-kicker">
+                    Explore
+                </span>
+
+                <h2>
+                    Ice Cream & Frozen
+                </h2>
+            </div>
+
+        </div>
+
+
+        <!-- CATEGORY SCROLLER -->
+        <div class="category-wrapper">
+
+            
+
+
+            <div
+                class="category-scroller"
+                id="categoryScroll"
+            >
+
+                <!-- ICE CREAM & FROZEN -->
+                <button
+                    class="category-item active"
+                    type="button"
+                    onclick="selectIceCreamCategory('all')"
+                >
+
+                    <div class="category-image">
+
+                        <img
+                            src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/category/pictures/square-logo/original/Qx1pXbpvg-logo.png"
+                            alt="Ice Cream & Frozen"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
+
+                    </div>
+
+                    <span class="category-name">
+                        Ice Cream & Frozen
+                    </span>
+
+                </button>
+
+
+                <!-- FROZEN VEG SNACKS -->
+                <button
+                    class="category-item"
+                    type="button"
+                    onclick="selectIceCreamCategory('frozen-veg-snacks')"
+                >
+
+                    <div class="category-image">
+
+                        <img
+                            src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/category/pictures/square-logo/original/9TTvopvss-frozen-veg-snacks-20251103.png"
+                            alt="Frozen Veg Snacks"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
+
+                    </div>
+
+                    <span class="category-name">
+                        Frozen Veg Snacks
+                    </span>
+
+                </button>
+
+
+                <!-- STICKS CONES CUPS -->
+                <button
+                    class="category-item"
+                    type="button"
+                    onclick="selectIceCreamCategory('sticks-cones-cups')"
+                >
+
+                    <div class="category-image">
+
+                        <img
+                            src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/products/pictures/item/free/original/FBsI-fjVI8-sticks-cones-cups-20250711.png"
+                            alt="Sticks, Cones & Cups"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
+
+                    </div>
+
+                    <span class="category-name">
+                        Sticks, Cones & Cups
+                    </span>
+
+                </button>
+
+
+                <!-- TUBS -->
+                <button
+                    class="category-item"
+                    type="button"
+                    onclick="selectIceCreamCategory('tubs')"
+                >
+
+                    <div class="category-image">
+
+                        <img
+                            src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/products/pictures/item/free/original/pBxXVPyGcS-tubs-20250711.png"
+                            alt="Tubs"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
+
+                    </div>
+
+                    <span class="category-name">
+                        Tubs
+                    </span>
+
+                </button>
+
+
+                <!-- FROZEN VEGETABLES -->
+                <button
+                    class="category-item"
+                    type="button"
+                    onclick="selectIceCreamCategory('frozen-vegetables')"
+                >
+
+                    <div class="category-image">
+
+                        <img
+                            src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/category/pictures/square-logo/original/Ntoic97Ev-frozen-vegetables-20200520.png"
+                            alt="Frozen Vegetables"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
+
+                    </div>
+
+                    <span class="category-name">
+                        Frozen Vegetables
+                    </span>
+
+                </button>
+
+
+                <!-- FROZEN INDIAN BREADS -->
+                <button
+                    class="category-item"
+                    type="button"
+                    onclick="selectIceCreamCategory('frozen-indian-breads')"
+                >
+
+                    <div class="category-image">
+
+                        <img
+                            src="https://cdn1.jiomartjcp.com/v2/jiomart-fynd/jio-pd/original/category/pictures/square-logo/original/65Dvnon7o-frozen-indian-breads-20240628.png"
+                            alt="Frozen Indian Breads"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
+
+                    </div>
+
+                    <span class="category-name">
+                        Frozen Indian Breads
+                    </span>
+
+                </button>
+
+            </div>
+
+
+           
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PRODUCT SECTION
+========================================================= -->
+
+<section class="products-section">
+
+    <div class="container">
+
+
+        <!-- PRODUCT TOOLBAR -->
+        <div class="products-toolbar">
+
+
+            <!-- LEFT -->
+            <div class="product-heading">
+
+                <div class="category-title-line">
+
+                    <h2 id="selectedCategoryTitle">
+                        Ice Cream & Frozen
+                    </h2>
+
+                    <span id="productCount">
+                        0 products
+                    </span>
+
+                </div>
+
+                <p>
+                    Delicious ice creams and frozen favourites
+                </p>
+
+            </div>
+
+
+            <!-- FILTERS -->
+            <div class="sort-area">
+
+
+               
+
+
+               
+
+
+                
+
+
+                <!-- SORT -->
+                <div class="sort-dropdown">
+
+                    <label for="sortProducts">
+                        Sort by
+                    </label>
+
+                    <select id="sortProducts">
+
+                        <option value="relevance">
+                            Relevance
+                        </option>
+
+                        <option value="price-low">
+                            Price: Low to High
+                        </option>
+
+                        <option value="price-high">
+                            Price: High to Low
+                        </option>
+
+                        <option value="rating">
+                            Customer Rating
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCTS -->
+        <div
+            class="products-grid"
+            id="productsGrid"
+        ></div>
+
+
+        <!-- EMPTY STATE -->
+        <div
+            class="empty-state"
+            id="emptyState"
+            style="display:none;"
+        >
+
+            <div class="empty-icon">
+
+                <i class="bi bi-search"></i>
+
+            </div>
+
+            <h3>
+                No products found
+            </h3>
+
+            <p>
+                Try another search, category or filter.
+            </p>
+
+            <button
+                type="button"
+                onclick="resetProducts()"
+            >
+                View All Products
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+<!-- =========================================================
+     CART OVERLAY
+========================================================= -->
+
+<div
+    class="cart-overlay"
+    id="drawerOverlay"
+></div>
+
+
+
+<!-- =========================================================
+     CART DRAWER
+========================================================= -->
+
+<aside
+    class="cart-drawer"
+    id="cartDrawer"
+>
+
+
+    <!-- CART HEADER -->
+
+    <div class="cart-header">
+
+        <div>
+
+            <h3>
+                Your Cart
+            </h3>
+
+            <span id="cartItemSummary">
+                0 items
+            </span>
+
+        </div>
+
+
+        <button
+            id="closeCart"
+            type="button"
+        >
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+    </div>
+
+
+
+    <!-- CART ITEMS -->
+
+    <div
+        class="cart-items"
+        id="cartBody"
+    ></div>
+
+
+
+    <!-- EMPTY CART -->
+
+    <div
+        class="empty-cart"
+        id="cartEmpty"
+    >
+
+        <i class="bi bi-cart-x"></i>
+
+        <h4>
+            Your cart is empty
+        </h4>
+
+        <p>
+            Add some delicious ice creams.
+        </p>
+
+    </div>
+
+
+
+    <!-- CART FOOTER -->
+
+    <div
+        class="cart-footer"
+        id="cartFooter"
+    >
+
+        <!-- SUBTOTAL -->
+
+        <div class="cart-total-row">
+
+            <span>
+                Subtotal
+            </span>
+
+            <strong id="cartSubtotal">
+                ₹0
+            </strong>
+
+        </div>
+
+
+
+        <!-- DELIVERY -->
+
+        <div class="delivery-note">
+
+            <i class="bi bi-lightning-fill"></i>
+
+            Free delivery on eligible orders
+
+        </div>
+
+
+
+        <!-- CHECKOUT -->
+
+        <button
+            class="checkout-btn"
+            id="checkoutBtn"
+            type="button"
+        >
+
+            Proceed to Checkout
+
+            <i class="bi bi-arrow-right"></i>
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast-message"
+    id="lmToast"
+>
+
+    <i class="bi bi-check-circle-fill"></i>
+
+    <span>
+        Added to cart
+    </span>
+
+</div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+{% include "partials/grocery-footer.html" %}
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="{% static 'js/ice-cream-tubs.js' %}?v=20261112-search1"></script>
+
+
+</body>
+</html>

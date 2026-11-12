@@ -1,0 +1,471 @@
+@import url('style.css');
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    overflow-x:hidden;
+}
+
+
+
+.navbar{
+    background:#fff !important;
+    box-shadow:0 2px 15px rgba(0,0,0,.08);
+    z-index:999;
+}
+
+.navbar-brand{
+    font-size:30px;
+    font-weight:700;
+}
+
+.navbar-brand i{
+    color:#198754;
+}
+
+.navbar .form-control{
+    border-radius:30px 0 0 30px;
+    border:none;
+    background:#f1f3f6;
+    height:48px;
+}
+
+.navbar .btn-success{
+    border-radius:0 30px 30px 0;
+    padding:0 25px;
+}
+
+.navbar a{
+    color:#333;
+    font-weight:500;
+    transition:.3s;
+}
+
+.navbar a:hover{
+    color:#198754;
+}
+
+
+
+.hero-img{
+    width:100%;
+    height:520px;
+    object-fit:cover;
+    border-radius:15px;
+}
+
+.carousel-item{
+    position:relative;
+}
+
+.carousel-caption{
+    background:rgba(0,0,0,.45);
+    border-radius:15px;
+    padding:30px;
+    bottom:90px;
+}
+
+.carousel-caption h1{
+    font-size:52px;
+    font-weight:700;
+}
+
+.carousel-caption p{
+    font-size:24px;
+}
+
+.carousel-caption .btn{
+    border-radius:30px;
+    padding:12px 35px;
+    font-weight:600;
+}
+
+
+.category-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.4s;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    cursor:pointer;
+}
+
+.category-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+
+.category-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.category-card h5{
+    text-align:center;
+    padding:18px;
+    color:#222;
+    font-weight:600;
+}
+
+
+
+.deal-banner{
+    background:linear-gradient(135deg,#0d6efd,#6610f2);
+    color:#fff;
+    padding:60px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.deal-banner h2{
+    font-size:42px;
+    font-weight:700;
+}
+
+.deal-banner p{
+    font-size:22px;
+}
+
+.deal-banner .btn{
+    margin-top:20px;
+    border-radius:30px;
+    padding:12px 40px;
+    font-weight:600;
+}
+
+/* ==========================
+   SECTION TITLE
+========================== */
+
+.section-title{
+    font-size:36px;
+    font-weight:700;
+    margin-bottom:40px;
+    color:#222;
+}
+
+/* ==========================
+   PRODUCT CARD
+========================== */
+
+.product-card{
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.35s;
+    background:#fff;
+}
+
+.product-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+
+.product-card img{
+    height:250px;
+    object-fit:contain;
+    padding:20px;
+    background:#fff;
+}
+
+.product-card .card-body{
+    padding:20px;
+}
+
+.product-card h5{
+    font-size:18px;
+    font-weight:600;
+    min-height:52px;
+}
+
+.product-card small{
+    font-weight:600;
+}
+
+.product-card h4{
+    color:#dc3545;
+    font-weight:700;
+}
+
+.product-card .text-decoration-line-through{
+    font-size:14px;
+}
+
+.badge{
+    font-size:13px;
+    padding:8px 10px;
+}
+
+.wishlist-btn{
+    position:absolute;
+    top:12px;
+    right:12px;
+    border:none;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.2);
+}
+
+.wishlist-btn:hover{
+    background:#198754;
+    color:#fff;
+}
+
+.product-card .btn-success{
+    border-radius:30px;
+    font-weight:600;
+    margin-top:15px;
+}
+
+/* ==========================
+   TOP BRANDS
+========================== */
+
+.brand-box{
+    background:#fff;
+    border-radius:15px;
+    padding:30px;
+    text-align:center;
+    transition:.3s;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.brand-box:hover{
+    background:#198754;
+    color:#fff;
+    transform:translateY(-6px);
+}
+
+/* ==========================
+   NEWSLETTER
+========================== */
+
+.newsletter{
+    background:#fff;
+    padding:70px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+.newsletter h2{
+    font-weight:700;
+}
+
+.newsletter input{
+    height:55px;
+    border-radius:30px;
+}
+
+.newsletter button{
+    border-radius:30px;
+    padding:0 35px;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+footer{
+    background:#172337;
+    color:#fff;
+    padding:60px 0 20px;
+}
+
+footer h5{
+    margin-bottom:20px;
+    color:#ffc107;
+}
+
+footer ul{
+    list-style:none;
+    padding:0;
+}
+
+footer ul li{
+    margin-bottom:10px;
+}
+
+footer ul li a{
+    color:#ddd;
+    text-decoration:none;
+    transition:.3s;
+}
+
+footer ul li a:hover{
+    color:#ffc107;
+    padding-left:5px;
+}
+
+footer hr{
+    border-color:#444;
+}
+
+.social-icons a{
+    width:45px;
+    height:45px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#fff;
+    color:#198754;
+    margin-right:10px;
+    transition:.3s;
+    font-size:20px;
+}
+
+.social-icons a:hover{
+    background:#198754;
+    color:#fff;
+    transform:scale(1.1);
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.btn-warning{
+    color:#fff;
+    font-weight:600;
+}
+
+.btn-success{
+    font-weight:600;
+}
+
+.btn-outline-success{
+    font-weight:600;
+}
+
+/* ==========================
+   SCROLLBAR
+========================== */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#198754;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#eee;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:992px){
+
+.hero-img{
+    height:350px;
+}
+
+.carousel-caption{
+    bottom:30px;
+    padding:20px;
+}
+
+.carousel-caption h1{
+    font-size:32px;
+}
+
+.carousel-caption p{
+    font-size:18px;
+}
+
+.navbar .form-control{
+    margin-top:15px;
+}
+
+.category-card img{
+    height:180px;
+}
+
+}
+
+@media(max-width:768px){
+
+.hero-img{
+    height:250px;
+}
+
+.carousel-caption{
+    display:none;
+}
+
+.product-card img{
+    height:180px;
+}
+
+.category-card img{
+    height:150px;
+}
+
+.section-title{
+    font-size:28px;
+}
+
+.deal-banner{
+    padding:30px;
+}
+
+.newsletter{
+    padding:35px;
+}
+
+}
+
+@media(max-width:576px){
+
+.navbar-brand{
+    font-size:24px;
+}
+
+.product-card h5{
+    font-size:15px;
+}
+
+.product-card h4{
+    font-size:20px;
+}
+
+.category-card h5{
+    font-size:16px;
+}
+
+}
+
+
+/* Buy Now Button */
+
+.btn-buy-now{
+    background-color:#ffffff;
+    color:#000;
+    border:2px solid #ffc107;
+    font-weight:600;
+    transition:all .3s ease;
+}
+
+.btn-buy-now:hover{
+    background-color:#ffc107;
+    color:#000;
+    border-color:#ffc107;
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(255,193,7,.35);
+}

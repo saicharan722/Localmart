@@ -1,0 +1,109 @@
+:root {
+  --app-font: "Inter", "Segoe UI", Arial, sans-serif;
+  --app-heading-font: "Poppins", "Segoe UI", Arial, sans-serif;
+  --app-bg: #f5f7f5;
+  --app-card: #ffffff;
+  --app-text: #1f2937;
+  --app-muted: #5b6470;
+  --app-border: #e7ece7;
+  --app-accent: #2e7d4f;
+  --app-font-size: 14px;
+}
+
+html {
+  font-size: var(--app-font-size);
+}
+
+body,
+body * {
+  box-sizing: border-box;
+}
+
+body,
+p,
+span,
+li,
+a,
+label,
+input,
+textarea,
+select,
+button,
+small,
+td,
+th,
+.form-control,
+.form-select,
+.btn,
+.nav-link,
+.dropdown-item {
+  font-family: var(--app-font) !important;
+  font-size: var(--app-font-size) !important;
+  line-height: 1.5 !important;
+}
+
+body {
+  background: var(--app-bg);
+  color: var(--app-text);
+  margin: 0;
+  font-size: var(--app-font-size) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.card-title,
+.product-title,
+.section-title,
+.page-title {
+  font-family: var(--app-heading-font) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  color: var(--app-text);
+  margin-top: 0;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+button,
+.btn,
+.form-control,
+.form-select,
+.input-group-text,
+.nav-link,
+.dropdown-item {
+  font-size: var(--app-font-size) !important;
+}
+
+input,
+textarea,
+select {
+  color: var(--app-text);
+}
+
+.card,
+.list-group-item,
+.table,
+.container,
+.row,
+.col,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+  font-size: var(--app-font-size);
+}

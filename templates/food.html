@@ -1,0 +1,357 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Food Delivery | LocalMart</title>
+
+<!-- Bootstrap -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet">
+
+<!-- Google Font -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<!-- Food CSS -->
+<link
+    rel="stylesheet"
+    href="{% static 'css/food.css' %}">
+{% include "partials/localmart-logo-assets.html" %}
+
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top food-navbar">
+    <div class="container">
+        <a class="navbar-brand logo localmart-shared-logo" href="{% url 'index' %}" aria-label="LocalMart home">
+            <i class="bi bi-shop localmart-logo-icon"></i><span class="localmart-logo-word">Local</span><span class="localmart-logo-word localmart-logo-mart">Mart</span>
+        </a>
+
+        <ul class="navbar-nav align-items-lg-center food-navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'cart' %}">
+                    <i class="bi bi-cart3"></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown ms-lg-2">
+                <button class="btn btn-success rounded-pill dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                    Account
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                    <li><a class="dropdown-item" href="{% url 'my_orders' %}"><i class="bi bi-bag-check me-2"></i>My Orders</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+<section class="hero-section py-3">
+    <div class="container-fluid px-lg-5">
+        <div id="foodCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5200">
+            <div class="carousel-indicators" id="foodCarouselIndicators" aria-label="Restaurant offers"></div>
+            <div class="carousel-inner" id="foodCarouselInner"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#foodCarousel" data-bs-slide="prev" aria-label="Previous offer">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#foodCarousel" data-bs-slide="next" aria-label="Next offer">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</section>
+<section class="food-categories py-5">
+
+
+<div class="container">
+
+    <div
+        class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold">
+            What's on your mind?
+        </h2>
+
+
+        <div>
+
+            <button
+                class="slider-btn"
+                id="leftBtn">
+
+                <i class="bi bi-chevron-left"></i>
+
+            </button>
+
+
+            <button
+                class="slider-btn"
+                id="rightBtn">
+
+                <i class="bi bi-chevron-right"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="category-wrapper"
+        id="categoryWrapper">
+
+
+<div class="food-item" data-category="pizza">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/v1674029856/PC_Creative%20refresh/3D_bau/banners_new/Pizza.png"
+                alt="Pizza">
+
+            <h6>Pizza</h6>
+
+        </div>
+
+
+<div class="food-item" data-category="burger">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/v1674029845/PC_Creative%20refresh/3D_bau/banners_new/Burger.png"
+                alt="Burger">
+
+            <h6>Burger</h6>
+
+        </div>
+
+
+<div class="food-item" data-category="biryani">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/6ef07bda-b707-48ea-9b14-2594071593d1_Biryani.png"
+                alt="Biryani">
+
+            <h6>Biryani</h6>
+
+        </div>
+
+
+<div class="food-item" data-category="dosa">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/6ef07bda-b707-48ea-9b14-2594071593d1_Paratha.png"
+                alt="Dosa">
+
+            <h6>Dosa</h6>
+
+        </div>
+
+
+<div class="food-item" data-category="noodles">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/6ef07bda-b707-48ea-9b14-2594071593d1_Noodles.png"
+                alt="Noodles">
+
+            <h6>Noodles</h6>
+
+        </div>
+
+
+<div class="food-item" data-category="icecream">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/6ef07bda-b707-48ea-9b14-2594071593d1_Desserts.png"
+                alt="Ice Cream">
+
+            <h6>Ice Cream</h6>
+
+        </div>
+
+
+<div class="food-item" data-category="cakes">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/v1674029845/PC_Creative%20refresh/3D_bau/banners_new/Cakes.png"
+                alt="Cakes">
+
+            <h6>Cakes</h6>
+
+        </div>
+
+
+
+
+        
+
+        
+
+
+        
+
+
+<div class="food-item" data-category="sweets">
+            <img
+                src="https://media-assets.swiggy.com/swiggy/image/upload/MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/6ef07bda-b707-48ea-9b14-2594071593d1_Gulab%20jamun.png"
+                alt="Gulab Jamun">
+
+            <h6>Sweets</h6>
+
+        </div>
+
+<div class="food-item" data-category="south indian">
+            <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/6ef07bda-b707-48ea-9b14-2594071593d1_Idli.png" alt="Idli with chutneys and sambar" loading="lazy">
+            <h6>Idli</h6>
+        </div>
+
+<div class="food-item" data-category="momos">
+            <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/6ef07bda-b707-48ea-9b14-2594071593d1_Momos.png" alt="Steamed momos" loading="lazy">
+            <h6>Momos</h6>
+        </div>
+
+<div class="food-item" data-category="icecream">
+            <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/v1674029858/PC_Creative%20refresh/3D_bau/banners_new/Shakes.png" alt="Shakes" loading="lazy">
+            <h6>Shakes</h6>
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =====================================================
+     FILTERS
+===================================================== -->
+
+<section class="container mb-4">
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button
+            class="btn btn-success rounded-pill active"
+            data-filter="all">
+            All
+        </button>
+
+        <button
+            class="btn btn-outline-success rounded-pill"
+            data-filter="veg">
+            Veg
+        </button>
+
+        <button
+            class="btn btn-outline-success rounded-pill"
+            data-filter="nonveg">
+            Non Veg
+        </button>
+
+        <button
+            class="btn btn-outline-success rounded-pill"
+            data-filter="toprated">
+            ⭐ Top Rated
+        </button>
+
+        <button
+            class="btn btn-outline-success rounded-pill"
+            data-filter="fast">
+            ⚡ Fast Delivery
+        </button>
+
+        <button
+            class="btn btn-outline-success rounded-pill"
+            data-filter="offers">
+            🔥 Offers
+        </button>
+
+        <button
+            class="btn btn-outline-success rounded-pill"
+            data-filter="under199">
+            ₹ Under 199
+        </button>
+
+    </div>
+
+</section>
+<!-- =====================================================
+     RESTAURANTS
+===================================================== -->
+
+<section
+    class="container py-4"
+    id="restaurants">
+
+
+<div
+    class="d-flex justify-content-between align-items-center mb-4">
+
+
+<h2 class="fw-bold">
+    Popular Restaurants
+    <span class="text-success">
+    </span>
+</h2>
+
+
+    
+
+</div>
+
+
+<!-- IMPORTANT:
+     restaurants.js + food.js populate this -->
+
+<div
+    class="row g-3"
+    id="restaurantContainer">
+
+</div>
+
+
+<!-- NO HARDCODED RESTAURANTS HERE -->
+
+
+</section>
+
+
+
+
+
+{% include "partials/home-footer.html" %}
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<!-- Restaurant data MUST load first -->
+
+
+
+<script src="{% static 'js/restaurants.js' %}"></script>
+
+<script src="{% static 'js/food.js' %}"></script>
+
+</body>
+
+</html>

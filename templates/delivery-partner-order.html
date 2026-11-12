@@ -1,0 +1,42 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Order LM{{ order.pk|stringformat:'05d' }} | LocalMart Partner</title>
+  {% include "partials/localmart-logo-assets.html" %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'css/delivery-partner-dashboard.css' %}">
+</head>
+<body class="partner-dashboard">
+  <aside class="sidebar">
+    <a class="side-brand" href="{% url 'index' %}" aria-label="LocalMart Delivery Partner"><i class="bi bi-shop partner-brand-logo" aria-hidden="true"></i><span class="partner-brand-text"><b class="localmart-shared-logo"><span class="localmart-logo-word">Local</span><span class="localmart-logo-word localmart-logo-mart">Mart</span></b><small>Delivery Partner</small></span></a>
+    <nav class="side-nav" aria-label="Partner dashboard">
+      <a href="{% url 'delivery_dashboard_alias' %}">Dashboard</a>
+      <a href="{% url 'partner_dashboard_page' section='deliveries' %}">My Deliveries</a>
+      <a href="{% url 'partner_dashboard_page' section='notifications' %}">Notifications</a>
+      <a href="{% url 'partner_logout' %}">Logout</a>
+    </nav>
+    <div class="sidebar-profile"><div class="profile-avatar">{{ delivery_partner.name|slice:':1'|upper }}</div><div><b>{{ delivery_partner.name }}</b><small>{{ delivery_partner.partner_code }}</small></div></div>
+  </aside>
+  <div class="dashboard-main">
+    <header class="topbar"><button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">&#9776;</button><span class="topbar-title">Delivery Partner Panel</span><div class="topbar-right">{% include "partials/delivery-notification-center.html" %}<span class="partner-top-name">{{ delivery_partner.name }}<small>Delivery Partner</small></span></div></header>
+    <main class="section-content">
+      <div class="section-head"><h1>Order LM{{ order.pk|stringformat:'05d' }}</h1><p>{{ notification.title }}</p></div>
+      <section class="section-panel">
+        <div class="panel-heading"><div><h2>{{ notification.title }}</h2><p>{{ notification.message }}</p></div><span class="section-badge {% if tracking.status == 'cancelled' %}pending{% endif %}">{{ status_label }}</span></div>
+        <div class="order-detail-grid">
+          <div><small>Customer</small><b>{{ order.customer_name }}</b><span>{{ order.customer_email }}</span></div>
+          <div><small>Order amount</small><b>₹{{ order.total_amount|floatformat:2 }}</b></div>
+          <div class="order-detail-wide"><small>Delivery address</small><b>{{ order.delivery_address|default:'Delivery address not entered' }}</b></div>
+          <div><small>Assigned date and time</small><b>{{ tracking.assigned_at|date:'M j, Y, g:i A'|default:'Not available' }}</b></div>
+          <div><small>Notification received</small><b>{{ notification.created_at|date:'M j, Y, g:i A' }}</b></div>
+        </div>
+        <div class="order-items"><b>Order items</b>{% for item in items %}<div><span>{{ item.name }} × {{ item.quantity }}</span><small>₹{{ item.price|floatformat:2 }} each</small></div>{% empty %}<p>Item details are unavailable.</p>{% endfor %}</div>
+        <a class="section-link" href="{% url 'partner_dashboard_page' section='deliveries' %}">Back to delivery history</a>
+      </section>
+    </main>
+  </div>
+  <script src="{% static 'js/delivery-notifications.js' %}"></script>
+</body>
+</html>

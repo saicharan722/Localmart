@@ -1,0 +1,161 @@
+<style>
+  #localmart-home-footer {
+    background: #1c2620;
+    color: #c9d2cc;
+    padding: 3.5rem 0 1.5rem;
+  }
+  #localmart-home-footer .home-footer-container {
+    width: min(1320px, calc(100% - 48px));
+    margin: 0 auto;
+  }
+  #localmart-home-footer .home-footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.35fr);
+    align-items: start;
+    gap: clamp(1.25rem, 2.4vw, 2.4rem);
+  }
+  #localmart-home-footer .home-footer-column {
+    min-width: 0;
+  }
+  #localmart-home-footer .home-footer-title {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 1.1rem;
+  }
+  #localmart-home-footer p,
+  #localmart-home-footer .home-footer-links a {
+    color: #c9d2cc;
+    font-size: .92rem;
+  }
+  #localmart-home-footer p {
+    margin: 0 0 .75rem;
+  }
+  #localmart-home-footer .home-footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #localmart-home-footer .home-footer-links a:hover {
+    color: #f5a623;
+  }
+  #localmart-home-footer .home-footer-links a {
+    text-decoration: none;
+  }
+  #localmart-home-footer .home-footer-social {
+    display: flex;
+    gap: .7rem;
+    margin-top: 1rem;
+  }
+  #localmart-home-footer .home-footer-social a {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,.08);
+    border-radius: 50%;
+    color: #fff;
+    transition: .2s;
+  }
+  #localmart-home-footer .home-footer-social a:hover {
+    background: #2e7d4f;
+  }
+  #localmart-home-footer hr {
+    border-color: rgba(255,255,255,.12);
+    margin: 2rem 0 1.2rem;
+  }
+  #localmart-home-footer .home-footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,.12);
+    margin-top: 2rem;
+  }
+  @media (max-width: 991px) {
+    #localmart-home-footer .home-footer-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 767px) {
+    #localmart-home-footer .home-footer-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 991px) {
+    #localmart-home-footer .home-footer-bottom {
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+</style>
+
+<footer id="localmart-home-footer">
+  <div class="home-footer-container">
+    <div class="home-footer-grid">
+      <div class="home-footer-column">
+        <h4 class="home-footer-title"><i class="bi bi-shop"></i> LocalMart</h4>
+        <p>LocalMart is your one-stop online marketplace for groceries, food, electronics, fashion, stationery, home appliances, and local businesses. Shop smarter with trusted sellers and fast delivery.</p>
+        <div class="home-footer-social" aria-label="Social media">
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <div class="home-footer-column">
+        <h5 class="home-footer-title">Shop Categories</h5>
+        <ul class="home-footer-links">
+          <li><a href="{% url 'food' %}">Food</a></li>
+          <li><a href="{% url 'grocery' %}">Grocery</a></li>
+          <li><a href="{% url 'fashion' %}">Fashion</a></li>
+          <li><a href="{% url 'stationery' %}">Stationery</a></li>
+          <li><a href="{% url 'electronics' %}">Electronics</a></li>
+          <li><a href="{% url 'home_appliances' %}">Home Appliances</a></li>
+        </ul>
+      </div>
+
+      <div class="home-footer-column">
+        <h5 class="home-footer-title">Customer Service</h5>
+        <ul class="home-footer-links">
+          <li><a href="mailto:support@localmart.com">Help Center</a></li>
+          <li><a href="{% url 'my_orders' %}">Track Orders</a></li>
+          <li><a href="mailto:support@localmart.com">Returns</a></li>
+          <li><a href="mailto:support@localmart.com">Refund Policy</a></li>
+          <li><a href="mailto:support@localmart.com">Shipping Policy</a></li>
+          <li><a href="mailto:support@localmart.com">Cancellation</a></li>
+          <li><a href="mailto:support@localmart.com">FAQs</a></li>
+        </ul>
+      </div>
+
+      <div class="home-footer-column">
+        <h5 class="home-footer-title">Company</h5>
+        <ul class="home-footer-links">
+          <li><a href="{% url 'index' %}">About Us</a></li>
+          <li><a href="mailto:support@localmart.com">Blog</a></li>
+          <li><a href="mailto:support@localmart.com">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="home-footer-column">
+        <h5 class="home-footer-title">Contact</h5>
+        <p><i class="bi bi-geo-alt-fill text-warning"></i> Hyderabad, Telangana, India</p>
+        <p><i class="bi bi-envelope-fill text-warning"></i> support@localmart.com</p>
+        <p><i class="bi bi-telephone-fill text-warning"></i> +91 98765 43210</p>
+        <p><i class="bi bi-clock-fill text-warning"></i> Mon – Sun : 8:00 AM – 10:00 PM</p>
+      </div>
+    </div>
+
+    <hr>
+    <div class="home-footer-bottom">
+      <span>© 2026 LocalMart. All Rights Reserved.</span>
+      {% include "partials/back-to-top.html" %}
+    </div>
+  </div>
+</footer>

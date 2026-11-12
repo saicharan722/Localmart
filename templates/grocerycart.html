@@ -1,0 +1,867 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Grocery Cart | LocalMart</title>
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+<style>
+
+    :root {
+        --green: #14a94a;
+        --dark-green: #10863b;
+        --light-green: #edf9f1;
+        --border: #e8e8e8;
+        --text: #222;
+        --muted: #777;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: #f7f8f7;
+        color: var(--text);
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+
+    /* NAVBAR */
+
+    .navbar {
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .navbar-brand {
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .logo-local {
+        color: #222;
+    }
+
+    .logo-mart {
+        color: var(--green);
+    }
+
+    .nav-link {
+        color: #333 !important;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .nav-link:hover {
+        color: var(--green) !important;
+    }
+
+
+    /* CART COUNT */
+
+    .cart-wrapper {
+        position: relative;
+        display: inline-flex;
+    }
+
+    #cartCount {
+        position: absolute;
+        top: -9px;
+        right: -11px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: var(--green);
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+
+    /* ACCOUNT */
+
+    .account-dropdown {
+        min-width: 210px;
+        padding: 7px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.10);
+    }
+
+    .account-dropdown .dropdown-item {
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    .account-dropdown .dropdown-item:hover {
+        background: var(--light-green);
+        color: var(--green);
+    }
+
+
+    /* PAGE */
+
+    .page-section {
+        padding: 28px 0 55px;
+        min-height: calc(100vh - 170px);
+    }
+
+    .breadcrumb {
+        font-size: 13px;
+    }
+
+    .breadcrumb a {
+        color: var(--green);
+    }
+
+    .page-title {
+        font-size: 30px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .page-description {
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+
+    /* CART BOX */
+
+    .cart-box {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .cart-header {
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .cart-header h5 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .cart-items {
+        padding: 15px;
+    }
+
+
+    /* PRODUCT */
+
+    .cart-item {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 15px;
+        margin-bottom: 13px;
+    }
+
+    .cart-image-box {
+        width: 110px;
+        height: 110px;
+        background: #fafafa;
+        border-radius: 10px;
+        border: 1px solid #eeeeee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .cart-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .product-name {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .product-category {
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    .product-unit {
+        color: #888;
+        font-size: 12px;
+        margin-top: 3px;
+    }
+
+    .rating {
+        display: inline-block;
+        background: #168a43;
+        color: #fff;
+        padding: 3px 7px;
+        border-radius: 5px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .discount {
+        display: inline-block;
+        background: var(--light-green);
+        color: #13863f;
+        padding: 3px 7px;
+        border-radius: 5px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+
+    /* PRICE */
+
+    .current-price {
+        color: var(--green);
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .mrp {
+        color: #999;
+        text-decoration: line-through;
+        font-size: 12px;
+    }
+
+
+    /* QUANTITY */
+
+    .quantity-control {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .quantity-control button {
+        width: 32px;
+        height: 32px;
+        border: 0;
+        background: #fff;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .quantity-control button:hover {
+        background: var(--light-green);
+        color: var(--green);
+    }
+
+    .quantity-number {
+        width: 36px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+
+    /* REMOVE */
+
+    .remove-btn {
+        border: 0;
+        background: transparent;
+        color: #dc3545;
+        font-size: 12px;
+        padding: 5px 0;
+    }
+
+    .remove-btn:hover {
+        color: #b02a37;
+    }
+
+
+    /* SUMMARY */
+
+    .summary-box {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        padding: 21px;
+        position: sticky;
+        top: 90px;
+    }
+
+    .summary-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .summary-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 13px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .summary-row strong {
+        color: #222;
+    }
+
+    .summary-total {
+        border-top: 1px dashed #ddd;
+        padding-top: 15px;
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .summary-total span:last-child {
+        color: var(--green);
+    }
+
+
+    /* CHECKOUT */
+
+    .checkout-btn {
+        width: 100%;
+        border: 0;
+        border-radius: 9px;
+        background: var(--green);
+        color: white;
+        padding: 13px;
+        margin-top: 20px;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+    .checkout-btn:hover {
+        background: var(--dark-green);
+    }
+
+    .continue-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        border: 1px solid var(--green);
+        border-radius: 9px;
+        color: var(--green);
+        padding: 11px;
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .continue-btn:hover {
+        background: var(--light-green);
+    }
+
+
+    /* EMPTY CART */
+
+    .empty-cart {
+        text-align: center;
+        padding: 70px 20px;
+    }
+
+    .empty-icon {
+        width: 95px;
+        height: 95px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: var(--light-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .empty-icon i {
+        color: var(--green);
+        font-size: 45px;
+    }
+
+    .empty-cart h4 {
+        font-weight: 700;
+    }
+
+    .empty-cart p {
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+        background: #171717;
+        color: #aaa;
+        padding: 45px 0 22px;
+    }
+
+    .footer-logo {
+        font-size: 23px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .footer-heading {
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    footer a {
+        color: #999;
+        display: block;
+        font-size: 13px;
+        margin-bottom: 9px;
+    }
+
+    footer a:hover {
+        color: var(--green);
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #333;
+        margin-top: 30px;
+        padding-top: 18px;
+        text-align: center;
+        font-size: 12px;
+        color: #777;
+    }
+
+
+    /* TOAST */
+
+    #lmToast {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 9999;
+        background: #222;
+        color: #fff;
+        padding: 12px 17px;
+        border-radius: 9px;
+        font-size: 13px;
+        display: none;
+        box-shadow: 0 8px 25px rgba(0,0,0,.2);
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 767px) {
+
+        .page-title {
+            font-size: 24px;
+        }
+
+        .cart-image-box {
+            width: 90px;
+            height: 90px;
+        }
+
+        .summary-box {
+            position: static;
+            margin-top: 20px;
+        }
+
+        .cart-item {
+            padding: 12px;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg sticky-top">
+
+
+<div class="container">
+
+    <a
+        class="navbar-brand"
+        href="{% url 'grocery' %}"
+    >
+
+        <span class="logo-local">
+            Local
+        </span>
+
+        <span class="logo-mart">
+            Mart
+        </span>
+
+    </a>
+
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+    >
+
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+
+    <div
+        class="collapse navbar-collapse"
+        id="mainNavbar"
+    >
+
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="{% url 'grocery' %}"
+                >
+
+                    <i class="bi bi-house me-1"></i>
+
+                    Grocery
+
+                </a>
+
+            </li>
+
+
+            
+
+            <li class="nav-item dropdown">
+
+                <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    data-bs-toggle="dropdown"
+                >
+
+                    <i class="bi bi-person-circle me-1"></i>
+
+                    Account
+
+                </a>
+
+
+                <ul
+                    class="dropdown-menu dropdown-menu-end account-dropdown"
+                >
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'grocery_orders' %}"
+                        >
+
+                            <i
+                                class="bi bi-bag-check me-2"
+                            ></i>
+
+                            My Orders
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'grocery_wishlist' %}"
+                        >
+
+                            <i
+                                class="bi bi-heart me-2"
+                            ></i>
+
+                            Wishlist
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                       
+
+    </div>
+
+</div>
+
+
+</nav>
+
+<!-- PAGE -->
+
+<main class="page-section">
+
+
+<div class="container">
+
+
+    <!-- BREADCRUMB -->
+
+    <nav aria-label="breadcrumb">
+
+        <ol class="breadcrumb">
+
+            <li class="breadcrumb-item">
+
+                <a href="{% url 'grocery' %}">
+                    Grocery
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item active">
+                Cart
+            </li>
+
+        </ol>
+
+    </nav>
+
+
+    <!-- HEADER -->
+
+    <div class="mb-4">
+
+        <h1 class="page-title">
+            Grocery Cart
+        </h1>
+
+        <p class="page-description">
+            Fresh groceries and daily essentials
+            ready for checkout.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+
+        <!-- CART ITEMS -->
+
+        <div class="col-lg-8">
+
+            <div class="cart-box">
+
+
+                <div class="cart-header">
+
+                    <h5>
+
+                        <i
+                            class="bi bi-basket2 me-2"
+                            style="color:#14a94a;"
+                        ></i>
+
+                        Your Grocery Items
+
+                    </h5>
+
+
+                    <span
+                        id="cartItemCount"
+                        class="small text-muted"
+                    >
+                        0 items
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="cartContainer"
+                    class="cart-items"
+                >
+
+                    <!-- Products rendered by cart.js -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SUMMARY -->
+
+        <div class="col-lg-4">
+
+            <div class="summary-box">
+
+                <div class="summary-title">
+
+                    Order Summary
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong id="subtotal">
+                        ₹0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        GST (5%)
+                    </span>
+
+                    <strong id="tax">
+                        ₹0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <strong style="color:#14a94a;">
+                        FREE
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span id="grandTotal">
+                        ₹0.00
+                    </span>
+
+                </div>
+
+
+                <button
+                    id="checkoutBtn"
+                    type="button"
+                    class="checkout-btn"
+                >
+
+                    <i
+                        class="bi bi-credit-card me-2"
+                    ></i>
+
+                    Proceed to Checkout
+
+                </button>
+
+
+                <a
+                    href="{% url 'grocery' %}"
+                    class="continue-btn"
+                >
+
+                    <i
+                        class="bi bi-arrow-left me-2"
+                    ></i>
+
+                    Continue Grocery Shopping
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</main>
+
+<!-- FOOTER -->
+
+{% include "partials/home-footer.html" %}
+
+<div id="lmToast"></div>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="{% static 'js/grocery-cart.js' %}"></script>
+
+</body>
+
+</html>

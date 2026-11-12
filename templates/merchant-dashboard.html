@@ -1,0 +1,3469 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Merchant Dashboard | LocalMart</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
+        :root {
+            --primary: #198754;
+            --primary-dark: #126b42;
+            --blue: #0d6efd;
+            --purple: #6f42c1;
+            --orange: #fd7e14;
+            --red: #dc3545;
+            --dark: #0f1d2d;
+            --dark-2: #14263a;
+            --body: #f5f7fb;
+            --border: #e6ebf1;
+            --text: #172033;
+            --muted: #7a8495;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: var(--body);
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(
+                180deg,
+                #0d1b2a 0%,
+                #101f31 100%
+            );
+            color: #fff;
+            z-index: 1050;
+            display: flex;
+            flex-direction: column;
+            transition: .3s ease;
+        }
+
+        .brand {
+            height: 70px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(
+                135deg,
+                #20c997,
+                #0d6efd
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 11px;
+            font-size: 20px;
+        }
+
+        .brand-text h5 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .brand-text span {
+            font-size: 10px;
+            color: #aab5c4;
+        }
+
+        .sidebar-menu {
+            padding: 18px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .menu-title {
+            color: #667589;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 16px 13px 8px;
+        }
+
+        .menu-link {
+            color: #c6cfdb;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 11px 13px;
+            border-radius: 8px;
+            margin-bottom: 3px;
+            font-size: 13px;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .menu-link i {
+            font-size: 17px;
+            width: 21px;
+        }
+
+        .menu-link:hover {
+            background: rgba(255,255,255,.07);
+            color: white;
+        }
+
+        .menu-link.active {
+            background: linear-gradient(
+                90deg,
+                #0d6efd,
+                #2188ff
+            );
+            color: white;
+            box-shadow: 0 6px 16px rgba(13,110,253,.25);
+        }
+
+        .menu-badge {
+            margin-left: auto;
+            background: #33465e;
+            color: white;
+            min-width: 23px;
+            height: 23px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .menu-link.active .menu-badge {
+            background: white;
+            color: #0d6efd;
+        }
+
+        /* =========================================================
+           MERCHANT STORE CARD
+        ========================================================= */
+
+        .merchant-card {
+            margin: 12px;
+            padding: 14px;
+            border: 1px solid #2e4054;
+            border-radius: 9px;
+            background: rgba(255,255,255,.02);
+        }
+
+        .merchant-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .merchant-logo {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+        }
+
+        .merchant-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: rgba(25,135,84,.2);
+            color: #5de2a2;
+            border-radius: 20px;
+            padding: 2px 7px;
+            font-size: 8px;
+            margin-top: 4px;
+        }
+
+        .merchant-info {
+            margin-top: 13px;
+            font-size: 9px;
+            color: #8f9dad;
+            line-height: 1.8;
+        }
+
+        .merchant-profile {
+            margin-top: 9px;
+            color: #65aaff;
+            font-size: 10px;
+        }
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        /* =========================================================
+           TOPBAR
+        ========================================================= */
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .search-box {
+            width: 430px;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #dce3eb;
+            border-radius: 7px;
+            padding: 0 15px 0 40px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 3px rgba(13,110,253,.08);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-icon {
+            position: relative;
+            font-size: 19px;
+            color: #445166;
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 16px;
+            height: 16px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            font-size: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 18px;
+            border-left: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .profile-image {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #ddd,
+                #888
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .profile-name {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .profile-role {
+            font-size: 9px;
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           CONTENT
+        ========================================================= */
+
+        .content {
+            padding: 27px;
+        }
+
+        .merchant-page-view { display: none; }
+        .merchant-page-view.active { display: block; }
+        .merchant-page-heading { margin: 0 0 20px; }
+        .merchant-page-heading h1 { margin: 0 0 5px; font-size: 25px; font-weight: 700; }
+        .merchant-page-heading p { margin: 0; color: #7d8796; }
+        .merchant-page-view > .dashboard-card { width: 100%; }
+        .merchant-page-view .merchant-full-width { width: 100%; }
+
+        .welcome-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .welcome-title {
+            font-size: 21px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .welcome-subtitle {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .date-selector {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 9px 13px;
+            font-size: 11px;
+            color: #465268;
+        }
+
+        /* =========================================================
+           KPI CARDS
+        ========================================================= */
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 18px;
+            min-height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .icon-blue {
+            background: linear-gradient(135deg,#0d6efd,#4f9cff);
+        }
+
+        .icon-green {
+            background: linear-gradient(135deg,#12a86b,#2ac98c);
+        }
+
+        .icon-purple {
+            background: linear-gradient(135deg,#6f42c1,#9b6de0);
+        }
+
+        .icon-orange {
+            background: linear-gradient(135deg,#fd7e14,#ffad5c);
+        }
+
+        .stat-label {
+            position: absolute;
+            left: 70px;
+            top: 20px;
+            font-size: 10px;
+            color: #344054;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .stat-change {
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .stat-period {
+            color: #9aa4b2;
+            font-size: 9px;
+            margin-left: 4px;
+        }
+
+        .mini-chart {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            width: 105px;
+            height: 40px;
+        }
+
+        /* =========================================================
+           GENERAL CARD
+        ========================================================= */
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            padding: 16px 17px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .view-all {
+            color: #0d6efd;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           CHART
+        ========================================================= */
+
+        .chart-container {
+            padding: 17px;
+            height: 280px;
+        }
+
+        .sales-summary {
+            border-left: 1px solid #edf0f4;
+            padding-left: 20px;
+        }
+
+        .sales-summary h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 4px 0;
+        }
+
+        .sales-summary .growth {
+            color: var(--primary);
+            font-size: 10px;
+        }
+
+        .sales-source {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #edf0f4;
+        }
+
+        .source-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            margin-bottom: 9px;
+        }
+
+        .source-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            background: #0d6efd;
+        }
+
+        /* =========================================================
+           ORDER STATUS
+        ========================================================= */
+
+        .order-chart {
+            height: 190px;
+            padding: 15px 30px;
+        }
+
+        .status-list {
+            padding: 0 20px 18px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 9px;
+        }
+
+        .status-name {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* =========================================================
+           TABLES
+        ========================================================= */
+
+        .table-custom {
+            margin: 0;
+            font-size: 10px;
+        }
+
+        .table-custom thead th {
+            background: #f8fafc;
+            color: #667085;
+            font-weight: 600;
+            border: 0;
+            padding: 11px 10px;
+            white-space: nowrap;
+        }
+
+        .table-custom tbody td {
+            padding: 11px 10px;
+            border-color: #edf0f4;
+            vertical-align: middle;
+        }
+
+        .order-id {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .customer-name {
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border-radius: 20px;
+            padding: 4px 8px;
+            font-size: 8px;
+            font-weight: 600;
+        }
+
+        .delivered {
+            background: #e6f7ef;
+            color: #198754;
+        }
+
+        .processing {
+            background: #e5f0ff;
+            color: #0d6efd;
+        }
+
+        .shipped {
+            background: #fff2df;
+            color: #fd7e14;
+        }
+
+        .cancelled {
+            background: #ffe8ea;
+            color: #dc3545;
+        }
+
+        /* =========================================================
+           PRODUCT TABLE
+        ========================================================= */
+
+        .product-thumb {
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            object-fit: cover;
+            background: #f2f4f7;
+            margin-right: 7px;
+        }
+
+        .product-name {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           QUICK ACTIONS
+        ========================================================= */
+
+        .quick-grid {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 9px;
+        }
+
+        .quick-action {
+            min-height: 82px;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #172033;
+            transition: .2s;
+            cursor: pointer;
+            background: white;
+        }
+
+        .quick-action:hover {
+            border-color: #8bbcff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13,110,253,.08);
+        }
+
+        .quick-action i {
+            font-size: 22px;
+            color: #0d6efd;
+            margin-bottom: 6px;
+        }
+
+        .quick-action span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           ACTIVITY
+        ========================================================= */
+
+        .activity-list {
+            padding: 10px 15px;
+        }
+
+        .activity {
+            display: flex;
+            gap: 10px;
+            padding: 11px 0;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .activity:last-child {
+            border-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 50%;
+            background: #eef5ff;
+            color: #0d6efd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .activity-title {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .activity-description {
+            font-size: 8px;
+            color: #778195;
+            margin-top: 2px;
+        }
+
+        .activity-time {
+            margin-left: auto;
+            font-size: 7px;
+            color: #9aa4b2;
+            white-space: nowrap;
+        }
+
+        /* =========================================================
+           MERCHANT FUNCTIONS
+        ========================================================= */
+
+        .functions-grid {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 9px;
+        }
+
+        .function-card {
+            border: 1px solid #e4e9f0;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .function-card:hover {
+            border-color: #a8caff;
+            transform: translateY(-2px);
+        }
+
+        .function-icon {
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef5ff;
+            color: #0d6efd;
+            font-size: 15px;
+        }
+
+        .function-title {
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .function-description {
+            color: #8a94a6;
+            font-size: 7px;
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           GROW CARD
+        ========================================================= */
+
+        .grow-card {
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(13,110,253,.25),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #0e1d2d,
+                    #152c44
+                );
+            color: white;
+            padding: 20px;
+            min-height: 175px;
+            border-radius: 9px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grow-card h5 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .grow-card p {
+            color: #c2cfdd;
+            font-size: 9px;
+            line-height: 1.7;
+            max-width: 250px;
+        }
+
+        .grow-button {
+            background: #0d6efd;
+            color: white;
+            border: 0;
+            border-radius: 6px;
+            padding: 8px 13px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .grow-chart-icon {
+            position: absolute;
+            right: 15px;
+            bottom: 10px;
+            font-size: 70px;
+            color: rgba(13,110,253,.3);
+        }
+
+        /* =========================================================
+           MOBILE SIDEBAR
+        ========================================================= */
+
+        .mobile-menu-button {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .sidebar-overlay {
+            display: none;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1200px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+            }
+
+            .functions-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .search-box {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 992px) {
+
+            .sidebar {
+                left: -250px;
+                width: 250px;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu-button {
+                display: block;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.4);
+                z-index: 1040;
+            }
+
+            .sales-summary {
+                border-left: 0;
+                border-top: 1px solid #edf0f4;
+                padding: 15px 0 0;
+            }
+
+            .search-box {
+                width: 260px;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .profile-name-wrapper {
+                display: none;
+            }
+
+            .welcome-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .date-selector {
+                width: 100%;
+            }
+
+            .functions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .table-responsive {
+                border-radius: 7px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .welcome-title {
+                font-size: 18px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+
+            .functions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .top-actions {
+                gap: 12px;
+            }
+        }
+
+    </style>
+    <style>
+        .merchant-modal{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;padding:20px;background:rgba(10,24,42,.55)}
+        .merchant-modal[hidden]{display:none}
+        .merchant-modal-card{width:min(620px,100%);padding:24px;border-radius:12px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.22)}
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     MOBILE OVERLAY
+========================================================= -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+    onclick="closeSidebar()">
+</div>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
+            <i class="bi bi-shop"></i>
+        </div>
+
+        <div class="brand-text">
+            <h5>LocalMart</h5>
+            <span>Merchant Portal</span>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-menu">
+
+        <div class="menu-title">
+            Main
+        </div>
+
+        <a class="menu-link active"
+           href="#">
+            <i class="bi bi-grid-1x2-fill"></i>
+            Dashboard
+        </a>
+
+        <a class="menu-link" href="{% url 'merchant_deliveries_page' %}">
+            <i class="bi bi-bicycle"></i>
+            Delivery management
+        </a>
+
+
+          <a class="menu-link"
+              href="#orders">
+            <i class="bi bi-bag-check"></i>
+            Orders
+
+            <span class="menu-badge">
+                {{ total_orders }}
+            </span>
+        </a>
+
+
+          <a class="menu-link"
+              href="#productsPanel">
+            <i class="bi bi-box-seam"></i>
+            Products
+
+            <i class="bi bi-chevron-down ms-auto"
+               style="font-size:10px;">
+            </i>
+        </a>
+
+
+          <a class="menu-link"
+              href="#productsPanel">
+            <i class="bi bi-boxes"></i>
+            Inventory
+        </a>
+
+
+          <a class="menu-link"
+              href="#customersPanel">
+            <i class="bi bi-people"></i>
+            Customers
+        </a>
+
+
+        <div class="menu-title">
+            Business
+        </div>
+
+
+          <a class="menu-link"
+              href="#merchantWorkspace" data-workspace="Marketing">
+            <i class="bi bi-megaphone"></i>
+            Marketing
+
+            <i class="bi bi-chevron-down ms-auto"
+               style="font-size:10px;">
+            </i>
+        </a>
+
+
+          <a class="menu-link"
+              href="#analytics" data-workspace="Analytics">
+            <i class="bi bi-bar-chart-line"></i>
+            Analytics
+
+            <i class="bi bi-chevron-down ms-auto"
+               style="font-size:10px;">
+            </i>
+        </a>
+
+
+          <a class="menu-link"
+              href="#merchantWorkspace" data-workspace="Payments">
+            <i class="bi bi-credit-card"></i>
+            Payments
+        </a>
+
+
+          <a class="menu-link"
+              href="#merchantWorkspace" data-workspace="Payouts">
+            <i class="bi bi-wallet2"></i>
+            Payouts
+        </a>
+
+
+        <div class="menu-title">
+            Support
+        </div>
+
+
+          <a class="menu-link"
+              href="#merchantWorkspace" data-workspace="Reviews & Ratings">
+            <i class="bi bi-star"></i>
+            Reviews & Ratings
+        </a>
+
+
+          <a class="menu-link"
+              href="#merchantWorkspace" data-workspace="Support Tickets">
+            <i class="bi bi-chat-dots"></i>
+            Support Tickets
+
+            <span class="menu-badge">
+                {{ ticket_count }}
+            </span>
+        </a>
+
+
+          <a class="menu-link"
+              href="#merchantWorkspace" data-workspace="Settings">
+            <i class="bi bi-gear"></i>
+            Settings
+        </a>
+
+    </div>
+
+
+    <!-- Merchant Store -->
+
+    <div class="merchant-card">
+
+        <div class="merchant-top">
+
+            <div class="merchant-logo">
+                <i class="bi bi-shop-window"></i>
+            </div>
+
+            <div>
+                <div class="merchant-name">
+                    {{ merchant_profile.shop_name }}
+                </div>
+
+                <div class="verified">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Verified Merchant
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="merchant-info">
+
+            Merchant account:
+            <strong>{{ merchant_owner.username }}</strong>
+
+            <br>
+
+            Business Type:
+            Retail
+
+        </div>
+
+
+        <a href="#"
+           class="merchant-profile">
+            View Profile
+        </a>
+
+        <a href="{% url 'merchant_logout' %}"
+           class="merchant-profile"
+           style="color:#dc3545;display:block;margin-top:10px;">
+            <i class="bi bi-box-arrow-right me-1"></i>
+            Logout
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- =====================================================
+         TOPBAR
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="d-flex align-items-center">
+
+            <button
+                class="mobile-menu-button"
+                onclick="toggleSidebar()">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+
+            <div class="search-box">
+
+               
+
+            </div>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <!-- Notifications -->
+
+            <div class="top-icon">
+
+                <i class="bi bi-bell"></i>
+
+                <span class="notification-count">
+                    3
+                </span>
+
+            </div>
+
+
+            <!-- Messages -->
+
+            <div class="top-icon">
+
+                <i class="bi bi-chat-square-text"></i>
+
+            </div>
+
+
+            <!-- Profile -->
+
+            <div class="profile">
+
+                <div class="profile-image">
+                    <i class="bi bi-person"></i>
+                </div>
+
+                <div class="profile-name-wrapper">
+
+                    <div class="profile-name">
+                        {{ merchant_owner.get_full_name|default:merchant_owner.username }}
+                    </div>
+
+                    <div class="profile-role">
+                        Store Owner
+                    </div>
+
+                </div>
+
+                <i class="bi bi-chevron-down"
+                   style="font-size:11px;">
+                </i>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <div class="content">
+
+
+        <!-- Welcome -->
+
+        <div class="welcome-row">
+
+            <div>
+
+                <h1 class="welcome-title">
+                    Welcome back, {{ merchant_owner.first_name|default:merchant_profile.shop_name }}!
+                </h1>
+
+                <div class="welcome-subtitle">
+                    Here's what's happening with your store today.
+                </div>
+
+            </div>
+
+
+            <div class="date-selector">
+
+                <i class="bi bi-calendar3 me-2"></i>
+
+                {{ today|default:"Today" }}
+
+                <i class="bi bi-chevron-down ms-2"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             KPI CARDS
+        ================================================== -->
+
+        <div class="row g-3 mb-3">
+
+
+            <!-- Total Sales -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon icon-blue">
+                        <i class="bi bi-cart3"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        Total Sales
+                    </span>
+
+                    <div class="stat-value">
+                        ₹{{ total_revenue|floatformat:2 }}
+                    </div>
+
+                    <span class="stat-change">
+                        ↑ 12.5%
+                    </span>
+
+                    <span class="stat-period">
+                        vs. last week
+                    </span>
+
+                    <canvas
+                        id="miniSales"
+                        class="mini-chart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- Orders -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon icon-green">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        Total Orders
+                    </span>
+
+                    <div class="stat-value">
+                        {{ total_orders }}
+                    </div>
+
+                    <span class="stat-change">
+                        ↑ 18.2%
+                    </span>
+
+                    <span class="stat-period">
+                        vs. last week
+                    </span>
+
+                    <canvas
+                        id="miniOrders"
+                        class="mini-chart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- Customers -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon icon-purple">
+                        <i class="bi bi-people"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        New Customers
+                    </span>
+
+                    <div class="stat-value">
+                        {{ customer_count }}
+                    </div>
+
+                    <span class="stat-change">
+                        ↑ 22.4%
+                    </span>
+
+                    <span class="stat-period">
+                        vs. last week
+                    </span>
+
+                    <canvas
+                        id="miniCustomers"
+                        class="mini-chart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- Payout -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon icon-orange">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        Pending Payout
+                    </span>
+
+                    <div class="stat-value">
+                        ₹{{ pending_payout|floatformat:2 }}
+                    </div>
+
+                    <div
+                        style="
+                        font-size:9px;
+                        color:#8993a3;
+                        margin-top:7px;
+                        ">
+                        Next payout: Apr 30, 2025
+                    </div>
+
+                    <div
+                        style="
+                        position:absolute;
+                        right:17px;
+                        bottom:17px;
+                        color:#fd7e14;
+                        ">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SALES + ORDER STATUS
+        ================================================== -->
+
+        <div class="row g-3 mb-3">
+
+
+            <!-- Sales -->
+
+            <div class="col-xl-8">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <h3 class="card-title">
+                            Sales Overview
+                        </h3>
+
+                        <select
+                            class="form-select form-select-sm"
+                            style="
+                            width:120px;
+                            font-size:9px;
+                            ">
+
+                            <option>
+                                Last 7 Days
+                            </option>
+
+                            <option>
+                                Last 30 Days
+                            </option>
+
+                            <option>
+                                This Month
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-8">
+
+                            <div class="chart-container">
+
+                                <canvas
+                                    id="salesChart">
+                                </canvas>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div class="sales-summary">
+
+                                <small
+                                    style="
+                                    font-size:9px;
+                                    color:#788397;
+                                    ">
+                                    Total Sales
+                                </small>
+
+                                <h3>
+                                    ₹{{ total_revenue|floatformat:2 }}
+                                </h3>
+
+                                <span class="growth">
+                                    ↑ 12.5%
+                                </span>
+
+                                <span
+                                    style="
+                                    font-size:8px;
+                                    color:#9aa4b2;
+                                    ">
+                                    vs. last week
+                                </span>
+
+
+                                <div class="sales-source">
+
+                                    <div class="source-row">
+
+                                        <span>
+                                            <span class="source-dot"></span>
+                                            Online Store
+                                        </span>
+
+                                        <strong>
+                                            ₹8,732.40
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="source-row">
+
+                                        <span>
+                                            <span
+                                                class="source-dot"
+                                                style="background:#6f42c1;">
+                                            </span>
+                                            Marketplace
+                                        </span>
+
+                                        <strong>
+                                            ₹2,415.20
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="source-row">
+
+                                        <span>
+                                            <span
+                                                class="source-dot"
+                                                style="background:#fd7e14;">
+                                            </span>
+                                            In-Store
+                                        </span>
+
+                                        <strong>
+                                            ₹1,401.15
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Order Status -->
+
+            <div class="col-xl-4">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <h3 class="card-title">
+                            Order Status
+                        </h3>
+
+                    </div>
+
+
+                    <div class="order-chart">
+
+                        <canvas
+                            id="orderChart">
+                        </canvas>
+
+                    </div>
+
+
+                    <div class="status-list">
+
+                        <div class="status-row">
+
+                            <div class="status-name">
+
+                                <span
+                                    class="status-dot"
+                                    style="background:#20b486;">
+                                </span>
+
+                                Delivered
+
+                            </div>
+
+                            <strong>
+                                168
+                            </strong>
+
+                            <span>
+                                68%
+                            </span>
+
+                        </div>
+
+
+                        <div class="status-row">
+
+                            <div class="status-name">
+
+                                <span
+                                    class="status-dot"
+                                    style="background:#0d6efd;">
+                                </span>
+
+                                Processing
+
+                            </div>
+
+                            <strong>
+                                42
+                            </strong>
+
+                            <span>
+                                17%
+                            </span>
+
+                        </div>
+
+
+                        <div class="status-row">
+
+                            <div class="status-name">
+
+                                <span
+                                    class="status-dot"
+                                    style="background:#fd7e14;">
+                                </span>
+
+                                Shipped
+
+                            </div>
+
+                            <strong>
+                                28
+                            </strong>
+
+                            <span>
+                                11%
+                            </span>
+
+                        </div>
+
+
+                        <div class="status-row">
+
+                            <div class="status-name">
+
+                                <span
+                                    class="status-dot"
+                                    style="background:#dc3545;">
+                                </span>
+
+                                Cancelled
+
+                            </div>
+
+                            <strong>
+                                10
+                            </strong>
+
+                            <span>
+                                4%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RECENT ORDERS + TOP PRODUCTS
+        ================================================== -->
+
+        <div class="row g-3 mb-3">
+
+
+            <!-- Recent Orders -->
+
+            <div class="col-xl-8">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <h3 class="card-title">
+                            Recent Orders
+                        </h3>
+
+                        <a href="#" class="view-all">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-responsive">
+
+                        <table class="table table-custom">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Order ID
+                                    </th>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th class="text-end">
+                                        Amount
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="recentOrdersBody">
+
+                                <tr>
+
+                                    <td class="order-id">
+                                        #ORD-10483
+                                    </td>
+
+                                    <td class="customer-name">
+                                        Emily Davis
+                                    </td>
+
+                                    <td>
+                                        Apr 27, 10:42 AM
+                                    </td>
+
+                                    <td>
+                                        <span class="status-badge delivered">
+                                            ● Delivered
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        ₹124.99
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td class="order-id">
+                                        #ORD-10482
+                                    </td>
+
+                                    <td class="customer-name">
+                                        Michael Brown
+                                    </td>
+
+                                    <td>
+                                        Apr 27, 09:15 AM
+                                    </td>
+
+                                    <td>
+                                        <span class="status-badge processing">
+                                            ● Processing
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        ₹89.50
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td class="order-id">
+                                        #ORD-10481
+                                    </td>
+
+                                    <td class="customer-name">
+                                        Sarah Wilson
+                                    </td>
+
+                                    <td>
+                                        Apr 27, 08:32 AM
+                                    </td>
+
+                                    <td>
+                                        <span class="status-badge shipped">
+                                            ● Shipped
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        ₹210.00
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td class="order-id">
+                                        #ORD-10480
+                                    </td>
+
+                                    <td class="customer-name">
+                                        David Lee
+                                    </td>
+
+                                    <td>
+                                        Apr 26, 04:21 PM
+                                    </td>
+
+                                    <td>
+                                        <span class="status-badge delivered">
+                                            ● Delivered
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        ₹65.75
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td class="order-id">
+                                        #ORD-10479
+                                    </td>
+
+                                    <td class="customer-name">
+                                        Jessica Taylor
+                                    </td>
+
+                                    <td>
+                                        Apr 26, 02:16 PM
+                                    </td>
+
+                                    <td>
+                                        <span class="status-badge cancelled">
+                                            ● Cancelled
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        ₹48.99
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Top Products -->
+
+            <div class="col-xl-4">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <h3 class="card-title">
+                            Top Selling Products
+                        </h3>
+
+                        <a href="#" class="view-all">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-responsive">
+
+                        <table class="table table-custom">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Product
+                                    </th>
+
+                                    <th>
+                                        Sold
+                                    </th>
+
+                                    <th>
+                                        Revenue
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="topProductsBody">
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <img
+                                                class="product-thumb"
+                                                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=100&q=80"
+                                            >
+
+                                            <span class="product-name">
+                                                Wireless Headphones
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        48
+                                    </td>
+
+                                    <td>
+                                        ₹2,304
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <img
+                                                class="product-thumb"
+                                                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=100&q=80"
+                                            >
+
+                                            <span class="product-name">
+                                                Smart Watch
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        36
+                                    </td>
+
+                                    <td>
+                                        ₹1,980
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <img
+                                                class="product-thumb"
+                                                src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=100&q=80"
+                                            >
+
+                                            <span class="product-name">
+                                                Bluetooth Speaker
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        29
+                                    </td>
+
+                                    <td>
+                                        ₹1,450
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <img
+                                                class="product-thumb"
+                                                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=100&q=80"
+                                            >
+
+                                            <span class="product-name">
+                                                Backpack
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        24
+                                    </td>
+
+                                    <td>
+                                        ₹1,200
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <img
+                                                class="product-thumb"
+                                                src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?auto=format&fit=crop&w=100&q=80"
+                                            >
+
+                                            <span class="product-name">
+                                                Phone Case
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        18
+                                    </td>
+
+                                    <td>
+                                        ₹864
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             QUICK ACTIONS + ACTIVITIES
+        ================================================== -->
+
+        <div class="row g-3 mb-3">
+
+
+            <!-- Quick Actions -->
+
+            <div class="col-xl-4">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <h3 class="card-title">
+                            Quick Actions
+                        </h3>
+
+                    </div>
+
+
+                    <div class="quick-grid">
+
+                        <div
+                            class="quick-action"
+                            onclick="merchantAction('Add Product')">
+
+                            <i class="bi bi-plus-circle"></i>
+
+                            <span>
+                                Add Product
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick-action"
+                            onclick="merchantAction('Manage Inventory')">
+
+                            <i class="bi bi-boxes"></i>
+
+                            <span>
+                                Manage Inventory
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick-action"
+                            onclick="merchantAction('Create Discount')">
+
+                            <i class="bi bi-tag"></i>
+
+                            <span>
+                                Create Discount
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick-action"
+                            onclick="merchantAction('View Orders')">
+
+                            <i class="bi bi-receipt"></i>
+
+                            <span>
+                                View Orders
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick-action"
+                            onclick="merchantAction('Payouts')">
+
+                            <i class="bi bi-wallet2"></i>
+
+                            <span>
+                                Payouts
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick-action"
+                            onclick="merchantAction('Store Settings')">
+
+                            <i class="bi bi-gear"></i>
+
+                            <span>
+                                Store Settings
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Recent Activities -->
+
+            <div class="col-xl-4">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <h3 class="card-title">
+                            Recent Activities
+                        </h3>
+
+                        <a href="#" class="view-all">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <div class="activity-list">
+
+
+                        <div class="activity">
+
+                            <div class="activity-icon">
+                                <i class="bi bi-cart-check"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="activity-title">
+                                    New order received
+                                </div>
+
+                                <div class="activity-description">
+                                    #ORD-10483 · ₹124.99
+                                </div>
+
+                            </div>
+
+                            <span class="activity-time">
+                                10:42 AM
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity">
+
+                            <div class="activity-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="activity-title">
+                                    Product stock updated
+                                </div>
+
+                                <div class="activity-description">
+                                    Wireless Headphones · 50 units
+                                </div>
+
+                            </div>
+
+                            <span class="activity-time">
+                                09:21 AM
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity">
+
+                            <div class="activity-icon">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="activity-title">
+                                    Payout processed
+                                </div>
+
+                                <div class="activity-description">
+                                    ₹2,845.32 transferred
+                                </div>
+
+                            </div>
+
+                            <span class="activity-time">
+                                Yesterday
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity">
+
+                            <div class="activity-icon">
+                                <i class="bi bi-person-plus"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="activity-title">
+                                    New customer registered
+                                </div>
+
+                                <div class="activity-description">
+                                    Emily Davis
+                                </div>
+
+                            </div>
+
+                            <span class="activity-time">
+                                Yesterday
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity">
+
+                            <div class="activity-icon">
+                                <i class="bi bi-star"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="activity-title">
+                                    New review received
+                                </div>
+
+                                <div class="activity-description">
+                                    4.8 ★ · Wireless Headphones
+                                </div>
+
+                            </div>
+
+                            <span class="activity-time">
+                                Apr 26
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Grow Business -->
+
+            <div class="col-xl-4">
+
+                <div class="grow-card">
+
+                    <h5>
+                        Grow Your Business
+                    </h5>
+
+                    <p>
+                        Explore our marketing tools, analytics
+                        and promotional features to reach more
+                        customers and grow your sales.
+                    </p>
+
+                    <button
+                        class="grow-button"
+                        onclick="merchantAction('Marketing Tools')">
+
+                        Explore Marketing Tools
+                        <i class="bi bi-arrow-right ms-1"></i>
+
+                    </button>
+
+                    <i class="bi bi-graph-up-arrow grow-chart-icon"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MERCHANT FUNCTIONS
+        ================================================== -->
+
+        <div class="dashboard-card mb-4">
+
+            <div class="card-header-custom">
+
+                <h3 class="card-title">
+                    Merchant Functions & Features
+                </h3>
+
+            </div>
+
+
+            <div class="functions-grid">
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Product Management')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-cart3"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Product Management
+                        </div>
+
+                        <div class="function-description">
+                            Add, edit, remove products
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Inventory Management')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Inventory Management
+                        </div>
+
+                        <div class="function-description">
+                            Track stock levels & alerts
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Order Management')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-clipboard-check"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Order Management
+                        </div>
+
+                        <div class="function-description">
+                            View & fulfill orders
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Customer Management')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Customer Management
+                        </div>
+
+                        <div class="function-description">
+                            Manage customer details
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Marketing Tools')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-megaphone"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Marketing Tools
+                        </div>
+
+                        <div class="function-description">
+                            Create offers & campaigns
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Payments')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Payment & Payouts
+                        </div>
+
+                        <div class="function-description">
+                            Track earnings & payouts
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Analytics')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Reports & Analytics
+                        </div>
+
+                        <div class="function-description">
+                            Sales & performance
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Shipping')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Shipping Management
+                        </div>
+
+                        <div class="function-description">
+                            Manage shipping partners
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Reviews')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-star"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Reviews & Ratings
+                        </div>
+
+                        <div class="function-description">
+                            View customer feedback
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="function-card"
+                     onclick="merchantAction('Store Customization')">
+
+                    <div class="function-icon">
+                        <i class="bi bi-palette"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="function-title">
+                            Store Customization
+                        </div>
+
+                        <div class="function-description">
+                            Update store info & branding
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <section class="dashboard-card mb-4" id="productsPanel">
+        <div class="card-header-custom"><h2 class="card-title">Product inventory</h2><button class="btn btn-sm btn-primary" type="button" onclick="openProductModal()">Add product</button></div>
+        <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Available stock</th><th>Visibility</th><th class="text-end">Actions</th></tr></thead><tbody id="inventoryBody"></tbody></table></div>
+    </section>
+    <section class="dashboard-card mb-4" id="customersPanel">
+        <div class="card-header-custom"><h2 class="card-title">Customers</h2><span class="text-muted">Customers from your order history</span></div>
+        <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Customer</th><th>Email</th><th>Orders</th><th>Last order</th></tr></thead><tbody id="merchantCustomersBody"></tbody></table></div>
+    </section>
+    <section class="dashboard-card mb-4" id="merchantWorkspace" hidden>
+        <div class="card-header-custom"><div><h2 class="card-title mb-1" id="workspaceTitle"></h2><div class="text-muted" id="workspaceMessage"></div></div><button class="btn btn-sm btn-outline-secondary" type="button" onclick="closeMerchantWorkspace()">Close</button></div>
+        <div id="workspaceActions" class="d-flex flex-wrap gap-2 p-3"></div>
+        <div id="workspaceContent" class="table-responsive p-3 pt-0"></div>
+    </section>
+</main>
+
+
+<div class="merchant-modal" id="productModal" hidden>
+    <div class="merchant-modal-card">
+        <div class="d-flex justify-content-between align-items-center mb-3"><h3 class="h5 mb-0">Add product</h3><button class="btn-close" type="button" onclick="closeProductModal()" aria-label="Close"></button></div>
+        <form id="productForm">
+            {% csrf_token %}
+            <div class="row g-2"><div class="col-md-8"><label class="form-label">Product name</label><input class="form-control" id="productName" required></div><div class="col-md-4"><label class="form-label">SKU</label><input class="form-control" id="productSku" required maxlength="80" pattern="[A-Za-z0-9][A-Za-z0-9._-]{0,79}" title="Use letters, numbers, dot, underscore, or hyphen (up to 80 characters)." autocomplete="off"></div></div>
+            <div class="row g-2 mt-1"><div class="col-md-4"><label class="form-label">Price (₹)</label><input class="form-control" id="productPrice" type="number" min="0" step="0.01" required></div><div class="col-md-4"><label class="form-label">Available quantity</label><input class="form-control" id="productStock" type="number" min="0" required></div><div class="col-md-4"><label class="form-label">Stock unit</label><input class="form-control" id="productStockUnit" maxlength="32" placeholder="bags, packets, kg, bottles, units" value="units"></div></div>
+            <div class="mt-2"><label class="form-label">Image URL</label><input class="form-control" id="productImage" type="url"></div>
+            <div class="d-flex justify-content-end gap-2 mt-3"><button class="btn btn-light" type="button" onclick="closeProductModal()">Cancel</button><button class="btn btn-primary" type="submit">Save product</button></div>
+        </form>
+    </div>
+</div>
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    function toggleSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList.toggle("open");
+
+        document
+            .getElementById("sidebarOverlay")
+            .classList.toggle("show");
+    }
+
+
+    function closeSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList.remove("open");
+
+        document
+            .getElementById("sidebarOverlay")
+            .classList.remove("show");
+    }
+
+
+    /* =========================================================
+       ACTION HANDLER
+    ========================================================= */
+
+    const SERVER_ORDERS = JSON.parse('{{ dashboard_orders|escapejs }}');
+    const SERVER_PRODUCTS = JSON.parse('{{ dashboard_products|escapejs }}');
+    const SERVER_TOP_PRODUCTS = JSON.parse('{{ top_products|escapejs }}');
+    const SERVER_STATUS_COUNTS = JSON.parse('{{ order_statuses|escapejs }}');
+    const PRODUCTS_API = "{% url 'merchant_products_api' %}";
+    const ORDER_STATUS_API = "{% url 'merchant_order_status_api' 0 %}";
+    const MERCHANT_LOGIN_URL = "{% url 'merchant_login' %}";
+    const WORKSPACE_APIS = {Analytics:"{% url 'merchant_analytics_api' %}", Marketing:"{% url 'merchant_dashboard_coupons_api' %}", Payments:"{% url 'merchant_payouts_api' %}", Payouts:"{% url 'merchant_payouts_api' %}", "Reviews & Ratings":"{% url 'merchant_reviews_api' %}", "Support Tickets":"{% url 'merchant_support_api' %}"};
+
+    function csrfToken() {
+        const cookie = document.cookie.split('; ').find(row => row.startsWith('csrftoken='));
+        return cookie ? decodeURIComponent(cookie.split('=')[1]) : document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+    }
+
+    async function parseApiResponse(response) {
+        const contentType = response.headers.get('content-type') || '';
+        if (response.status === 401 || (response.redirected && /\/merchant\/(login|$)/i.test(response.url))) {
+            window.location.assign(MERCHANT_LOGIN_URL);
+            throw new Error('Your merchant session has expired. Redirecting to login.');
+        }
+        const responseText = await response.text();
+        if (!contentType.includes('application/json')) {
+            const title = responseText.match(/<title[^>]*>(.*?)<\/title>/is)?.[1]?.replace(/\s+/g, ' ').trim();
+            const detail = title ? ` ${title}` : '';
+            throw new Error(`The server returned a page instead of inventory data (HTTP ${response.status}).${detail} Reload the dashboard or sign in again.`);
+        }
+        try {
+            return JSON.parse(responseText);
+        } catch (error) {
+            throw new Error(`The inventory endpoint returned invalid JSON (HTTP ${response.status}). Check the Django server log for the underlying error.`);
+        }
+    }
+
+    function openProductModal() { document.getElementById('productModal').hidden = false; }
+    function closeProductModal() { document.getElementById('productModal').hidden = true; }
+
+    async function loadInventory() {
+        const body = document.getElementById('inventoryBody');
+        if (!body) return;
+        const summaryBody = document.getElementById('inventorySummaryBody');
+        try {
+            const response = await fetch(PRODUCTS_API);
+            const data = await parseApiResponse(response);
+            if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load products.');
+            body.innerHTML = data.products.map(p => { const qty = Number(p.stock); const rawUnit = (p.stock_unit || '').trim(); const quantityLabel = rawUnit && rawUnit.toLowerCase() !== 'units' ? `${qty} ${escapeHtml(rawUnit)} available` : `${qty} available`; const status = qty <= 0 ? 'Out of stock' : qty <= Number(p.low_stock_threshold) ? 'Low stock' : 'In stock'; const type = p.product_type || p.package_size; return `<tr><td>${escapeHtml(p.name)}${type ? `<div class="small text-muted">${escapeHtml(type)}</div>` : ''}</td><td>${escapeHtml(p.sku)}</td><td>${escapeHtml(p.price)}</td><td><strong>${quantityLabel}</strong><div class="small text-muted">${escapeHtml(status)}</div></td><td>${p.is_active ? 'Active' : 'Hidden'}</td><td class="text-end"><button class="btn btn-sm btn-outline-primary me-1" onclick="editProduct(${p.id})">Edit</button><button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${p.id})">Delete</button></td></tr>`; }).join('') || '<tr><td colspan="6" class="text-center text-muted">No products yet</td></tr>';
+            if (summaryBody) summaryBody.innerHTML = data.products.map(p => { const qty = Number(p.stock); const rawUnit = (p.stock_unit || '').trim(); const quantityLabel = rawUnit && rawUnit.toLowerCase() !== 'units' ? `${qty} ${escapeHtml(rawUnit)} available` : `${qty} available`; const status = qty <= 0 ? 'Out of stock' : qty <= Number(p.low_stock_threshold) ? 'Low stock' : 'In stock'; const badge = qty <= 0 ? 'text-bg-danger' : status === 'Low stock' ? 'text-bg-warning' : 'text-bg-success'; return `<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.sku)}</td><td>${quantityLabel}</td><td><span class="badge ${badge}">${status}</span></td></tr>`; }).join('') || '<tr><td colspan="4" class="text-center text-muted">No inventory yet.</td></tr>';
+        } catch (error) {
+            const message = escapeHtml(error.message || 'Unable to load products.');
+            body.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${message}</td></tr>`;
+            if (summaryBody) summaryBody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">${message}</td></tr>`;
+        }
+    }
+    function escapeHtml(value) { const el = document.createElement('span'); el.textContent = value ?? ''; return el.innerHTML; }
+    async function updateOrderStatus(orderId) {
+        const status = prompt('Enter new status: Pending, Confirmed, Processing, Packed, Shipped, Out for Delivery, Delivered, Cancelled, or Returned');
+        if (!status) return;
+        try {
+            const endpoint = ORDER_STATUS_API.replace(/0\/$/, `${orderId}/`);
+            const response = await fetch(endpoint, {method:'PATCH', headers:{'Content-Type':'application/json','X-CSRFToken':csrfToken()}, body:JSON.stringify({status})});
+            const data = await parseApiResponse(response);
+            if (!response.ok || !data.success) throw new Error(data.message || 'Unable to update order.');
+            window.location.reload();
+        } catch (error) { alert(error.message || 'Unable to update order.'); }
+    }
+    async function editProduct(id) {
+        try {
+            const response = await fetch(`${PRODUCTS_API}${id}/`);
+            const data = await parseApiResponse(response);
+            if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load product.');
+            const p = data.product;
+            const name = prompt('Product name', p.name); if (name === null) return;
+            const sku = prompt('SKU (letters, numbers, dot, underscore, or hyphen; max 80 characters)', p.sku); if (sku === null) return;
+            const price = prompt('Price', p.price); if (price === null) return;
+            const stock = prompt('Stock', p.stock); if (stock === null) return;
+            const stock_unit = prompt('Stock unit (for example bags, packets, bottles, kg, or units)', p.stock_unit || 'units'); if (stock_unit === null) return;
+            const saved = await fetch(`${PRODUCTS_API}${id}/`, {method:'PATCH', headers:{'Content-Type':'application/json','X-CSRFToken':csrfToken()}, body:JSON.stringify({name, sku, price, stock, stock_unit})});
+            const result = await parseApiResponse(saved);
+            if (!saved.ok || !result.success) throw new Error(result.message || 'Unable to update product.');
+            await loadInventory();
+        } catch (error) { alert(error.message || 'Unable to update product.'); }
+    }
+    async function deleteProduct(id) {
+        if (!confirm('Delete this product?')) return;
+        try {
+            const response = await fetch(`${PRODUCTS_API}${id}/`, {method:'DELETE', headers:{'X-CSRFToken':csrfToken()}});
+            const data = await parseApiResponse(response);
+            if (!response.ok || !data.success) throw new Error(data.message || 'Unable to delete product.');
+            await loadInventory();
+        } catch (error) { alert(error.message || 'Unable to delete product.'); }
+    }
+
+    async function saveProduct(event) {
+        event.preventDefault();
+        try {
+            const response = await fetch(PRODUCTS_API, {method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrfToken()}, body:JSON.stringify({
+                name: document.getElementById('productName').value,
+                sku: document.getElementById('productSku').value.trim().toUpperCase(),
+                price: document.getElementById('productPrice').value,
+                stock: document.getElementById('productStock').value,
+                stock_unit: document.getElementById('productStockUnit').value,
+                image: document.getElementById('productImage').value
+            })});
+            const data = await parseApiResponse(response);
+            if (!response.ok || !data.success) throw new Error(data.message || 'Unable to save product.');
+            closeProductModal();
+            window.location.reload();
+        } catch (error) { alert(error.message || 'Unable to save product.'); }
+    }
+
+    function merchantAction(action) {
+        const targets = {
+            'Add Product': openProductModal,
+            'Product Management': () => window.showMerchantPage('products'),
+            'Manage Inventory': () => window.showMerchantPage('inventory'),
+            'Inventory Management': () => window.showMerchantPage('inventory'),
+            'View Orders': () => window.showMerchantPage('orders'),
+            'Order Management': () => window.showMerchantPage('orders'),
+            'Orders': () => window.showMerchantPage('orders'),
+            'Products': () => window.showMerchantPage('products'),
+            'Inventory': () => window.showMerchantPage('inventory'),
+            'Customers': () => window.showMerchantPage('customers'),
+            'Customer Management': () => window.showMerchantPage('customers'),
+            'Analytics': () => window.showMerchantPage('analytics', 'Analytics'),
+            'Marketing': () => window.showMerchantPage('marketing', 'Marketing'), 'Marketing Tools': () => window.showMerchantPage('marketing', 'Marketing'), 'Create Discount': () => window.showMerchantPage('marketing', 'Marketing'),
+            'Payments': () => window.showMerchantPage('payments', 'Payments'), 'Payouts': () => window.showMerchantPage('payouts', 'Payouts'),
+            'Reviews': () => window.showMerchantPage('reviews', 'Reviews & Ratings'), 'Reviews & Ratings': () => window.showMerchantPage('reviews', 'Reviews & Ratings'),
+            'Support Tickets': () => window.showMerchantPage('support', 'Support Tickets'),
+            'Settings': () => window.showMerchantPage('settings', 'Settings'), 'Store Settings': () => window.showMerchantPage('settings', 'Settings'), 'Store Customization': () => window.showMerchantPage('settings', 'Settings'),
+            'Shipping': () => window.showMerchantPage('orders')
+        };
+        if (targets[action]) targets[action]();
+    }
+
+    function closeMerchantWorkspace() { document.getElementById('merchantWorkspace').hidden = true; }
+    async function workspaceRequest(url, method='GET', payload=null) {
+        const options = {method, headers:{'X-CSRFToken':csrfToken()}};
+        if (payload) { options.headers['Content-Type']='application/json'; options.body=JSON.stringify(payload); }
+        const response=await fetch(url,options); const data=await parseApiResponse(response);
+        if (!response.ok || !data.success) throw new Error(data.message || 'Could not complete this request.');
+        return data;
+    }
+    function workspaceTable(headers, rows) { return `<table class="table align-middle"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows || `<tr><td colspan="${headers.length}" class="text-muted">No records yet.</td></tr>`}</tbody></table>`; }
+    async function openMerchantWorkspace(name) {
+        const panel=document.getElementById('merchantWorkspace'), title=document.getElementById('workspaceTitle'), content=document.getElementById('workspaceContent'), actions=document.getElementById('workspaceActions'), message=document.getElementById('workspaceMessage');
+        panel.hidden=false; panel.scrollIntoView({behavior:'smooth'}); title.textContent=name; message.textContent='Loading…'; content.innerHTML=''; actions.innerHTML='';
+        try {
+            if (name==='Settings') {
+                message.textContent='Store profile and contact details';
+                content.innerHTML=`<form id="merchantSettingsForm" class="row g-3"><div class="col-md-6"><label class="form-label">Shop name</label><input class="form-control" name="shop_name" value="${escapeHtml('{{ merchant.shop_name|escapejs }}')}" required></div><div class="col-md-6"><label class="form-label">Phone</label><input class="form-control" name="phone" value="${escapeHtml('{{ merchant.phone|escapejs }}')}"></div><div class="col-12"><label class="form-label">Store address</label><textarea class="form-control" name="address" id="merchantStoreAddress" rows="3" required>${escapeHtml('{{ merchant.address|escapejs }}')}</textarea></div><div class="col-12"><button type="button" class="btn btn-outline-success" id="locateMerchantAddress">Find address</button><small class="d-block mt-1">Review the geocoded point, click the exact store entrance on the map, then confirm it.</small><div id="merchantPinMap" style="height:280px;border-radius:12px;margin-top:10px"></div><button type="button" class="btn btn-outline-success mt-2" id="confirmMerchantPin" disabled>Confirm selected store pin</button><span id="merchantPinMessage" class="small d-block mt-2"></span></div><input type="hidden" name="latitude" id="merchantLatitude" value="${escapeHtml('{{ merchant.latitude|default_if_none:""|escapejs }}')}"><input type="hidden" name="longitude" id="merchantLongitude" value="${escapeHtml('{{ merchant.longitude|default_if_none:""|escapejs }}')}"><input type="hidden" name="location_confirmed" id="merchantLocationConfirmed" value="${escapeHtml('{{ merchant.location_confirmed|yesno:"true,false"|escapejs }}')}"><div class="col-md-8"><label class="form-label">Logo URL</label><input class="form-control" name="logo" type="url" value="${escapeHtml('{{ merchant.logo|escapejs }}')}"></div><div class="col-12"><button class="btn btn-primary">Save store details</button></div></form>`;
+                bindMerchantPinPicker(); document.getElementById('merchantSettingsForm').addEventListener('submit', saveMerchantSettings); return;
+            }
+            const data=await workspaceRequest(WORKSPACE_APIS[name]); message.textContent='';
+            if (name==='Marketing') {
+                actions.innerHTML='<button class="btn btn-primary btn-sm" onclick="createMerchantCoupon()">Create coupon</button>';
+                content.innerHTML=workspaceTable(['Code','Discount','Status','Actions'],(data.coupons||[]).map(c=>`<tr><td>${escapeHtml(c.code)}</td><td>${escapeHtml(c.discount_value ?? c.percentage ?? c.fixed_amount ?? '')} ${escapeHtml(c.discount_type||'%')}</td><td>${c.is_active ?? c.active ? 'Active':'Inactive'}</td><td><button class="btn btn-sm btn-outline-secondary" onclick="toggleMerchantCoupon(${c.id}, ${!(c.is_active ?? c.active)})">Toggle</button> <button class="btn btn-sm btn-outline-danger" onclick="deleteMerchantCoupon(${c.id})">Delete</button></td></tr>`).join(''));
+            } else if (name==='Payments' || name==='Payouts') {
+                actions.innerHTML=`<span class="badge text-bg-success p-2">Available balance: ₹${Number(data.balance||0).toLocaleString('en-IN')}</span><button class="btn btn-primary btn-sm" onclick="requestMerchantPayout()">Request payout</button>`;
+                content.innerHTML=workspaceTable(['Amount','Status','Reference','Requested'],(data.payouts||[]).map(p=>`<tr><td>₹${Number(p.amount).toLocaleString('en-IN')}</td><td>${escapeHtml(p.status)}</td><td>${escapeHtml(p.reference||p.transaction_id||'—')}</td><td>${escapeHtml(p.created_at||'')}</td></tr>`).join(''));
+            } else if (name==='Reviews & Ratings') {
+                message.textContent=`${data.count||0} reviews · Average rating ${data.average_rating||0}`;
+                content.innerHTML=workspaceTable(['Customer','Rating','Review','Response'],(data.reviews||[]).map(r=>`<tr><td>${escapeHtml(r.customer_name)}</td><td>${escapeHtml(r.rating)} ★</td><td>${escapeHtml(r.review||r.comment)}</td><td>${escapeHtml(r.response||r.reply||'—')} <button class="btn btn-sm btn-outline-primary" onclick="replyToMerchantReview(${r.id})">Reply</button></td></tr>`).join(''));
+            } else if (name==='Support Tickets') {
+                actions.innerHTML='<button class="btn btn-primary btn-sm" onclick="createMerchantTicket()">New support ticket</button>';
+                content.innerHTML=workspaceTable(['Subject','Category','Priority','Status','Message'],(data.tickets||[]).map(t=>`<tr><td>${escapeHtml(t.subject)}</td><td>${escapeHtml(t.category)}</td><td>${escapeHtml(t.priority)}</td><td>${escapeHtml(t.status)}</td><td>${escapeHtml(t.message||t.description)}</td></tr>`).join(''));
+            } else {
+                const a=data.analytics||data; message.textContent=`${a.total_orders ?? 0} orders · ${a.total_products ?? 0} products`;
+                content.innerHTML=workspaceTable(['Metric','Value'],[['Revenue',`₹${Number(a.total_revenue||0).toLocaleString('en-IN')}`],['Pending orders',a.pending_orders||0],['Shipped orders',a.shipped_orders||0],['Delivered orders',a.completed_orders||0],['Low stock products',a.low_stock_products||0]].map(row=>`<tr><td>${row[0]}</td><td>${escapeHtml(row[1])}</td></tr>`).join(''));
+            }
+        } catch(error) { message.textContent=error.message; }
+    }
+    async function bindMerchantPinPicker() {
+        const mapNode = document.getElementById('merchantPinMap');
+        if (!window.L || !mapNode) return;
+        const token = document.cookie.split(';').map(value => value.trim()).find(value => value.startsWith('csrftoken='))?.slice(10) || '';
+        const map = L.map(mapNode).setView([0, 0], 2);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            referrerPolicy: 'strict-origin-when-cross-origin',
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        let marker = null;
+        const confirmed = document.getElementById('merchantLocationConfirmed');
+        const lat = document.getElementById('merchantLatitude');
+        const lng = document.getElementById('merchantLongitude');
+        if (confirmed.value === 'true' && lat.value && lng.value) {
+            map.setView([Number(lat.value), Number(lng.value)], 16);
+            marker = L.marker([Number(lat.value), Number(lng.value)]).addTo(map);
+        }
+        map.on('click', event => {
+            if (marker) marker.setLatLng(event.latlng);
+            else marker = L.marker(event.latlng).addTo(map);
+            lat.value = event.latlng.lat;
+            lng.value = event.latlng.lng;
+            confirmed.value = 'false';
+            document.getElementById('confirmMerchantPin').disabled = false;
+            document.getElementById('merchantPinMessage').textContent = 'Pin selected. Confirm it after checking the store entrance.';
+        });
+        document.getElementById('merchantStoreAddress').addEventListener('input', () => {
+            confirmed.value = 'false';
+            document.getElementById('confirmMerchantPin').disabled = true;
+        });
+        document.getElementById('locateMerchantAddress').addEventListener('click', async () => {
+            try {
+                const response = await fetch("{% url 'merchant_location_preview_api' %}", {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json', 'X-CSRFToken': token},
+                    body: JSON.stringify({address: document.getElementById('merchantStoreAddress').value.trim()})
+                });
+                const result = await parseApiResponse(response);
+                if (!response.ok) throw new Error(result.error || result.message || 'Address lookup failed.');
+                const point = [Number(result.candidate.latitude), Number(result.candidate.longitude)];
+                map.setView(point, 17);
+                if (marker) marker.setLatLng(point);
+                else marker = L.marker(point).addTo(map);
+                lat.value = point[0];
+                lng.value = point[1];
+                confirmed.value = 'false';
+                document.getElementById('confirmMerchantPin').disabled = true;
+                document.getElementById('merchantPinMessage').textContent = `Found ${result.candidate.address}. Click the exact store entrance on the map.`;
+            } catch (error) {
+                document.getElementById('merchantPinMessage').textContent = error.message || 'Address lookup failed.';
+            }
+        });
+        document.getElementById('confirmMerchantPin').addEventListener('click', () => {
+            if (!lat.value || !lng.value) return;
+            confirmed.value = 'true';
+            document.getElementById('confirmMerchantPin').disabled = true;
+            document.getElementById('merchantPinMessage').textContent = 'Store pin confirmed. Save store details to apply it.';
+        });
+        window.setTimeout(() => map.invalidateSize(), 150);
+    }
+    async function saveMerchantSettings(event) { event.preventDefault(); try { const form=new FormData(event.currentTarget); const payload=Object.fromEntries(form.entries()); payload.location_confirmed=payload.location_confirmed==='true'; const result=await workspaceRequest("{% url 'merchant_settings_api' %}",'PATCH',payload); document.getElementById('workspaceMessage').textContent=result.message||'Store settings saved.'; } catch(error) { alert(error.message); } }
+    async function createMerchantCoupon() { const code=prompt('Coupon code'); if(!code)return; const type=prompt('Discount type: percentage or fixed','percentage'); if(!type)return; const value=prompt('Discount value'); if(!value)return; try { await workspaceRequest(WORKSPACE_APIS.Marketing,'POST',{code,discount_type:type,discount_value:value}); openMerchantWorkspace('Marketing'); } catch(error) { alert(error.message); } }
+    async function toggleMerchantCoupon(id,is_active) { try { await workspaceRequest(WORKSPACE_APIS.Marketing,'PATCH',{coupon_id:id,is_active}); openMerchantWorkspace('Marketing'); } catch(error) { alert(error.message); } }
+    async function deleteMerchantCoupon(id) { if(!confirm('Delete this coupon?'))return; try { await workspaceRequest(WORKSPACE_APIS.Marketing,'DELETE',{coupon_id:id}); openMerchantWorkspace('Marketing'); } catch(error) { alert(error.message); } }
+    async function requestMerchantPayout() { const amount=prompt('Payout amount'); if(!amount)return; try { await workspaceRequest(WORKSPACE_APIS.Payouts,'POST',{amount}); openMerchantWorkspace('Payouts'); } catch(error) { alert(error.message); } }
+    async function replyToMerchantReview(id) { const merchant_response=prompt('Your reply'); if(!merchant_response)return; try { await workspaceRequest(WORKSPACE_APIS['Reviews & Ratings'],'PATCH',{review_id:id,merchant_response}); openMerchantWorkspace('Reviews & Ratings'); } catch(error) { alert(error.message); } }
+    async function createMerchantTicket() { const subject=prompt('Ticket subject'); if(!subject)return; const message=prompt('Describe the issue'); if(!message)return; try { await workspaceRequest(WORKSPACE_APIS['Support Tickets'],'POST',{subject,message}); openMerchantWorkspace('Support Tickets'); } catch(error) { alert(error.message); } }
+
+    function renderServerTables() {
+        const orderBody = document.getElementById('recentOrdersBody');
+        if (orderBody) orderBody.addEventListener('click', event => {
+            const button = event.target.closest('[data-order-status]');
+            if (button) updateOrderStatus(button.dataset.orderStatus);
+        });
+        if (orderBody) orderBody.innerHTML = SERVER_ORDERS.map(order => `<tr><td class="order-id">#${escapeHtml(order.number||order.id)}</td><td class="customer-name">${escapeHtml(order.customer)}</td><td>${escapeHtml(order.time)}</td><td><span class="status-badge ${escapeHtml(order.status)}">● ${escapeHtml(order.status)}</span></td><td class="text-end">₹${Number(order.total).toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>`).join('') || '<tr><td colspan="5" class="text-center text-muted">No orders yet</td></tr>';
+        orderBody?.querySelectorAll('tr').forEach((row, index) => {
+            if (!SERVER_ORDERS[index] || !row.cells[3] || SERVER_ORDERS[index].kind === 'local') return;
+            const button = document.createElement('button');
+            button.type = 'button'; button.className = 'btn btn-sm btn-link'; button.textContent = 'Update';
+            button.dataset.orderStatus = SERVER_ORDERS[index].id;
+            row.cells[3].appendChild(button);
+        });
+        const productBody = document.getElementById('topProductsBody');
+        if (productBody) productBody.innerHTML = SERVER_TOP_PRODUCTS.map(product => `<tr><td><span class="product-name">${product.name}</span></td><td>${product.sold}</td><td>₹${Number(product.revenue).toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>`).join('') || '<tr><td colspan="3" class="text-center text-muted">No sales yet</td></tr>';
+        const customers = new Map();
+        SERVER_ORDERS.forEach(order => { const key=(order.email||order.customer||'').toLowerCase(); if(!key)return; const current=customers.get(key)||{name:order.customer,email:order.email||'—',orders:0,lastOrder:order.time}; current.orders+=1; customers.set(key,current); });
+        const customerBody=document.getElementById('merchantCustomersBody');
+        if(customerBody) customerBody.innerHTML=Array.from(customers.values()).map(customer=>`<tr><td>${escapeHtml(customer.name)}</td><td>${escapeHtml(customer.email)}</td><td>${customer.orders}</td><td>${escapeHtml(customer.lastOrder)}</td></tr>`).join('')||'<tr><td colspan="4" class="text-center text-muted">No customer orders yet.</td></tr>';
+    }
+
+    function setupMerchantPages() {
+        const content = document.querySelector('.main .content');
+        const main = document.querySelector('.main');
+        if (!content || !main) return;
+        const pageDetails = {
+            dashboard: ['Dashboard', 'Your store overview and recent activity.'],
+            orders: ['Orders', 'Review recent orders and update their status.'],
+            products: ['Products', 'Add, edit, and manage products in your catalog.'],
+            inventory: ['Inventory', 'Monitor stock levels and product availability.'],
+            customers: ['Customers', 'Customers from your order history.'],
+            marketing: ['Marketing', 'Manage coupons and store promotions.'],
+            analytics: ['Analytics', 'Review sales and store performance.'],
+            payments: ['Payments', 'Review merchant payment activity and request payouts.'],
+            payouts: ['Payouts', 'Review payout history and request a transfer.'],
+            reviews: ['Reviews & Ratings', 'Read customer feedback and reply to reviews.'],
+            support: ['Support Tickets', 'Create and review support requests.'],
+            settings: ['Settings', 'Update your store profile and contact details.']
+        };
+        const views = {};
+        const dashboard = document.createElement('section');
+        dashboard.className = 'merchant-page-view active';
+        dashboard.dataset.merchantPage = 'dashboard';
+        while (content.firstChild) dashboard.appendChild(content.firstChild);
+        content.appendChild(dashboard);
+        views.dashboard = dashboard;
+        Object.entries(pageDetails).filter(([key]) => key !== 'dashboard').forEach(([key, detail]) => {
+            const page = document.createElement('section');
+            page.className = 'merchant-page-view';
+            page.dataset.merchantPage = key;
+            page.innerHTML = `<header class="merchant-page-heading"><h1>${escapeHtml(detail[0])}</h1><p>${escapeHtml(detail[1])}</p></header>`;
+            content.appendChild(page);
+            views[key] = page;
+        });
+
+        const orderCard = document.getElementById('recentOrdersBody')?.closest('.dashboard-card');
+        if (orderCard) {
+            const orderColumn = orderCard.closest('.col-xl-8') || orderCard;
+            orderColumn.classList.add('merchant-full-width');
+            orderColumn.style.width = '100%';
+            orderColumn.style.maxWidth = '100%';
+            orderColumn.style.flex = '0 0 100%';
+            views.orders.appendChild(orderColumn);
+        }
+        const productPanel = document.getElementById('productsPanel');
+        if (productPanel) views.products.appendChild(productPanel);
+        const customerPanel = document.getElementById('customersPanel');
+        if (customerPanel) views.customers.appendChild(customerPanel);
+
+        const inventoryPanel = document.createElement('section');
+        inventoryPanel.className = 'dashboard-card mb-4';
+        inventoryPanel.innerHTML = '<div class="card-header-custom"><h2 class="card-title">Stock levels</h2><button class="btn btn-sm btn-primary" type="button" onclick="window.showMerchantPage(\'products\')">Manage products</button></div><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Product</th><th>SKU</th><th>Available stock</th><th>Stock status</th></tr></thead><tbody id="inventorySummaryBody"></tbody></table></div>';
+        views.inventory.appendChild(inventoryPanel);
+
+        window.showMerchantPage = (key, workspaceName = null, updateHash = true) => {
+            if (!views[key]) key = 'dashboard';
+            Object.entries(views).forEach(([name, page]) => page.classList.toggle('active', name === key));
+            document.querySelectorAll('.sidebar-menu .menu-link').forEach(link => link.classList.toggle('active', link.dataset.merchantPageLink === key));
+            const workspace = document.getElementById('merchantWorkspace');
+            if (workspaceName && workspace) {
+                views[key].appendChild(workspace);
+                workspace.hidden = false;
+                openMerchantWorkspace(workspaceName);
+            } else if (workspace) {
+                workspace.hidden = true;
+            }
+            if (updateHash) history.replaceState(null, '', `#merchant-page-${key}`);
+            closeSidebar();
+        };
+
+        const linkPages = {
+            'Dashboard': ['dashboard'], 'Orders': ['orders'], 'Products': ['products'],
+            'Inventory': ['inventory'], 'Customers': ['customers'],
+            'Marketing': ['marketing', 'Marketing'], 'Analytics': ['analytics', 'Analytics'],
+            'Payments': ['payments', 'Payments'], 'Payouts': ['payouts', 'Payouts'],
+            'Reviews & Ratings': ['reviews', 'Reviews & Ratings'],
+            'Support Tickets': ['support', 'Support Tickets'], 'Settings': ['settings', 'Settings']
+        };
+        document.querySelectorAll('.sidebar-menu .menu-link').forEach(link => {
+            const label = link.dataset.workspace || link.textContent.replace(/\s+/g, ' ').trim().replace(/\s*\d+$/, '');
+            const [key, workspaceName] = linkPages[label] || [];
+            if (!key) return;
+            link.dataset.merchantPageLink = key;
+            link.href = `#merchant-page-${key}`;
+            link.addEventListener('click', event => {
+                event.preventDefault();
+                window.showMerchantPage(key, workspaceName || null);
+            });
+        });
+        const initialKey = location.hash.startsWith('#merchant-page-') ? location.hash.slice(15) : 'dashboard';
+        window.showMerchantPage(initialKey, null, false);
+        window.addEventListener('hashchange', () => {
+            const key = location.hash.startsWith('#merchant-page-') ? location.hash.slice(15) : 'dashboard';
+            window.showMerchantPage(key, null, false);
+        });
+        loadInventory();
+    }
+
+    document.getElementById('productForm')?.addEventListener('submit', saveProduct);
+    renderServerTables();
+    setupMerchantPages();
+    document.querySelectorAll('.view-all').forEach((link, index) => link.addEventListener('click', event => {
+        event.preventDefault();
+        window.showMerchantPage(index === 0 ? 'orders' : 'products');
+    }));
+
+    document.querySelector('.search-box input')?.addEventListener('input', event => {
+        const query = event.target.value.toLowerCase().trim();
+        document.querySelectorAll('#recentOrdersBody tr, #topProductsBody tr').forEach(row => {
+            row.style.display = !query || row.textContent.toLowerCase().includes(query) ? '' : 'none';
+        });
+    });
+
+
+    /* =========================================================
+       SALES CHART
+    ========================================================= */
+
+    const salesCanvas =
+        document.getElementById("salesChart");
+
+    new Chart(
+        salesCanvas,
+        {
+            type: "line",
+
+            data: {
+
+                labels: JSON.parse('{{ sales_chart|escapejs }}').map(item => item.date),
+
+                datasets: [
+
+                    {
+                        label: "Sales",
+
+                        data: JSON.parse('{{ sales_chart|escapejs }}').map(item => item.revenue),
+
+                        borderColor: "#0d6efd",
+
+                        backgroundColor:
+                            "rgba(13,110,253,.08)",
+
+                        borderWidth: 2,
+
+                        tension: .35,
+
+                        fill: true,
+
+                        pointRadius: 3,
+
+                        pointBackgroundColor:
+                            "#0d6efd"
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        grid: {
+                            color: "#edf1f5"
+                        },
+
+                        ticks: {
+                            font: {
+                                size: 8
+                            },
+
+                            callback:
+                                function(value) {
+                                    return "₹" + value;
+                                }
+                        }
+
+                    },
+
+                    x: {
+
+                        grid: {
+                            color: "#edf1f5"
+                        },
+
+                        ticks: {
+                            font: {
+                                size: 8
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       ORDER STATUS CHART
+    ========================================================= */
+
+    new Chart(
+        document.getElementById("orderChart"),
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+                    "Delivered",
+                    "Processing",
+                    "Shipped",
+                    "Cancelled"
+                ],
+
+                datasets: [
+
+                    {
+                        data: (() => { const statuses = JSON.parse('{{ order_statuses|escapejs }}'); return [statuses.delivered || 0, statuses.processing || 0, statuses.shipped || 0, statuses.cancelled || 0]; })(),
+
+                        backgroundColor: [
+                            "#20b486",
+                            "#0d6efd",
+                            "#fd7e14",
+                            "#dc3545"
+                        ],
+
+                        borderWidth: 0,
+
+                        hoverOffset: 5
+
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                cutout: "70%",
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       MINI CHART FUNCTION
+    ========================================================= */
+
+    function createMiniChart(
+        id,
+        data,
+        color
+    ) {
+
+        new Chart(
+            document.getElementById(id),
+            {
+
+                type: "line",
+
+                data: {
+
+                    labels: [
+                        1,2,3,4,5,6,7
+                    ],
+
+                    datasets: [
+
+                        {
+                            data: data,
+
+                            borderColor: color,
+
+                            borderWidth: 2,
+
+                            tension: .4,
+
+                            pointRadius: 0,
+
+                            fill: false
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+
+                    scales: {
+
+                        x: {
+                            display: false
+                        },
+
+                        y: {
+                            display: false
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    createMiniChart(
+        "miniSales",
+        JSON.parse('{{ sales_chart|escapejs }}').map(item => item.revenue),
+        "#0d6efd"
+    );
+
+
+    createMiniChart(
+        "miniOrders",
+        [SERVER_STATUS_COUNTS.pending || 0, SERVER_STATUS_COUNTS.processing || 0, SERVER_STATUS_COUNTS.shipped || 0, SERVER_STATUS_COUNTS.delivered || 0],
+        "#20b486"
+    );
+
+
+    createMiniChart(
+        "miniCustomers",
+        [0, 0, 0, {{ customer_count|default:0 }}],
+        "#6f42c1"
+    );
+
+</script>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

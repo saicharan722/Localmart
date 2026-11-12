@@ -1,0 +1,54 @@
+.
+# Python cache
+__pycache__/
+*.py[cod]
+*.log
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Database files and backups
+db.sqlite3
+db.sqlite3.*
+localmart_backup.json
+
+# AWS private keys
+*.pem
+
+# Django generated files
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+
+
+
+# Windows PowerShell cache
+Microsoft/
+
+# Temporary Python scripts
+
+
+
+
+
+# Local temporary files
+/models .py
+/tmp_import_style.py
+
+# Empty placeholder video
+/ecommerce/static/video/video project 123.mp4

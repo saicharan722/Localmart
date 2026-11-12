@@ -1,0 +1,27 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg shared-fashion-navbar sticky-top">
+  <div class="container-fluid px-lg-4">
+    <a class="navbar-brand shared-fashion-logo" href="{% url 'index' %}" aria-label="LocalMart home"><i class="bi bi-shop" style="font-size:30px;margin-right:8px"></i><span style="color:#198754">Local</span><span style="color:#222">Mart</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sharedFashionMenu" aria-controls="sharedFashionMenu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="sharedFashionMenu">
+      <nav class="shared-fashion-links" aria-label="Shopping categories">
+        <a href="{% url 'fashion_men' %}" {% if fashion_page == 'men' %}aria-current="page"{% endif %}>Men</a>
+        <a href="{% url 'fashion_women' %}" {% if fashion_page == 'women' %}aria-current="page"{% endif %}>Women</a>
+        <a href="{% url 'fashion_watches' %}" {% if fashion_page == 'watches' %}aria-current="page"{% endif %}>Watches</a>
+        <a href="{% url 'fashion_footwear' %}" {% if fashion_page == 'footwear' %}aria-current="page"{% endif %}>Footwear</a>
+        <a href="{% url 'fashion_eyewear' %}" {% if fashion_page == 'eyewear' %}aria-current="page"{% endif %}>Eyewear</a>
+      </nav>
+      {% if fashion_page == 'watches' %}<form class="shared-fashion-search" method="get" action="{% url 'fashion_watches' %}"><input type="hidden" name="category" value="watches"><input type="hidden" name="discount" value="{{ min_discount|default:40 }}"><input id="fashionSearch" name="q" type="search" value="{{ request.GET.q|default:'' }}" placeholder="Search watches and brands" aria-label="Search watches"></form>
+      {% elif fashion_page == 'footwear' %}<form class="shared-fashion-search" method="get" action="{% url 'fashion_footwear' %}"><input type="hidden" name="category" value="footwear"><input type="hidden" name="gender" value="{{ selected_gender|default:'men' }}"><input type="hidden" name="discount" value="{{ min_discount|default:40 }}"><input id="fashionSearch" name="q" type="search" value="{{ request.GET.q|default:'' }}" placeholder="Search footwear and brands" aria-label="Search footwear"></form>
+      {% elif fashion_page == 'eyewear' %}<form class="shared-fashion-search" method="get" action="{% url 'fashion_eyewear' %}"><input type="hidden" name="category" value="eyewear"><input type="hidden" name="discount" value="{{ min_discount|default:30 }}"><input id="fashionSearch" name="q" type="search" value="{{ request.GET.q|default:'' }}" placeholder="Search eyewear and brands" aria-label="Search eyewear"></form>
+      {% elif fashion_page == 'women' %}<div class="shared-fashion-search"><input id="fashionWomenSearch" type="search" placeholder="Search for products, brands and more" aria-label="Search womens fashion"></div>
+      {% else %}<div class="shared-fashion-search"><input id="fashionSearch" type="search" placeholder="Search for products, brands and more" aria-label="Search mens fashion"></div>{% endif %}
+      <ul class="shared-fashion-actions">
+        <li><a href="{% url 'fashion_wishlist' %}" aria-label="Wishlist"><i class="bi bi-heart"></i><span>Wishlist</span><b id="navbarWishlistCount">{{ fashion_wishlist_count|default:0 }}</b></a></li>
+        <li><a href="{% url 'cart' %}" aria-label="Cart"><i class="bi bi-bag"></i><span>Cart</span><b id="navbarCartCount">{{ fashion_cart_count|default:0 }}</b></a></li>
+        <li><a href="{% url 'shopping_my_orders' %}" aria-label="My Orders"><i class="bi bi-receipt"></i><span>My Orders</span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<form id="fashionCsrfForm" hidden>{% csrf_token %}</form><span id="fashionShoppingApi" data-url="{% url 'fashion_shopping_api' %}" hidden></span>

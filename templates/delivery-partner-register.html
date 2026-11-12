@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delivery Partner Sign Up | LocalMart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+<body class="signup-page">
+  <main class="signup-layout partner-signup-layout">
+    <section class="signup-brand-panel partner-brand-panel" aria-label="LocalMart delivery partner application">
+      <a class="signup-wordmark" href="{% url 'index' %}" aria-label="LocalMart home"><i class="bi bi-cart4" aria-hidden="true"></i><span>Local<span>Mart</span></span></a>
+      <p class="signup-tagline">Local Stores <span>•</span> Better Choices <span>•</span> Near You</p>
+      <div class="signup-intro">
+        <h1>Deliver Local.<br><span>Make It Better.</span></h1>
+        <p>Join the LocalMart delivery team and bring neighborhood shopping right to customers' doors.</p>
+      </div>
+      <ul class="signup-benefits" aria-label="Delivery partner benefits">
+        <li><span class="benefit-icon"><i class="bi bi-shop-window" aria-hidden="true"></i></span><span><b>Support Local Merchants</b><small>Help your community grow</small></span></li>
+        <li><span class="benefit-icon"><i class="bi bi-truck" aria-hidden="true"></i></span><span><b>Flexible Local Deliveries</b><small>Deliver around your area</small></span></li>
+        <li><span class="benefit-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></span><span><b>Reliable Order Details</b><small>Clear pickup and drop-off info</small></span></li>
+      </ul>
+      <figure class="signup-visual partner-signup-visual">
+        <img src="{% static 'images/delivery-partner-signup-landscape.png' %}" alt="LocalMart delivery partner signup promotional artwork">
+      </figure>
+    </section>
+
+    <section class="signup-form-panel partner-form-panel" aria-labelledby="partnerSignupTitle">
+      <main class="signup-card partner-signup-card">
+        <header class="signup-card-header">
+          <span class="signup-card-icon"><i class="bi bi-person-plus-fill" aria-hidden="true"></i></span>
+          <h2 id="partnerSignupTitle">Become a Delivery Partner</h2>
+          <p>Apply to deliver with LocalMart</p>
+          <span class="partner-tag"><i class="bi bi-bicycle" aria-hidden="true"></i> Partner application</span>
+        </header>
+        <p class="partner-approval-note">Your account will be available after LocalMart admin approval.</p>
+          {% if error %}<div class="alert alert-danger auth-error" role="alert">{{ error }}</div>{% endif %}
+          <form class="partner-form" method="post" action="{% url 'partner_register' %}">
+            {% csrf_token %}
+            <div class="partner-fields">
+              <div class="mb-2"><label for="name" class="form-label">Full Name</label><input class="form-control" id="name" name="name" value="{{ form.name|default:'' }}" autocomplete="name" maxlength="150" required></div>
+              <div class="mb-2"><label for="phone" class="form-label">Mobile Number</label><input class="form-control" id="phone" name="phone" type="text" inputmode="numeric" value="{{ form.phone|default:'' }}" autocomplete="tel" required></div>
+              <div class="mb-2"><label for="email" class="form-label">Email</label><input class="form-control" id="email" name="email" type="email" value="{{ form.email|default:'' }}" autocomplete="email" required></div>
+              <div class="mb-2"><label for="vehicle" class="form-label">Vehicle Type</label><input class="form-control" id="vehicle" name="vehicle" value="{{ form.vehicle|default:'' }}" placeholder="Bike, scooter, etc." maxlength="80" required></div>
+              <div class="mb-2"><label for="vehicle_number" class="form-label">Vehicle Number</label><input class="form-control" id="vehicle_number" name="vehicle_number" value="{{ form.vehicle_number|default:'' }}" placeholder="Optional"></div>
+              <div class="mb-2"><label for="license_number" class="form-label">Driving License Number</label><input class="form-control" id="license_number" name="license_number" value="{{ form.license_number|default:'' }}" required></div>
+              <div class="mb-2"><label for="photo_url" class="form-label">Profile Photo URL <span class="text-muted fw-normal">(optional)</span></label><input class="form-control" id="photo_url" name="photo_url" type="url" value="{{ form.photo_url|default:'' }}"></div>
+              <div class="mb-2"><label for="password" class="form-label">Password</label><div class="input-group"><input class="form-control" id="password" name="password" type="password" autocomplete="new-password" required><button type="button" class="btn btn-outline-secondary password-toggle" data-target="password" aria-label="Show password"><i class="bi bi-eye"></i></button></div></div>
+              <div class="mb-2"><label for="confirm_password" class="form-label">Confirm Password</label><div class="input-group"><input class="form-control" id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required><button type="button" class="btn btn-outline-secondary password-toggle" data-target="confirm_password" aria-label="Show confirm password"><i class="bi bi-eye"></i></button></div></div>
+            </div>
+            <button type="submit" class="btn btn-success w-100 py-3 mt-3">Submit Application</button>
+          </form>
+          <p class="text-center mt-3 mb-0">Already applied? <a class="text-success fw-semibold" href="{% url 'partner_login' %}">Sign in</a></p>
+          <p class="partner-signup-back text-center mt-3 mb-0"><a href="{% url 'index' %}"><i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Back to LocalMart</a></p>
+      </main>
+    </section>
+  </main>
+  <script>
+    const digitsOnlyFields = document.querySelectorAll("#phone");
+    const lettersAndSpacesFields = document.querySelectorAll("#name, #vehicle");
+    digitsOnlyFields.forEach((input) => input.addEventListener("input", () => {
+      input.value = input.value.replace(/[^0-9]/g, "");
+    }));
+    lettersAndSpacesFields.forEach((input) => input.addEventListener("input", () => {
+      input.value = input.value.replace(/[^\p{L} ]/gu, "");
+    }));
+    document.querySelectorAll(".password-toggle").forEach((button) => button.addEventListener("click", function () {
+      const input = document.getElementById(this.dataset.target);
+      const visible = input.type === "password";
+      input.type = visible ? "text" : "password";
+      this.querySelector("i").className = visible ? "bi bi-eye-slash" : "bi bi-eye";
+      this.setAttribute("aria-label", `${visible ? "Hide" : "Show"} ${this.dataset.target === "password" ? "password" : "confirm password"}`);
+    }));
+  </script>
+</body>
+</html>

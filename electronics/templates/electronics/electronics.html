@@ -1,0 +1,2102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LocalMart | Electronics</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/localmart-logo.css' %}?v=20260929-shared-logo">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8f6;
+            color: #17201b;
+
+            margin: 0;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+        .navbar {
+            height: 82px;
+            width: 100%;
+
+            background: #ffffff;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 55px;
+
+            border-bottom: 1px solid #e7ece9;
+
+            gap: 30px;
+
+            /* Sticky */
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+
+        .logo {
+            text-decoration: none;
+            font-size: 32px;
+            font-weight: 800;
+            color: #079447;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #111111;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-area {
+            flex: 1;
+            max-width: 700px;
+
+            display: flex;
+            height: 48px;
+        }
+
+        .category-select {
+            width: 150px;
+
+            border: 1px solid #dce5df;
+            border-right: none;
+
+            border-radius: 10px 0 0 10px;
+
+            padding: 0 15px;
+
+            font-size: 14px;
+
+            background: #ffffff;
+            outline: none;
+        }
+
+        .search-input {
+            flex: 1;
+
+            border: 1px solid #dce5df;
+
+            padding: 0 18px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #079447;
+        }
+
+        .search-button {
+            width: 62px;
+
+            border: none;
+
+            background: #079447;
+
+            color: white;
+
+            font-size: 20px;
+
+            border-radius: 0 10px 10px 0;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .search-button:hover {
+            background: #067b3b;
+        }
+
+
+        /* =========================
+           NAV ACTIONS
+        ========================= */
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 28px;
+
+            margin-left: auto;
+        }
+
+        .nav-link {
+            text-decoration: none;
+
+            color: #202522;
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #079447;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+        }
+
+        .count {
+            background: #079447;
+            color: white;
+
+            min-width: 22px;
+            height: 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+   PROFESSIONAL HERO IMAGE
+========================= */
+
+        .hero-image {
+            position: absolute;
+
+            right: 0;
+            top: 0;
+
+            width: 58%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            z-index: 2;
+
+            pointer-events: none;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 950px;
+
+            height: auto;
+
+            object-fit: contain;
+
+            display: block;
+
+            filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.30));
+
+            transform: translateX(3%);
+
+            transition: transform 0.4s ease;
+        }
+
+        .hero:hover .hero-image img {
+            transform: translateX(3%) scale(1.015);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero-wrapper {
+            max-width: 1450px;
+
+            margin: 35px auto;
+
+            padding: 0 25px;
+        }
+
+        .hero {
+            min-height: 480px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+
+            background: #00251f;
+
+            display: flex;
+            align-items: center;
+
+            padding: 55px 60px;
+            color: white;
+        }
+
+
+        /* =========================
+           HERO CONTENT
+        ========================= */
+
+        .hero-content {
+            width: 48%;
+
+            position: relative;
+
+            z-index: 3;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            padding: 10px 17px;
+
+            border-radius: 50px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 25px;
+        }
+
+        .hero-badge span {
+            font-size: 17px;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+
+            line-height: 1.05;
+
+            margin-bottom: 22px;
+
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 strong {
+            color: #39d98a;
+        }
+
+        .hero-description {
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            color: rgba(255, 255, 255, 0.85);
+
+            max-width: 580px;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* =========================
+           HERO BUTTON
+        ========================= */
+
+        .hero-bottom {
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .shop-button {
+            text-decoration: none;
+
+            background: #16b86b;
+
+            color: white;
+
+            padding: 15px 27px;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            transition: 0.25s;
+        }
+
+        .shop-button:hover {
+            background: #0fa35d;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           TRUST BADGE
+        ========================= */
+
+        .trust {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .trust-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: rgba(21, 184, 107, 0.20);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+        .trust-text strong {
+            display: block;
+
+            font-size: 14px;
+
+            margin-bottom: 4px;
+        }
+
+        .trust-text span {
+            color: rgba(255, 255, 255, 0.65);
+
+            font-size: 12px;
+        }
+
+
+
+
+        /* =========================
+           SERVICE SECTION
+        ========================= */
+
+        .services {
+            max-width: 1380px;
+
+            margin: 0 auto 40px;
+
+            padding: 0 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .service-card {
+            background: white;
+
+            border: 1px solid #e3ebe6;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 17px;
+
+            transition: 0.25s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.07);
+        }
+
+        .service-icon {
+            width: 55px;
+            height: 55px;
+
+            min-width: 55px;
+
+            border-radius: 50%;
+
+            background: #e8f8f0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+        .service-card h3 {
+            font-size: 15px;
+
+            margin-bottom: 6px;
+        }
+
+        .service-card p {
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section {
+            max-width: 1380px;
+
+            margin: 50px auto;
+
+            padding: 0 25px;
+        }
+
+        .section-heading {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 {
+            font-size: 28px;
+
+            color: #123f2a;
+        }
+
+        .view-all {
+            text-decoration: none;
+
+            color: #079447;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+        /* =========================
+   PRODUCT GRID
+========================= */
+
+        .product-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 22px;
+        }
+
+
+        /* =========================
+   PRODUCT CARD
+========================= */
+
+        .product-card {
+            background: #ffffff;
+
+            border: 1px solid #e5ebe7;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            transition: 0.3s;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+        }
+
+
+        /* =========================
+   PRODUCT IMAGE
+========================= */
+
+        .product-image {
+            position: relative;
+            height: 230px;
+
+            background: #f7f9f8;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        .product-image img {
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 1;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: #dc3545;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .16);
+        }
+
+
+        /* =========================
+   PRODUCT DETAILS
+========================= */
+
+        .product-details {
+            padding: 18px;
+        }
+
+        .product-brand {
+            color: #079447;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 6px;
+        }
+
+        .product-details h3 {
+            font-size: 16px;
+
+            color: #17201b;
+
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================
+   RATING
+========================= */
+
+        .product-rating {
+            font-size: 13px;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================
+   PRICE
+========================= */
+
+        .product-price {
+            font-size: 20px;
+
+            font-weight: 700;
+
+            color: #111;
+
+            margin-bottom: 14px;
+        }
+
+
+        /* =========================
+   ADD CART BUTTON
+========================= */
+
+        .add-cart-btn {
+            width: 100%;
+
+            border: none;
+
+            background: #079447;
+
+            color: white;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .add-cart-btn:hover {
+            background: #067b3b;
+        }
+
+        .quantity-control {
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background: #079447;
+
+            border-radius: 8px;
+
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            width: 45px;
+
+            height: 42px;
+
+            border: none;
+
+            background: #079447;
+
+            color: white;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .quantity-btn:hover {
+            background: #067b3b;
+        }
+
+        .quantity-value {
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width:1200px) {
+
+            .navbar {
+                padding: 0 25px;
+            }
+
+            .hero {
+                padding: 45px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+
+
+            .services {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media(max-width:900px) {
+
+            .navbar {
+                height: auto;
+
+                padding: 20px;
+
+                flex-wrap: wrap;
+            }
+
+            .search-area {
+                order: 3;
+
+                flex-basis: 100%;
+
+                max-width: none;
+            }
+
+            .nav-actions {
+                gap: 15px;
+            }
+
+            .hero {
+                min-height: 600px;
+
+                padding: 35px;
+
+                align-items: flex-start;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+
+            .hero h1 {
+                font-size: 42px;
+            }
+        }
+
+
+        @media(max-width:600px) {
+
+            .navbar {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 27px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+            }
+
+            .nav-link {
+                font-size: 0;
+            }
+
+            .nav-icon {
+                font-size: 22px;
+            }
+
+            .category-select {
+                display: none;
+            }
+
+            .search-input {
+                border-radius: 9px 0 0 9px;
+            }
+
+            .hero-wrapper {
+                padding: 0 12px;
+            }
+
+            .hero {
+                min-height: 600px;
+
+                padding: 30px 25px;
+
+                border-radius: 18px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .hero-bottom {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 20px;
+            }
+
+
+            .services {
+                grid-template-columns: 1fr;
+
+                padding: 0 15px;
+            }
+        }
+
+        /* =========================
+   HERO RESPONSIVE
+========================= */
+
+        @media (max-width: 1200px) {
+
+            .hero {
+                padding: 50px 45px;
+            }
+
+            .hero-content {
+                width: 50%;
+            }
+
+            .hero-image {
+                position: absolute;
+                right: 20px;
+                top: 0;
+
+                width: 55%;
+                height: 100%;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                z-index: 2;
+                pointer-events: none;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+        }
+
+
+        @media (max-width: 900px) {
+
+            .hero {
+                min-height: 650px;
+                padding: 40px 35px;
+
+                align-items: flex-start;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .hero-image {
+                width: 100%;
+                height: 50%;
+
+                top: auto;
+                bottom: 0;
+
+                right: 0;
+
+                justify-content: center;
+
+                opacity: 0.9;
+            }
+
+            .hero-image img {
+                width: 100%;
+                max-width: 700px;
+
+                transform: none;
+            }
+
+            .hero:hover .hero-image img {
+                transform: none;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .hero {
+                min-height: 680px;
+
+                padding: 35px 25px;
+
+                border-radius: 18px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .hero-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+
+                gap: 20px;
+            }
+
+            .hero-image {
+                height: 42%;
+            }
+
+            .hero-image img {
+                width: 110%;
+            }
+        }
+
+        /* =========================
+   FOOTER
+========================= */
+
+        .footer {
+            background: #062d25;
+            color: white;
+            margin-top: 70px;
+        }
+
+        .footer-container {
+            max-width: 1380px;
+            margin: auto;
+            padding: 60px 25px 45px;
+
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.3fr;
+
+            gap: 50px;
+        }
+
+        /* Logo */
+
+        .footer-logo {
+            font-size: 30px;
+            font-weight: 800;
+            color: #39d98a;
+            margin-bottom: 18px;
+        }
+
+        .footer-logo span {
+            color: white;
+        }
+
+        .footer-about {
+            color: rgba(255, 255, 255, 0.70);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 350px;
+        }
+
+        /* Footer headings */
+
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Footer links */
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.70);
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #39d98a;
+            padding-left: 4px;
+        }
+
+        /* Contact */
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+
+            color: rgba(255, 255, 255, 0.70);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .footer-contact-icon {
+            font-size: 17px;
+        }
+
+        /* Social Media */
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .footer-social a {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+
+            color: white;
+
+            font-size: 16px;
+
+            transition: 0.25s;
+        }
+
+        .footer-social a:hover {
+            background: #16b86b;
+            transform: translateY(-3px);
+        }
+
+        /* Bottom Footer */
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+
+            max-width: 1380px;
+
+            margin: auto;
+
+            padding: 20px 25px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 13px;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer-bottom-links a:hover {
+            color: #39d98a;
+        }
+
+
+        /* =========================
+   FOOTER RESPONSIVE
+========================= */
+
+        @media (max-width: 900px) {
+
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                padding: 45px 25px;
+                gap: 35px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-bottom-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+        }
+
+
+
+        .add-cart-btn {
+            width: 100%;
+
+            border: none;
+
+            background: #079447;
+
+            color: white;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            text-decoration: none;
+
+            display: block;
+
+            text-align: center;
+        }
+
+        .add-cart-btn:hover {
+            background: #067b3b;
+
+            color: white;
+        }
+
+
+
+        /* =========================
+   WISHLIST BUTTON
+========================= */
+
+        .product-card {
+            position: relative;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+
+            top: 15px;
+            right: 15px;
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: white;
+
+            color: #555;
+
+            font-size: 25px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            z-index: 10;
+
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+            transition: 0.25s;
+        }
+
+        .wishlist-btn:hover {
+
+            color: #e53935;
+
+            transform: scale(1.08);
+
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .wishlist-btn.wishlist-active {
+
+            color: #e53935;
+
+            background: #fff0f0;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <form hidden>{% csrf_token %}</form>
+
+
+    <!-- =========================
+     NAVBAR
+========================= -->
+
+    <header class="navbar">
+
+        <a href="{% url 'index' %}" class="logo localmart-shared-logo" aria-label="LocalMart home">
+            <i class="bi bi-shop localmart-logo-icon" aria-hidden="true"></i><span class="localmart-logo-word">Local</span><span class="localmart-logo-word localmart-logo-mart">Mart</span>
+        </a>
+
+
+        <form class="search-area" method="get" action="{% url 'electronics_home' %}">
+
+            
+
+
+            <input type="text" class="search-input" id="searchInput" name="search" value="{{ search }}" placeholder="Search for electronics...">
+            <input type="hidden" name="brand" value="{{ selected_brand }}">
+            <input type="hidden" name="price" value="{{ selected_price }}">
+            <input type="hidden" name="min_price" value="{{ min_price }}">
+            <input type="hidden" name="max_price" value="{{ max_price }}">
+            <input type="hidden" name="rating" value="{{ selected_rating }}">
+            <input type="hidden" name="availability" value="{{ selected_availability }}">
+            <input type="hidden" name="discount" value="{{ selected_discount }}">
+            <input type="hidden" name="sort" value="{{ selected_sort }}">
+
+            <button type="submit" class="search-button">
+                🔍
+            </button>
+        </form>
+
+
+        <div class="nav-actions">
+
+            <a href="{% url 'electronics_wishlist' %}" class="nav-link">
+
+                <span class="nav-icon">
+                    ♡
+                </span>
+
+                Wishlist
+
+                <span class="count" id="navbar-wishlist-count">
+                    {{ wishlist_count|default:"0" }}
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'cart' %}" class="nav-link">
+
+                <span class="nav-icon">🛒</span>
+
+                Cart
+
+                <span class="count" id="navbar-cart-count">
+                    {{ cart_count }}
+                </span>
+
+            </a>
+
+            <a href="{% url 'my_orders' %}" class="nav-link">
+
+                <span class="nav-icon">📦</span>
+
+                My Orders
+
+            </a>
+
+           
+            
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+     HERO
+========================= -->
+
+    <div class="hero-wrapper">
+
+        <section class="hero">
+
+
+            <!-- HERO CONTENT -->
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+
+                    <span>⚡</span>
+
+                    Best Deals on Latest Electronics
+
+                </div>
+
+
+                <h1>
+
+                    Upgrade Your
+                    <br>
+
+                    Digital <strong>Lifestyle</strong>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Discover top-quality electronics from trusted brands.
+                    Shop smartphones, laptops, headphones, TVs, cameras
+                    and more at amazing prices.
+
+                </p>
+
+
+                <div class="hero-bottom">
+
+
+                    <a href="#products" class="shop-button">
+
+                        Shop Now
+
+                        <span>→</span>
+
+                    </a>
+
+
+                    <div class="trust">
+
+                        <div class="trust-icon">
+                            ✓
+                        </div>
+
+                        <div class="trust-text">
+
+                            <strong>
+                                100% Genuine Products
+                            </strong>
+
+                            <span>
+                                Trusted by thousands
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- HERO PRODUCT DISPLAY -->
+
+            <!-- HERO IMAGE -->
+
+            <div class="hero-image">
+                <img src="{% static 'images/electronics.jpg.jpeg' %}" alt="LocalMart Electronics">
+            </div>
+        </section>
+    </div>
+    <!-- =========================
+     SERVICES
+========================= -->
+
+    <section class="services">
+
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🏷️
+            </div>
+
+            <div>
+
+                <h3>
+                    Best Prices
+                </h3>
+
+                <p>
+                    Unbeatable prices on all products
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🚚
+            </div>
+
+            <div>
+
+                <h3>
+                    Fast Delivery
+                </h3>
+
+                <p>
+                    Quick and safe delivery to your home
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🛡️
+            </div>
+
+            <div>
+
+                <h3>
+                    Secure Shopping
+                </h3>
+
+                <p>
+                    Safe payment and data protection
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🎧
+            </div>
+
+            <div>
+
+                <h3>
+                    24/7 Support
+                </h3>
+
+                <p>
+                    Customer support whenever you need
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+     PRODUCT SECTION
+========================= -->
+
+    <!-- =========================
+     PRODUCT SECTION
+========================= -->
+
+    <section class="section" id="products">
+
+        <div class="section-heading">
+
+            <h2>
+                Trending Electronics
+            </h2>
+
+            <span style="color:#66736c;font-size:13px;">{{ product_count }} product{{ product_count|pluralize }} found</span>
+
+            <a href="#" class="view-all">
+                View All →
+            </a>
+
+        </div>
+
+        <form method="get" action="{% url 'electronics_home' %}" style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px;">
+            <input type="hidden" name="search" value="{{ search }}">
+            <input type="hidden" name="category" value="{{ selected_category }}">
+            <select name="brand" aria-label="Filter by brand">
+                <option value="all">All brands</option>
+                {% for option in brands %}<option value="{{ option }}" {% if selected_brand == option %}selected{% endif %}>{{ option }}</option>{% endfor %}
+            </select>
+            <select name="price" aria-label="Filter by price">
+                <option value="all">Any price</option>
+                <option value="under_1000" {% if selected_price == 'under_1000' %}selected{% endif %}>Under Rs. 1,000</option>
+                <option value="1000_5000" {% if selected_price == '1000_5000' %}selected{% endif %}>Rs. 1,000 - 5,000</option>
+                <option value="5000_10000" {% if selected_price == '5000_10000' %}selected{% endif %}>Rs. 5,000 - 10,000</option>
+                <option value="10000_25000" {% if selected_price == '10000_25000' %}selected{% endif %}>Rs. 10,000 - 25,000</option>
+                <option value="25000_plus" {% if selected_price == '25000_plus' %}selected{% endif %}>Rs. 25,000+</option>
+            </select>
+            <input name="min_price" value="{{ min_price }}" type="number" min="0" step="0.01" placeholder="Min price" aria-label="Minimum price">
+            <input name="max_price" value="{{ max_price }}" type="number" min="0" step="0.01" placeholder="Max price" aria-label="Maximum price">
+            <select name="rating" aria-label="Filter by rating"><option value="all">Any rating</option><option value="4" {% if selected_rating == '4' %}selected{% endif %}>4 stars and above</option><option value="3" {% if selected_rating == '3' %}selected{% endif %}>3 stars and above</option></select>
+            <select name="availability" aria-label="Filter by availability"><option value="all">All availability</option><option value="in_stock" {% if selected_availability == 'in_stock' %}selected{% endif %}>In stock</option><option value="out_of_stock" {% if selected_availability == 'out_of_stock' %}selected{% endif %}>Out of stock</option></select>
+            <select name="discount" aria-label="Filter by discount"><option value="all">All offers</option><option value="on_sale" {% if selected_discount == 'on_sale' %}selected{% endif %}>On sale</option><option value="20" {% if selected_discount == '20' %}selected{% endif %}>20%+ off</option><option value="30" {% if selected_discount == '30' %}selected{% endif %}>30%+ off</option></select>
+            <select name="sort" aria-label="Sort products"><option value="recommended" {% if selected_sort == 'recommended' %}selected{% endif %}>Recommended</option><option value="newest" {% if selected_sort == 'newest' %}selected{% endif %}>Newest</option><option value="price_low" {% if selected_sort == 'price_low' %}selected{% endif %}>Price: Low to High</option><option value="price_high" {% if selected_sort == 'price_high' %}selected{% endif %}>Price: High to Low</option><option value="name_az" {% if selected_sort == 'name_az' %}selected{% endif %}>Name: A to Z</option><option value="name_za" {% if selected_sort == 'name_za' %}selected{% endif %}>Name: Z to A</option><option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Customer rating</option></select>
+            <button type="submit" class="shop-button" style="border:0;cursor:pointer;">Apply filters</button>
+            <a href="{% url 'electronics_home' %}#products" class="view-all" style="padding:12px;">Clear all</a>
+        </form>
+        {% if price_error %}<p style="color:#b42318;font-size:13px;margin:-12px 0 18px;">{{ price_error }}</p>{% endif %}
+
+
+        {% if products %}
+
+        <div class="product-grid" id="productGrid">
+            {% for product in products %}
+
+            <div class="product-card" data-name="{{ product.name|lower }}" data-brand="{{ product.brand|lower }}"
+                data-description="{{ product.description|lower }}" data-category="{{ product.category_id }}">
+
+                <button type="button" id="wishlist-btn-{{ product.id }}"
+                    onclick="addToWishlist('{{ product.id }}')"
+                    title="{% if product.id in wishlist_ids %}Remove from wishlist{% else %}Add to wishlist{% endif %}"
+                    class="wishlist-btn {% if product.id in wishlist_ids %}wishlist-active{% endif %}">
+                    {% if product.id in wishlist_ids %}♥{% else %}♡{% endif %}
+                </button>
+
+                <!-- PRODUCT IMAGE -->
+
+                <div class="product-image">
+
+                    <span class="discount-badge">{{ product.discount_percentage }}% OFF</span>
+                    <img src="{{ product.image }}" alt="{{ product.name }}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80';">
+
+                </div>
+
+
+                <!-- PRODUCT DETAILS -->
+
+                <div class="product-details">
+
+                    <p class="product-brand">
+                        {{ product.brand }}
+                    </p>
+
+                    <h3>
+                        <a href="{% url 'electronics_product_detail' product.slug %}">{{ product.name }}</a>
+                    </h3>
+
+                    <p class="product-description">
+                        {{ product.description|truncatechars:80 }}
+                    </p>
+
+                    <p class="small mb-2 {% if product.stock_status == 'Out of stock' %}text-danger{% elif product.stock_status == 'Low stock' %}text-warning-emphasis{% else %}text-success{% endif %}">
+                        {% if product.product_type %}{{ product.product_type }}{% elif product.package_size %}{{ product.package_size }}{% else %}{{ product.name }}{% endif %}
+                        · {{ product.stock }} {{ product.stock_unit }} available · {{ product.stock_status }}
+                    </p>
+
+
+                    <!-- RATING -->
+
+                    <div class="product-rating">
+
+                        ⭐ {{ product.rating }}
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="product-price">
+                        <del>₹{{ product.price }}</del>
+                        ₹{{ product.discounted_price|floatformat:2 }}
+
+                    </div>
+
+
+                    <!-- ADD TO CART -->
+                    <div class="cart-control" id="cart-control-{{ product.id }}">
+
+                        <button type="button" class="add-cart-btn" data-product-id="{{ product.id }}"
+                            onclick="addToCart(this.dataset.productId)">
+                            🛒 Add to Cart
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+        <p>
+            No electronics products available.
+        </p>
+
+        {% endif %}
+
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Product pages" style="display:flex;justify-content:center;gap:8px;margin:24px 0;">
+            {% if page_obj.has_previous %}<a class="view-all" href="?{{ filter_query }}&page={{ page_obj.previous_page_number }}#products">Previous</a>{% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}<a class="view-all" href="?{{ filter_query }}&page={{ page_obj.next_page_number }}#products">Next</a>{% endif %}
+        </nav>
+        {% endif %}
+
+    </section>
+
+
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    {% include "partials/home-footer.html" %}
+
+    <script>
+
+        function addToCart(productId) {
+
+            fetch("{% url 'electronics_cart_add' 0 %}".replace("/0/", `/${productId}/`), {
+                method: "POST",
+
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+
+                .then(response => {
+
+                    if (!response.ok) {
+                        throw new Error("Failed to add product to cart");
+                    }
+
+                    return response.json();
+                })
+
+                .then(data => {
+
+                    console.log("Cart response:", data);
+
+                    if (data.success) {
+
+                        // Change Add to Cart into quantity control
+                        showQuantityControl(
+                            productId,
+                            data.quantity
+                        );
+
+                        // Update navbar cart count
+                        updateNavbarCartCount(
+                            data.cart_count
+                        );
+
+                    } else {
+
+                        alert(data.message || "Unable to add product");
+
+                    }
+
+                })
+
+                .catch(error => {
+
+                    console.error("Add to cart error:", error);
+
+                    alert("Something went wrong while adding the product.");
+
+                });
+        }
+
+        function addToWishlist(productId) {
+
+            fetch(
+                `/electronics/wishlist/toggle/${productId}/`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }
+            )
+
+                        .then(response => response.json())
+
+                .then(data => {
+
+                    if (data.success) {
+
+                        const button =
+                            document.getElementById(
+                                `wishlist-btn-${productId}`
+                            );
+
+                        if (button) {
+
+                            if (data.added) {
+
+                                button.innerHTML = "♥";
+                                button.title = "Remove from wishlist";
+
+                                button.classList.add(
+                                    "wishlist-active"
+                                );
+
+                            } else {
+
+                                button.innerHTML = "♡";
+                                button.title = "Add to wishlist";
+
+                                button.classList.remove(
+                                    "wishlist-active"
+                                );
+
+                            }
+
+                        }
+
+
+                        /* Update navbar wishlist count */
+
+                        const wishlistCount =
+                            document.getElementById(
+                                "navbar-wishlist-count"
+                            );
+
+                        if (wishlistCount) {
+
+                            wishlistCount.innerText =
+                                data.wishlist_count;
+
+                        }
+
+                    }
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "Wishlist error:",
+                        error
+                    );
+
+                });
+
+        }
+
+        function updateCart(productId, action) {
+
+            fetch(
+                "{% url 'electronics_cart_update' 0 %}".replace("/0/", `/${productId}/`),
+                {
+                    method: "POST",
+
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({ action: action })
+                }
+            )
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    if (data.success) {
+
+                        if (data.quantity > 0) {
+
+                            showQuantityControl(
+                                productId,
+                                data.quantity
+                            );
+
+                        } else {
+
+                            showAddButton(
+                                productId
+                            );
+
+                        }
+
+                        updateNavbarCartCount(
+                            data.cart_count
+                        );
+
+                    }
+
+                });
+
+        }
+
+
+        function showQuantityControl(
+            productId,
+            quantity
+        ) {
+
+            const container =
+                document.getElementById(
+                    `cart-control-${productId}`
+                );
+
+            container.innerHTML = `
+
+        <div class="quantity-control">
+
+            <button
+                type="button"
+                class="quantity-btn"
+                onclick="updateCart(
+                    ${productId},
+                    'decrease'
+                )"
+            >
+                −
+            </button>
+
+            <span class="quantity-value">
+                ${quantity}
+            </span>
+
+            <button
+                type="button"
+                class="quantity-btn"
+                onclick="updateCart(
+                    ${productId},
+                    'increase'
+                )"
+            >
+                +
+            </button>
+
+        </div>
+
+    `;
+        }
+
+
+        function showAddButton(productId) {
+
+            const container =
+                document.getElementById(
+                    `cart-control-${productId}`
+                );
+
+            container.innerHTML = `
+
+        <button
+            type="button"
+            class="add-cart-btn"
+            onclick="addToCart(${productId})"
+        >
+            🛒 Add to Cart
+        </button>
+
+    `;
+        }
+
+
+        function updateNavbarCartCount(count) {
+
+            const cartCount =
+                document.getElementById("navbar-cart-count");
+
+            if (cartCount) {
+
+                cartCount.innerText = count;
+
+            }
+
+        }
+
+        function getCookie(name) {
+
+            let cookieValue = null;
+
+            if (document.cookie &&
+                document.cookie !== "") {
+
+                const cookies =
+                    document.cookie.split(";");
+
+                for (let cookie of cookies) {
+
+                    cookie = cookie.trim();
+
+                    if (
+                        cookie.substring(
+                            0,
+                            name.length + 1
+                        ) === name + "="
+                    ) {
+
+                        cookieValue =
+                            decodeURIComponent(
+                                cookie.substring(
+                                    name.length + 1
+                                )
+                            );
+
+                        break;
+                    }
+                }
+            }
+
+            return cookieValue;
+        }
+
+
+
+
+        // search products
+
+        function filterProducts() {
+
+            const searchInput =
+                document.getElementById("searchInput");
+
+            const searchText =
+                searchInput.value.toLowerCase().trim();
+
+            const category =
+                document.getElementById("categoryFilter").value;
+
+            const products =
+                document.querySelectorAll(".product-card");
+
+            products.forEach(function (product) {
+
+                const name =
+                    product.dataset.name || "";
+
+                const brand =
+                    product.dataset.brand || "";
+
+                const description =
+                    product.dataset.description || "";
+
+                const productText =
+                    name + " " +
+                    brand + " " +
+                    description;
+
+                if (productText.includes(searchText) &&
+                    (category === "all" || product.dataset.category === category)) {
+
+                    product.style.display = "";
+
+                } else {
+
+                    product.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+        function searchProducts() {
+            filterProducts();
+        }
+
+
+        // =========================
+        // LIVE SEARCH
+        // =========================
+
+        document
+            .getElementById("searchInput")
+            .addEventListener(
+                "input",
+                searchProducts
+            );
+
+        document
+            .getElementById("categoryFilter")
+            .addEventListener("change", filterProducts);
+    </script>
+
+</body>
+
+</html>
+
+

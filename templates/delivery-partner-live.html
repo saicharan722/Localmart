@@ -1,0 +1,79 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delivery Partner Dashboard | LocalMart</title>
+  {% include "partials/localmart-logo-assets.html" %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" crossorigin="" onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'">
+  <link rel="stylesheet" href="{% static 'css/delivery-partner-dashboard.css' %}">
+</head>
+<body class="partner-dashboard" data-online="{{ delivery_partner.is_online|yesno:'true,false' }}">
+  <aside class="sidebar">
+    <a class="side-brand" href="{% url 'index' %}" aria-label="LocalMart Delivery Partner"><i class="bi bi-shop partner-brand-logo" aria-hidden="true"></i><span class="partner-brand-text"><b class="localmart-shared-logo"><span class="localmart-logo-word">Local</span><span class="localmart-logo-word localmart-logo-mart">Mart</span></b><small>Delivery Partner</small></span></a>
+    <nav class="side-nav" aria-label="Partner dashboard">
+      <a class="active" href="{% url 'delivery_dashboard_alias' %}">Dashboard</a>
+      <a href="{% url 'partner_dashboard_page' section='deliveries' %}">My Deliveries</a>
+      <a href="{% url 'partner_dashboard_page' section='pending' %}">Pending Deliveries</a>
+      <a href="{% url 'partner_dashboard_page' section='active' %}">Active Delivery</a>
+      <a href="{% url 'partner_dashboard_page' section='completed' %}">Completed Deliveries</a>
+      <a href="{% url 'partner_dashboard_page' section='earnings' %}">Earnings</a>
+      <a href="{% url 'partner_dashboard_page' section='profile' %}">Profile</a>
+      <a href="{% url 'partner_dashboard_page' section='notifications' %}">Notifications</a>
+      <a href="{% url 'partner_dashboard_page' section='settings' %}">Settings</a>
+      <a href="{% url 'partner_logout' %}">Logout</a>
+    </nav>
+    <div class="sidebar-profile" id="profile"><div class="profile-avatar">{% if delivery_partner.photo_url %}<img src="{{ delivery_partner.photo_url }}" alt="">{% else %}{{ delivery_partner.name|slice:':1'|upper }}{% endif %}</div><div><b>{{ delivery_partner.name }}</b><small>{{ delivery_partner.partner_code }}</small></div></div>
+  </aside>
+
+  <div class="dashboard-main" id="dashboard">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button>
+      <span class="topbar-title">Delivery Partner Panel</span>
+      <div class="topbar-right">{% include "partials/delivery-notification-center.html" %}<span class="online-pill" id="onlinePill"><i></i><span id="onlineLabel">{% if delivery_partner.is_online %}Online{% else %}Offline{% endif %}</span></span><span class="partner-top-name">{{ delivery_partner.name }} <small>Delivery Partner</small></span><span class="top-avatar">{% if delivery_partner.photo_url %}<img src="{{ delivery_partner.photo_url }}" alt="">{% else %}{{ delivery_partner.name|slice:':1'|upper }}{% endif %}</span></div>
+    </header>
+
+    <main class="dashboard-content">
+      <section class="welcome-row"><div><h1>Good morning, {{ delivery_partner.name }} <span>👋</span></h1><p>Stay active and ready for new delivery requests.</p></div><span class="partner-vehicle">{{ delivery_partner.vehicle }}{% if delivery_partner.vehicle_number %} · {{ delivery_partner.vehicle_number }}{% endif %}</span></section>
+
+      <section class="summary-grid" aria-label="Delivery summary">
+        <article class="summary-card green"><span class="summary-icon">₹</span><div><small>Today's Earnings</small><strong id="todayEarnings">₹0.00</strong><em>10% of completed order totals</em></div></article>
+        <article class="summary-card blue"><span class="summary-icon">▣</span><div><small>Completed Deliveries</small><strong id="completedCount">{{ completed_today }}</strong><em>Today</em></div></article>
+        <article class="summary-card purple"><span class="summary-icon">🚚</span><div><small>Active Delivery</small><strong id="activeCount">0</strong><em>In progress</em></div></article>
+        <article class="summary-card orange"><span class="summary-icon">▤</span><div><small>Pending Deliveries</small><strong id="pendingCount">0</strong><em>Awaiting your response</em></div></article>
+      </section>
+
+      <section class="availability-banner" id="settings"><div class="availability-symbol">⌖</div><div class="availability-copy"><b id="availabilityTitle">{% if delivery_partner.is_online %}You are currently ONLINE{% else %}You are currently OFFLINE{% endif %}</b><span id="partnerAvailability">{% if delivery_partner.is_online %}You can receive new delivery requests automatically.{% else %}Go online to receive delivery requests.{% endif %}</span></div><div class="availability-actions"><button class="go-online-button" id="availabilityToggle" data-online="{{ delivery_partner.is_online|yesno:'true,false' }}">{% if delivery_partner.is_online %}◉ &nbsp; Go Offline{% else %}◉ &nbsp; Go Online{% endif %}</button><button class="location-button" id="updateLocation">⌖ &nbsp; Update Location</button></div></section>
+
+      <section class="delivery-layout" id="current-delivery">
+        <article class="panel current-panel">
+          <div class="panel-heading"><div><h2>Current Delivery <span class="active-badge" id="activeBadge">Waiting</span></h2><p id="orderHeading">Your assigned order will appear here.</p></div><a href="#recent-deliveries">My deliveries <span>→</span></a></div>
+          <div id="partnerOrders" class="partner-orders"><div class="empty-state">Loading your deliveries…</div></div>
+          <div class="route-summary" id="routeSummary"><div><span>⌖</span><small>Distance</small><b id="routeDistance">—</b></div><div><span>◷</span><small>Estimated time</small><b id="routeEta">—</b></div><div><span>₹</span><small>Order total</small><b id="routeTotal">—</b></div></div>
+          <div class="map-frame" id="mapFrame"><div id="trackingMap" aria-label="Map showing actual pickup, partner and drop-off locations"></div><div class="map-empty" id="mapEmpty">A map appears when the pickup and delivery locations are confirmed.</div></div>
+          <div class="current-actions" id="currentActions"></div>
+        </article>
+        <article class="panel status-panel"><div class="panel-heading"><div><h2>Order Status</h2><p id="statusOrder">Live delivery timeline</p></div></div><div class="status-timeline" id="statusTimeline"><p class="empty-state">No active delivery yet.</p></div></article>
+      </section>
+
+      <section class="bottom-grid">
+        <article class="panel quick-panel" id="notifications"><div class="panel-heading"><h2>Quick Actions</h2></div><div class="quick-grid"><a href="#trackingMap" id="quickMap"><span class="quick-icon blue-icon">◉</span><b>View Map</b><small>Open active route</small></a><button id="refreshDashboard"><span class="quick-icon green-icon">⟳</span><b>Refresh</b><small>Update deliveries</small></button><a href="#currentActions" id="quickDirections"><span class="quick-icon orange-icon">➤</span><b>Get Directions</b><small>Open route navigation</small></a><a href="{% url 'partner_logout' %}"><span class="quick-icon purple-icon">↪</span><b>Sign out</b><small>End this session</small></a></div></article>
+        <article class="panel recent-panel" id="recent-deliveries"><div class="panel-heading"><h2>Recent Deliveries</h2><span id="completedTotal">0 completed</span></div><div class="recent-list" id="recentList"><p class="empty-state">Completed deliveries will appear here.</p></div></article>
+        <article class="panel earnings-panel" id="earnings"><div class="panel-heading"><h2>Earnings Summary</h2><a href="{% url 'partner_dashboard_page' section='earnings' %}">View details</a></div><div class="earnings-total"><span>Total earnings</span><b id="totalEarnings">₹0.00</b></div><div class="earnings-total"><span>Completed deliveries</span><b id="earningsCompleted">0</b></div><p class="earnings-note">Each completed delivery earns 10% of its order total.</p></article>
+      </section>
+      <footer class="dashboard-footer"><span>LocalMart Delivery Partner Panel</span><span>Your work keeps LocalMart moving.</span>{% include "partials/back-to-top.html" %}</footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" crossorigin="" onerror="this.onerror=null;this.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'"></script>
+  <script>
+    window.DELIVERY_API="{% url 'delivery_orders_api' %}";
+    window.AVAILABILITY_API="{% url 'delivery_availability_api' %}";
+    window.LIVE_LOCATION_API="{% url 'delivery_live_location_api' %}";
+    window.PROFILE_LOCATION_API="{% url 'delivery_profile_location_api' %}";
+  </script>
+  <script src="{% static 'js/live-delivery-partner.js' %}"></script>
+  <script src="{% static 'js/delivery-notifications.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Shopping Cart | LocalMart</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Django Static CSS -->
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* CART */
+
+.cart-container {
+    min-height: 70vh;
+    padding: 40px 0;
+}
+
+.cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cart-empty i {
+    font-size: 80px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.cart-item img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.cart-item-details h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.cart-item-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #dc3545;
+    margin: 10px 0;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.quantity-control button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-btn {
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.cart-summary {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 12px;
+    position: sticky;
+    top: 100px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.summary-row.total {
+    border-top: 2px solid #dee2e6;
+    padding-top: 12px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+
+/* FOOTER */
+
+.footer {
+    background: #111;
+    color: #d7d7d7;
+    padding: 70px 0 25px;
+    margin-top: 80px;
+}
+
+.footer-title {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.footer p {
+    color: #bbb;
+    line-height: 1.8;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+    color: #bbb;
+}
+
+.footer-links a {
+    color: #bbb;
+    transition: .3s;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: #00c853;
+    padding-left: 6px;
+}
+
+.footer hr {
+    border-color: #333;
+    margin: 40px 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.social-icons a {
+    width: 42px;
+    height: 42px;
+    background: #222;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 18px;
+    transition: .3s;
+}
+
+.social-icons a:hover {
+    background: #00c853;
+    transform: translateY(-5px);
+}
+
+@media(max-width: 768px) {
+
+    .footer {
+        text-align: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+}
+
+</style>
+
+<style>
+.fashion-cart-page { max-width: 980px; margin: 0 auto; }
+.fashion-cart-item { display: flex; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid #eee; }
+.fashion-cart-item img { width: 90px; height: 110px; object-fit: cover; }
+.fashion-cart-item h5 { margin: 5px 0; font-size: 14px; }
+.fashion-cart-item span { color: #ff3f6c; font-weight: 600; }
+.fashion-quantity { display: flex; align-items: center; gap: 12px; }
+.fashion-quantity a { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid #ddd; color: #282c3f; text-decoration: none; }
+.fashion-cart-summary { display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding-top: 24px; font-size: 18px; }
+@media (max-width: 600px) { .fashion-cart-item { align-items: flex-start; flex-wrap: wrap; } .fashion-cart-summary { justify-content: space-between; flex-wrap: wrap; } }
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+
+<div class="container">
+
+<!-- LOGO -->
+
+<a class="navbar-brand logo fw-bold"
+href="{% url 'index' %}">
+
+<i class="bi bi-shop text-success"></i>
+
+LocalMart
+
+</a>
+
+<!-- MOBILE TOGGLE -->
+
+<button
+ class="navbar-toggler"
+ type="button"
+ data-bs-toggle="collapse"
+ data-bs-target="#menu">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+
+
+
+<ul class="navbar-nav align-items-lg-center">
+
+
+<li class="nav-item">
+
+<a
+ class="nav-link"
+ href="{% url 'wishlist' %}">
+
+<i class="bi bi-heart"></i>
+
+Wishlist
+
+</a>
+
+</li>
+
+
+
+
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- =========================
+        CART PAGE
+========================= -->
+
+<div class="container py-5">
+
+    <div class="fashion-cart-page">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div><h2 class="fw-bold">Your LocalMart cart</h2><p id="sharedCartCount" class="text-muted mb-0">{{ shared_cart_count }} item{{ shared_cart_count|pluralize }} across categories</p></div>
+            <a href="{% url 'index' %}" class="btn btn-outline-success">Back to Home</a>
+        </div>
+        {% for item in shared_cart_items %}
+        <div class="fashion-cart-item">
+            <img src="{{ item.image }}" alt="{{ item.name }}" onerror="this.style.display='none'">
+            <div class="flex-grow-1"><span class="text-muted small">{{ item.category }}</span><h5>{{ item.name }}</h5><span>₹{{ item.price|floatformat:2 }}</span></div>
+            <div class="d-flex align-items-center gap-2">
+                <form method="post" action="{% url 'cart_item_action' %}">{% csrf_token %}<input type="hidden" name="source" value="{{ item.source }}"><input type="hidden" name="product_id" value="{{ item.id }}"><input type="hidden" name="action" value="decrease"><button class="btn btn-sm btn-outline-secondary" aria-label="Decrease quantity">−</button></form>
+                <strong>{{ item.quantity }}</strong>
+                <form method="post" action="{% url 'cart_item_action' %}">{% csrf_token %}<input type="hidden" name="source" value="{{ item.source }}"><input type="hidden" name="product_id" value="{{ item.id }}"><input type="hidden" name="action" value="increase"><button class="btn btn-sm btn-outline-secondary" aria-label="Increase quantity">+</button></form>
+            </div>
+            <strong>₹{{ item.line_total|floatformat:2 }}</strong>
+            <form method="post" action="{% url 'cart_item_action' %}">{% csrf_token %}<input type="hidden" name="source" value="{{ item.source }}"><input type="hidden" name="product_id" value="{{ item.id }}"><input type="hidden" name="action" value="remove"><button class="btn btn-sm btn-outline-danger">Remove</button></form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+
+        <!-- CART ITEMS -->
+
+        <div class="col-lg-8">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h2 class="fw-bold">
+                        <i class="bi bi-cart3 text-success"></i>
+                        Your  Cart
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Review your selected products before checkout.
+                    </p>
+
+                </div>
+
+                
+
+            </div>
+
+            <!-- CART ITEMS -->
+
+            <div id="cartContainer" data-server-subtotal="{{ shared_cart_subtotal|default:0 }}" data-server-count="{{ shared_cart_count|default:0 }}" data-gst-state="{{ gst_supplier_state|escape }}">
+
+                <div class="text-center py-5">
+
+                    
+
+                    <h4 class="fw-bold">
+                        Your Cart is Empty
+                    </h4>
+
+                    <p class="text-muted">
+                        Looks like you haven't added anything yet.
+                        Discover thousands of products from nearby stores.
+                    </p>
+
+                    <a href="{% url 'index' %}" class="btn btn-outline-success w-100 mt-3">
+    <i class="bi bi-arrow-left-circle me-2"></i>
+    Back to Home
+</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ORDER SUMMARY -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 sticky-top">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-4">
+                        Order Summary
+                    </h4>
+
+                    <section id="cartCouponSection" class="border rounded-3 p-3 mb-3 bg-light" aria-labelledby="cartCouponHeading">
+                        <h5 id="cartCouponHeading" class="h6 fw-semibold"><i class="bi bi-tag me-2 text-success"></i>Apply Coupon</h5>
+                        <div class="input-group">
+                            <input id="cartCouponCode" class="form-control text-uppercase" maxlength="40" autocomplete="off" placeholder="Enter coupon code" aria-label="Coupon code">
+                            <button id="cartApplyCoupon" class="btn btn-success" type="button">Apply</button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <button id="cartViewCoupons" class="btn btn-link btn-sm p-0 text-success" type="button" data-bs-toggle="modal" data-bs-target="#cartCouponsModal">View all coupons</button>
+                            <button id="cartRemoveCoupon" class="btn btn-link btn-sm p-0 text-danger" type="button" hidden>Remove coupon</button>
+                        </div>
+                        <div id="cartCouponMessage" class="small mt-2" role="status" aria-live="polite"></div>
+                        <div id="cartAppliedCoupon" class="small text-success mt-2" hidden></div>
+                    </section>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <span id="subtotal">
+                            ₹0.00
+                        </span>
+
+                    </div>
+
+                    <div id="cartProductDiscountRow" class="d-flex justify-content-between mb-3 text-success" hidden><span>Product discounts</span><span id="cartProductDiscount">−₹0.00</span></div>
+
+                    <div id="cartCouponDiscountRow" class="d-flex justify-content-between mb-3 text-success" hidden><span>Coupon discount</span><span id="cartCouponDiscount">−₹0.00</span></div>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>
+                            Delivery Charges
+                        </span>
+
+                        <span id="cartDeliveryCharge" class="text-success fw-bold">
+                            FREE
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>
+                            GST & Taxes
+                        </span>
+
+                        <span id="tax">
+                            ₹0.00
+                        </span>
+
+                    </div>
+
+                    <div id="cartOtherChargesRow" class="d-flex justify-content-between mb-3" hidden><span>Other charges</span><span id="cartOtherCharges">₹0.00</span></div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <h5 class="fw-bold">
+                            Total
+                        </h5>
+
+                        <h5
+                            class="fw-bold text-success"
+                            id="grandTotal">
+
+                            ₹0.00
+
+                        </h5>
+
+                    </div>
+
+<button
+    type="button"
+    class="btn btn-success w-100 mt-4 py-2"
+    onclick="goToCheckout()">
+
+    <i class="bi bi-credit-card me-2"></i>
+    Proceed to Checkout
+
+</button>                    <a href="/"
+   class="btn btn-outline-success w-100 mt-3">
+
+    <i class="bi bi-arrow-left-circle me-2"></i>
+
+    Back to Home
+
+</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="cartCouponsModal" tabindex="-1" aria-labelledby="cartCouponsTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="cartCouponsTitle"><i class="bi bi-tags me-2 text-success"></i>Available coupons</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body"><div id="cartCouponModalFeedback" class="small mb-3" role="status" aria-live="polite"></div><div id="cartCouponOffers"><div class="text-muted small">Loading offers…</div></div></div>
+    </div></div>
+</div>
+
+<!-- =========================
+        FOOTER
+========================= -->
+
+{% include "partials/home-footer.html" %}
+
+<!-- BOOTSTRAP JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{{ shared_cart_tax_items|json_script:"sharedCartTaxItems" }}
+<script>window.localmartCartCoupon = {code: "{{ applied_coupon_code|escapejs }}", email: "{{ checkout_customer_email|default:''|escapejs }}"};</script>
+<script src="{% static 'js/cart.js' %}?v=cart-coupon-modal-apply-3"></script>
+</body>
+
+</html>

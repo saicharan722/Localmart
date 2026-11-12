@@ -1,0 +1,1220 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Grocery Wishlist | LocalMart</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #f7f8f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: #ffffff;
+        }
+
+        .logo {
+            color: #14a94a !important;
+            font-size: 24px;
+        }
+
+        .page-title {
+            font-weight: 700;
+        }
+
+        .wishlist-card {
+            background: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 14px;
+            overflow: hidden;
+            height: 100%;
+            transition: 0.2s ease;
+        }
+
+        .wishlist-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        .product-image-box {
+            height: 190px;
+            background: #fafafa;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 15px;
+        }
+
+        .remove-wishlist {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 34px;
+            height: 34px;
+            border: 0;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #e53935;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .product-content {
+            padding: 14px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            min-height: 40px;
+        }
+
+        .product-unit {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .product-price {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .product-mrp {
+            font-size: 12px;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 5px;
+        }
+
+        .add-cart-btn {
+            width: 100%;
+            border: 1px solid #14a94a;
+            background: #ffffff;
+            color: #14a94a;
+            border-radius: 8px;
+            font-weight: 700;
+            padding: 9px;
+            margin-top: 12px;
+        }
+
+        .add-cart-btn:hover {
+            background: #14a94a;
+            color: #ffffff;
+        }
+
+        .empty-wishlist {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .empty-wishlist-icon {
+            font-size: 70px;
+            color: #14a94a;
+        }
+
+        .toast-message {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #222;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 8px;
+            display: none;
+            z-index: 9999;
+        }
+
+        @media (max-width: 576px) {
+
+            .product-image-box {
+                height: 150px;
+            }
+
+            .product-name {
+                font-size: 13px;
+            }
+
+        }
+
+
+/* GROCERY WISHLIST FOOTER */
+
+.lm-footer {
+    margin-top: 60px;
+    background: #111;
+    color: #fff;
+}
+
+.lm-footer-container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 55px 30px 45px;
+
+    display: grid;
+    grid-template-columns:
+        1.5fr
+        1fr
+        1fr
+        1fr
+        1.2fr;
+
+    gap: 40px;
+}
+
+.lm-footer-logo {
+    font-size: 29px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.lm-footer-logo span {
+    color: #198754;
+}
+
+.lm-footer-brand p {
+    max-width: 310px;
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.lm-social-icons {
+    display: flex;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.lm-social-icons a {
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #444;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    font-size: 15px;
+
+    transition: .2s ease;
+}
+
+.lm-social-icons a:hover {
+    background: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+.lm-footer-column h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.lm-footer-column > a {
+    display: block;
+
+    color: #aaa;
+
+    font-size: 13px;
+
+    margin-bottom: 12px;
+
+    transition: .2s ease;
+}
+
+.lm-footer-column > a:hover {
+    color: #fff;
+    padding-left: 3px;
+}
+
+.lm-footer-column > a i {
+    color: #198754;
+}
+
+.lm-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 13px;
+}
+
+.lm-contact-item span {
+    width: 20px;
+    color: #198754;
+    font-size: 15px;
+}
+
+.lm-contact-item p {
+    margin: 0;
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* NEWSLETTER */
+
+.lm-footer-newsletter {
+    max-width: 1390px;
+    margin: auto;
+
+    padding: 25px 30px;
+
+    border-top: 1px solid #292929;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+.lm-footer-newsletter h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.lm-footer-newsletter p {
+    margin: 0;
+    color: #999;
+    font-size: 12px;
+}
+
+.lm-newsletter-form {
+    display: flex;
+    width: min(100%, 430px);
+}
+
+.lm-newsletter-form input {
+    flex: 1;
+
+    height: 42px;
+
+    border: 1px solid #444;
+    border-right: 0;
+
+    background: #1b1b1b;
+    color: #fff;
+
+    padding: 0 13px;
+
+    outline: none;
+
+    border-radius: 6px 0 0 6px;
+}
+
+.lm-newsletter-form input::placeholder {
+    color: #777;
+}
+
+.lm-newsletter-form button {
+    border: 0;
+
+    padding: 0 20px;
+
+    background: #198754;
+    color: #fff;
+
+    font-weight: 600;
+
+    border-radius: 0 6px 6px 0;
+
+    transition: .2s ease;
+}
+
+.lm-newsletter-form button:hover {
+    background: #157347;
+}
+
+
+/* FOOTER BOTTOM */
+
+.lm-footer-bottom {
+    border-top: 1px solid #292929;
+
+    padding: 18px 30px;
+
+    text-align: center;
+}
+
+.lm-footer-bottom p {
+    margin: 0;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1200px) {
+
+    .lm-footer-container {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
+
+
+/* TABLET */
+
+@media (max-width: 768px) {
+
+    .lm-footer-container {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        padding: 40px 22px;
+    }
+
+    .lm-footer-brand {
+        grid-column: 1 / -1;
+    }
+
+    .lm-footer-newsletter {
+        flex-direction: column;
+        align-items: flex-start;
+
+        padding: 25px 22px;
+    }
+
+    .lm-newsletter-form {
+        width: 100%;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 576px) {
+
+    .lm-footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .lm-footer-brand {
+        grid-column: auto;
+    }
+
+    .lm-footer-newsletter {
+        padding: 25px 18px;
+    }
+
+    .lm-newsletter-form {
+        width: 100%;
+    }
+
+    .lm-newsletter-form input {
+        min-width: 0;
+    }
+
+}
+
+
+    </style>
+
+</head>
+
+<body>
+
+
+<nav class="navbar shadow-sm sticky-top">
+
+    <div class="container py-3">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <a
+                href="{% url 'grocery' %}"
+                class="navbar-brand logo fw-bold">
+
+                <i class="bi bi-shop me-1"></i>
+                LocalMart
+
+            </a>
+
+        </div>
+
+
+        <div class="d-flex align-items-center gap-2">
+
+            <a
+                href="{% url 'grocery' %}"
+                class="btn btn-light">
+
+                <i class="bi bi-house"></i>
+
+                <span class="d-none d-md-inline">
+                    Grocery
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'cart' %}"
+                class="btn btn-light">
+
+                <i class="bi bi-cart3"></i>
+
+                <span class="d-none d-md-inline">
+                    Cart
+                </span>
+
+                <span
+                    id="cartCount"
+                    class="badge bg-success ms-1">
+
+                    0
+
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main class="container py-4 py-md-5">
+
+
+    <div
+        class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="page-title mb-1">
+
+                <i
+                    class="bi bi-heart-fill text-danger me-2">
+                </i>
+
+                My Grocery Wishlist
+
+            </h2>
+
+            <p
+                class="text-muted mb-0"
+                id="wishlistSubtitle">
+
+                Your saved grocery products
+
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn btn-outline-danger"
+            id="clearWishlistBtn">
+
+            <i class="bi bi-trash me-1"></i>
+
+            Clear All
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="wishlistGrid"
+        class="row g-3 g-md-4">
+
+    </div>
+
+
+    <div
+        id="emptyWishlist"
+        class="empty-wishlist"
+        style="display:none;">
+
+        <i
+            class="bi bi-heart empty-wishlist-icon">
+        </i>
+
+        <h4 class="fw-bold mt-3">
+
+            Your Grocery Wishlist is Empty
+
+        </h4>
+
+        <p class="text-muted">
+
+            Save your favourite grocery products here.
+
+        </p>
+
+        <a
+            href="{% url 'grocery' %}"
+            class="btn btn-success px-4">
+
+            <i class="bi bi-basket2 me-2"></i>
+
+            Shop Groceries
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<div
+    id="toastMessage"
+    class="toast-message">
+</div>
+<!-- GROCERY WISHLIST FOOTER -->
+
+{% include "partials/home-footer.html" %}
+
+<script>
+
+"use strict";
+
+
+const GROCERY_WISHLIST_KEY =
+    "localmartGroceryWishlist";
+
+const GROCERY_CART_KEY =
+    "localmartGroceryCart";
+
+const LEGACY_GROCERY_WISHLIST_KEYS = [
+    "localmartMasalaWishlist",
+    "breakfastWishlist",
+    "localmartIceCreamTubsWishlist",
+    "localmartIndianSweetsWishlist",
+    "localmartDrinksJuicesWishlist",
+    "localmartTeaCoffeeMoreWishlist",
+    "localmartPackagedFoodWishlist"
+];
+
+
+function getWishlist() {
+
+    try {
+
+        const primary = JSON.parse(localStorage.getItem(GROCERY_WISHLIST_KEY) || "[]");
+        const wishlist = Array.isArray(primary) ? primary : [];
+        LEGACY_GROCERY_WISHLIST_KEYS.forEach(function (key) {
+            try {
+                const legacy = JSON.parse(localStorage.getItem(key) || "[]");
+                if (Array.isArray(legacy)) {
+                    wishlist.push(...legacy.map(function (item) {
+                        if (item && typeof item === "object") return item;
+                        return {
+                            id: key + ":" + item,
+                            name: "Saved grocery product",
+                            category: key.replace(/^localmart|Wishlist$/g, ""),
+                            price: 0,
+                            mrp: 0,
+                            image: "",
+                            quantity: 1
+                        };
+                    }));
+                }
+            } catch (error) {
+                console.warn("Could not read legacy grocery wishlist", key, error);
+            }
+        });
+
+        // Older category scripts saved bare IDs. Keep those legacy entries
+        // visible while newer category scripts save the full product object.
+        const normalized = wishlist.map(function (item) {
+            if (item && typeof item === "object") return item;
+            return {
+                id: item,
+                name: "Saved grocery product",
+                category: "Grocery",
+                price: 0,
+                mrp: 0,
+                image: "",
+                quantity: 1
+            };
+        });
+        const unique = normalized.filter(function (item, index, items) {
+            const identity = [item.category || "", item.id ?? "", item.name || ""].join("|");
+            return items.findIndex(function (candidate) {
+                return [candidate.category || "", candidate.id ?? "", candidate.name || ""].join("|") === identity;
+            }) === index;
+        });
+
+        localStorage.setItem(GROCERY_WISHLIST_KEY, JSON.stringify(unique));
+        LEGACY_GROCERY_WISHLIST_KEYS.forEach(key => localStorage.removeItem(key));
+        return unique;
+
+    } catch (error) {
+
+        console.error(
+            "Wishlist error:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+function saveWishlist(wishlist) {
+
+    localStorage.setItem(
+        GROCERY_WISHLIST_KEY,
+        JSON.stringify(wishlist)
+    );
+
+}
+
+
+function getCart() {
+
+    try {
+
+        const cart =
+            JSON.parse(
+                localStorage.getItem(
+                    GROCERY_CART_KEY
+                ) || "[]"
+            );
+
+        return Array.isArray(cart)
+            ? cart
+            : [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveCart(cart) {
+
+    localStorage.setItem(
+        GROCERY_CART_KEY,
+        JSON.stringify(cart)
+    );
+
+    window.dispatchEvent(
+        new Event("groceryCartUpdated")
+    );
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function formatPrice(value) {
+
+    return "₹" +
+        Number(value || 0).toFixed(2);
+
+}
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toastMessage"
+        );
+
+    if (!toast) return;
+
+    toast.textContent =
+        message;
+
+    toast.style.display =
+        "block";
+
+    setTimeout(function () {
+
+        toast.style.display =
+            "none";
+
+    }, 2500);
+
+}
+
+
+function updateCartCount() {
+
+    const cart =
+        getCart();
+
+    const count =
+        cart.reduce(
+            function(total, item) {
+
+                return total +
+                    Number(
+                        item.quantity || 1
+                    );
+
+            },
+            0
+        );
+
+    const cartCount =
+        document.getElementById(
+            "cartCount"
+        );
+
+    if (cartCount) {
+
+        cartCount.textContent =
+            count;
+
+    }
+
+}
+
+
+function removeFromWishlist(id) {
+
+    let wishlist =
+        getWishlist();
+
+    wishlist =
+        wishlist.filter(
+            function(item) {
+
+                return String(item && typeof item === "object" ? item.id : item) !==
+                    String(id);
+
+            }
+        );
+
+    saveWishlist(wishlist);
+
+    renderWishlist();
+
+    showToast(
+        "Removed from Wishlist"
+    );
+
+}
+
+
+function addToCart(id) {
+
+    const wishlist =
+        getWishlist();
+
+    const product =
+        wishlist.find(
+            function(item) {
+
+                return String(item && typeof item === "object" ? item.id : item) ===
+                    String(id);
+
+            }
+        );
+
+
+    if (!product) {
+
+        return;
+
+    }
+
+
+    const cart =
+        getCart();
+
+
+    const existing =
+        cart.find(
+            function(item) {
+
+                return String(item && typeof item === "object" ? item.id : item) ===
+                    String(id);
+
+            }
+        );
+
+
+    if (existing) {
+
+        existing.quantity =
+            Number(
+                existing.quantity || 1
+            ) + 1;
+
+    } else {
+
+        cart.push({
+
+            id:
+                product.id,
+
+            name:
+                product.name,
+
+            category:
+                product.category || "Grocery",
+
+            unit:
+                product.unit || "",
+
+            price:
+                Number(product.price || 0),
+
+            mrp:
+                Number(product.mrp || 0),
+
+            discount:
+                Number(product.discount || 0),
+
+            rating:
+                Number(product.rating || 0),
+
+            reviews:
+                Number(product.reviews || 0),
+
+            quantity:
+                1,
+
+            image:
+                product.image || ""
+
+        });
+
+    }
+
+
+    saveCart(cart);
+
+    updateCartCount();
+
+    showToast(
+        `${product.name} added to Grocery Cart 🛒`
+    );
+
+}
+
+
+function renderWishlist() {
+
+    const wishlist =
+        getWishlist();
+
+    const grid =
+        document.getElementById(
+            "wishlistGrid"
+        );
+
+    const empty =
+        document.getElementById(
+            "emptyWishlist"
+        );
+
+    const subtitle =
+        document.getElementById(
+            "wishlistSubtitle"
+        );
+
+
+    if (!grid) return;
+
+
+    if (!wishlist.length) {
+
+        grid.innerHTML = "";
+
+        empty.style.display =
+            "block";
+
+        subtitle.textContent =
+            "0 saved products";
+
+        return;
+
+    }
+
+
+    empty.style.display =
+        "none";
+
+
+    subtitle.textContent =
+        `${wishlist.length} saved product${wishlist.length === 1 ? "" : "s"}`;
+
+
+    grid.innerHTML =
+        wishlist.map(
+            function(product) {
+
+                const price =
+                    Number(
+                        product.price || 0
+                    );
+
+                const mrp =
+                    Number(
+                        product.mrp || 0
+                    );
+
+
+                return `
+
+                    <div class="col-6 col-md-4 col-lg-3">
+
+                        <div class="wishlist-card">
+
+                            <div class="product-image-box">
+
+                                <img
+                                    src="${escapeHTML(product.image || "")}"
+                                    class="product-image"
+                                    alt="${escapeHTML(product.name || "Product")}"
+                                    onerror="
+                                        this.style.display='none';
+                                    "
+                                >
+
+
+                                <button
+                                    type="button"
+                                    class="remove-wishlist"
+                                    onclick="removeFromWishlist('${escapeHTML(product.id)}')"
+                                    title="Remove from wishlist">
+
+                                    <i class="bi bi-heart-fill"></i>
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="product-content">
+
+                                <div class="product-name">
+
+                                    ${escapeHTML(
+                                        product.name ||
+                                        "Grocery Product"
+                                    )}
+
+                                </div>
+
+
+                                <div class="product-unit">
+
+                                    ${escapeHTML(
+                                        product.unit || ""
+                                    )}
+
+                                </div>
+
+
+                                <div class="mt-2">
+
+                                    <span class="product-price">
+
+                                        ${formatPrice(price)}
+
+                                    </span>
+
+                                    ${
+                                        mrp > price
+                                        ?
+                                        `
+                                        <span class="product-mrp">
+
+                                            ${formatPrice(mrp)}
+
+                                        </span>
+                                        `
+                                        :
+                                        ""
+                                    }
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="add-cart-btn"
+                                    onclick="addToCart('${escapeHTML(product.id)}')">
+
+                                    <i class="bi bi-cart-plus me-1"></i>
+
+                                    ADD TO GROCERY CART
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+document
+    .getElementById("clearWishlistBtn")
+    .addEventListener(
+        "click",
+        function() {
+
+            const wishlist =
+                getWishlist();
+
+            if (!wishlist.length) {
+
+                showToast(
+                    "Wishlist is already empty"
+                );
+
+                return;
+
+            }
+
+
+            const confirmed =
+                confirm(
+                    "Remove all products from your Grocery Wishlist?"
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            [
+                GROCERY_WISHLIST_KEY,
+                "localmartMasalaWishlist",
+                "breakfastWishlist",
+                "localmartIceCreamTubsWishlist",
+                "localmartIndianSweetsWishlist",
+                "localmartDrinksJuicesWishlist",
+                "localmartTeaCoffeeMoreWishlist",
+                "localmartPackagedFoodWishlist"
+            ].forEach(key => localStorage.removeItem(key));
+
+            renderWishlist();
+
+            showToast(
+                "Grocery Wishlist cleared"
+            );
+
+        }
+    );
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        renderWishlist();
+
+        updateCartCount();
+
+        console.log(
+            "LocalMart Grocery Wishlist loaded"
+        );
+
+        console.log(
+            "Wishlist:",
+            getWishlist()
+        );
+
+        console.log(
+            "Grocery Cart:",
+            getCart()
+        );
+
+    }
+);
+
+
+window.addEventListener(
+    "groceryCartUpdated",
+    function() {
+
+        updateCartCount();
+
+    }
+);
+
+
+window.removeFromWishlist =
+    removeFromWishlist;
+
+window.addToCart =
+    addToCart;
+
+</script>
+
+
+</body>
+</html>

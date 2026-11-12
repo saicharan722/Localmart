@@ -1,0 +1,36 @@
+.orders-header {
+    background: #f8f9fa;
+    padding: 45px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.order-card {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.order-item {
+    transition: 0.2s ease;
+}
+
+.order-food-image {
+    width: 120px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    transition: 0.2s ease;
+}
+
+@media (max-width: 768px) {
+
+    .order-food-image {
+        width: 100px;
+        height: 85px;
+    }
+
+}
+

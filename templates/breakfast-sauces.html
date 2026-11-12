@@ -1,0 +1,768 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Breakfast & Sauces | LocalMart
+</title>
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/breakfast-sauces.css' %}"
+>
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
+
+
+{% include "partials/grocery-chrome-assets.html" %}
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+{% include "partials/grocery-navbar.html" %}
+
+<!-- MAIN -->
+
+<main class="main-container">
+
+
+<!-- BREADCRUMB -->
+
+<div class="breadcrumb">
+
+    <a href="{% url 'grocery' %}">
+        Home
+    </a>
+
+    <span>
+        ›
+    </span>
+
+    <a href="#">
+        Breakfast & Sauces
+    </a>
+
+    <span>
+        ›
+    </span>
+
+    <strong id="breadcrumbCategory">
+        Top Picks
+    </strong>
+
+</div>
+
+
+<!-- BREAKFAST & SAUCES CATEGORY CAROUSEL -->
+
+<section class="top-category-carousel">
+
+
+    <!-- CATEGORY TRACK -->
+
+    <div
+        class="category-carousel-track"
+        id="categoryNav"
+    >
+
+
+        <!-- TOP PICKS -->
+
+        <button
+            type="button"
+            class="top-category-card active"
+            data-category="Top Picks"
+        >
+
+            <div class="top-category-image">
+
+                <img
+                    src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/154.png"
+                    alt="Top Picks"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <span>
+                Top Picks
+            </span>
+
+        </button>
+
+
+        <!-- BREAKFAST CEREALS -->
+
+        <button
+            type="button"
+            class="top-category-card"
+            data-category="Breakfast Cereals"
+        >
+
+            <div class="top-category-image">
+
+                <img
+                    src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/155.png"
+                    alt="Breakfast Cereals"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <span>
+                Breakfast Cereals
+            </span>
+
+        </button>
+
+
+        <!-- KETCHUP & SAUCES -->
+
+        <button
+            type="button"
+            class="top-category-card"
+            data-category="Ketchup & Sauces"
+        >
+
+            <div class="top-category-image">
+
+                <img
+                    src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/159.png"
+                    alt="Ketchup & Sauces"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <span>
+                Ketchup & Sauces
+            </span>
+
+        </button>
+
+
+        <!-- MUESLI & OATS -->
+
+        <button
+            type="button"
+            class="top-category-card"
+            data-category="Muesli & Oats"
+        >
+
+            <div class="top-category-image">
+
+                <img
+                    src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/156.png"
+                    alt="Muesli & Oats"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <span>
+                Muesli & Oats
+            </span>
+
+        </button>
+
+
+        <!-- HONEY & SPREADS -->
+
+        <button
+            type="button"
+            class="top-category-card"
+            data-category="Honey & Spreads"
+        >
+
+            <div class="top-category-image">
+
+                <img
+                    src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/158.png"
+                    alt="Honey & Spreads"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <span>
+                Honey & Spreads
+            </span>
+
+        </button>
+
+
+        <!-- PEANUT BUTTER -->
+
+        <button
+            type="button"
+            class="top-category-card"
+            data-category="Peanut Butter"
+        >
+
+            <div class="top-category-image">
+
+                <img
+                    src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/157.png"
+                    alt="Peanut Butter"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <span>
+                Peanut Butter
+            </span>
+
+        </button>
+
+
+        <!-- BATTER & MIXES -->
+
+        <button
+            type="button"
+            class="top-category-card"
+            data-category="Batter & Mixes"
+        >
+
+            <div class="top-category-image">
+
+                <img
+                    src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/165.png"
+                    alt="Batter & Mixes"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <span>
+                Batter & Mixes
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- TOOLBAR -->
+
+<section class="product-toolbar">
+
+    <div class="result-info">
+
+        <strong id="resultCount">
+            0 products
+        </strong>
+
+        <span id="activeCategory">
+            Top Picks
+        </span>
+
+    </div>
+
+
+    <div class="toolbar-actions">
+
+        <button
+            class="filter-button"
+            id="filterButton"
+            type="button"
+        >
+            ☷ Filter
+        </button>
+
+
+        <select
+            id="sortSelect"
+            class="sort-select"
+        >
+
+            <option value="default">
+                Sort: Recommended
+            </option>
+
+            <option value="price-low">
+                Price: Low to High
+            </option>
+
+            <option value="price-high">
+                Price: High to Low
+            </option>
+
+            <option value="rating">
+                Rating
+            </option>
+
+            <option value="discount">
+                Discount
+            </option>
+
+            <option value="name">
+                Name
+            </option>
+
+        </select>
+
+    </div>
+
+</section>
+
+
+<!-- FILTER PANEL -->
+
+<section
+    id="filterPanel"
+    class="filter-panel"
+>
+
+    <div class="filter-group">
+
+        <h3>
+            Product Type
+        </h3>
+
+
+        <label>
+
+            <input
+                type="checkbox"
+                value="Breakfast Cereals"
+                class="type-filter"
+            >
+
+            Breakfast Cereals
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="checkbox"
+                value="Muesli & Oats"
+                class="type-filter"
+            >
+
+            Muesli & Oats
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="checkbox"
+                value="Ketchup & Sauces"
+                class="type-filter"
+            >
+
+            Ketchup & Sauces
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="checkbox"
+                value="Honey & Spreads"
+                class="type-filter"
+            >
+
+            Honey & Spreads
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="checkbox"
+                value="Peanut Butter"
+                class="type-filter"
+            >
+
+            Peanut Butter
+
+        </label>
+
+    </div>
+
+
+    <div class="filter-group">
+
+        <h3>
+            Price
+        </h3>
+
+
+        <label>
+
+            <input
+                type="radio"
+                name="priceFilter"
+                value="all"
+                checked
+            >
+
+            All
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="radio"
+                name="priceFilter"
+                value="under100"
+            >
+
+            Under ₹100
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="radio"
+                name="priceFilter"
+                value="100to250"
+            >
+
+            ₹100 – ₹250
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="radio"
+                name="priceFilter"
+                value="above250"
+            >
+
+            Above ₹250
+
+        </label>
+
+    </div>
+
+
+    <div class="filter-group">
+
+        <h3>
+            Rating
+        </h3>
+
+
+        <label>
+
+            <input
+                type="radio"
+                name="ratingFilter"
+                value="all"
+                checked
+            >
+
+            All
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="radio"
+                name="ratingFilter"
+                value="4"
+            >
+
+            4★ & above
+
+        </label>
+
+
+        <label>
+
+            <input
+                type="radio"
+                name="ratingFilter"
+                value="4.5"
+            >
+
+            4.5★ & above
+
+        </label>
+
+    </div>
+
+
+    <button
+        id="clearFilters"
+        class="clear-filters"
+        type="button"
+    >
+
+        Clear Filters
+
+    </button>
+
+</section>
+
+
+<!-- PRODUCTS GRID -->
+
+<section class="products-section">
+
+    <div
+        id="productsGrid"
+        class="products-grid"
+    ></div>
+
+
+    <div
+        id="noProducts"
+        class="no-products"
+    >
+
+        <div>
+            🔎
+        </div>
+
+        <h2>
+            No products found
+        </h2>
+
+        <p>
+            Try another search or category.
+        </p>
+
+        <button
+            id="resetProducts"
+            type="button"
+        >
+            View all products
+        </button>
+
+    </div>
+
+</section>
+
+
+</main>
+
+<!-- CART OVERLAY -->
+
+<div
+    id="cartOverlay"
+    class="cart-overlay"
+></div>
+
+<!-- CART SIDEBAR -->
+
+<aside
+    id="cartSidebar"
+    class="cart-sidebar"
+>
+
+
+<div class="cart-header">
+
+    <div>
+
+        <h2>
+            Your Cart
+        </h2>
+
+        <span id="cartItemLabel">
+            0 items
+        </span>
+
+    </div>
+
+
+    <button
+        id="closeCart"
+        type="button"
+    >
+        ×
+    </button>
+
+</div>
+
+
+<div
+    id="cartItems"
+    class="cart-items"
+>
+
+    <div class="empty-cart">
+
+        <div class="empty-cart-icon">
+            🛒
+        </div>
+
+        <h3>
+            Your cart is empty
+        </h3>
+
+        <p>
+            Add something delicious for breakfast.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="cart-footer">
+
+
+    <div class="bill-row">
+
+        <span>
+            Subtotal
+        </span>
+
+        <strong id="cartSubtotal">
+            ₹0
+        </strong>
+
+    </div>
+
+
+    <div class="bill-row savings">
+
+        <span>
+            Savings
+        </span>
+
+        <strong id="cartSavings">
+            ₹0
+        </strong>
+
+    </div>
+
+
+    <div class="bill-total">
+
+        <span>
+            Total
+        </span>
+
+        <strong id="cartTotal">
+            ₹0
+        </strong>
+
+    </div>
+
+
+    <button
+        id="checkoutButton"
+        class="checkout-button"
+        type="button"
+        onclick="window.location.href='{% url 'grocery_checkout' %}'"
+    >
+
+        Proceed to Checkout
+
+    </button>
+
+</div>
+
+
+</aside>
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+{% include "partials/grocery-footer.html" %}
+
+
+
+<!-- JAVASCRIPT -->
+
+<script src="{% static 'js/breakfast-sauces.js' %}"></script>
+
+<!-- ACCOUNT DROPDOWN -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const accountButton =
+        document.getElementById("accountDropdown");
+
+    const accountMenu =
+        document.getElementById("accountMenu");
+
+
+    if (!accountButton || !accountMenu) {
+        return;
+    }
+
+
+    accountButton.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+        accountMenu.classList.toggle("show");
+
+        accountButton.setAttribute(
+            "aria-expanded",
+            accountMenu.classList.contains("show")
+        );
+
+    });
+
+
+    document.addEventListener("click", function () {
+
+        accountMenu.classList.remove("show");
+
+        accountButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    });
+
+
+    accountMenu.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

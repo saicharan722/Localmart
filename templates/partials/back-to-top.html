@@ -1,0 +1,53 @@
+<style>
+  .lm-back-to-top-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+  .lm-back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .55rem .9rem;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    background: #2e7d4f;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+  }
+  .lm-back-to-top:hover {
+    background: #24643e;
+    transform: translateY(-2px);
+  }
+  .lm-back-to-top:focus-visible {
+    outline: 2px solid #f5a623;
+    outline-offset: 3px;
+  }
+  .lm-back-to-top-arrow {
+    font-size: 1.2em;
+    line-height: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lm-back-to-top {
+      transition: none;
+    }
+  }
+</style>
+
+<div class="lm-back-to-top-wrap">
+  <button class="lm-back-to-top" type="button" aria-label="Back to top">
+    <span class="lm-back-to-top-arrow" aria-hidden="true">↑</span>
+    <span>Back to top</span>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll(".lm-back-to-top").forEach(function (button) {
+    button.addEventListener("click", function () {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    });
+  });
+</script>

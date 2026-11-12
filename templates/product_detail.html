@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} | LocalMart</title>
+    <style>
+        :root { --green: #079447; --ink: #17201b; --muted: #66736c; --line: #e3ebe6; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: #f5f8f6; }
+        .topbar { padding: 22px 6%; background: white; border-bottom: 1px solid var(--line); }
+        .topbar a { color: var(--green); font-size: 26px; font-weight: 800; text-decoration: none; }
+        main { max-width: 1180px; margin: 44px auto; padding: 0 24px; }
+        .back { color: var(--green); text-decoration: none; font-weight: 700; }
+        .product { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; margin-top: 28px; background: white; border: 1px solid var(--line); padding: 28px; }
+        .image-panel { min-height: 480px; display: flex; align-items: center; justify-content: center; background: #f7f9f8; padding: 28px; }
+        .image-panel img { width: 100%; height: 420px; object-fit: contain; }
+        .brand { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
+        h1 { font-size: clamp(30px, 4vw, 48px); line-height: 1.1; margin: 12px 0; }
+        .description { color: var(--muted); line-height: 1.7; }
+        .price { font-size: 30px; font-weight: 800; margin: 24px 0; }
+        .price del { color: #8a948e; font-size: 16px; font-weight: 400; margin-right: 10px; }
+        .meta { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 18px; display: grid; gap: 12px; }
+        .meta span { color: var(--muted); }
+        .button { display: inline-block; margin-top: 26px; padding: 14px 22px; background: var(--green); color: white; text-decoration: none; font-weight: 700; border-radius: 8px; }
+        @media (max-width: 760px) { .product { grid-template-columns: 1fr; gap: 26px; } .image-panel { min-height: 300px; } .image-panel img { height: 280px; } }
+    </style>
+</head>
+<body>
+    <header class="topbar"><a href="{% url 'home_appliances' %}">LocalMart <span style="color:#17201b">Home Appliances</span></a></header>
+    <main>
+        <a class="back" href="{% url 'home_appliances' %}">← Back to home appliances</a>
+        <section class="product">
+                <div class="image-panel"><img src="{{ product.image }}" alt="{{ product.name }}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80';"></div>
+            <div>
+                <p class="brand">{{ product.brand }} · {{ product.category.name }}</p>
+                <h1>{{ product.name }}</h1>
+                <p class="description">{{ product.description }}</p>
+                <p>⭐ {{ product.rating }} · {% if product.stock > 0 %}<strong>In stock</strong>{% else %}<strong>Out of stock</strong>{% endif %}</p>
+                <div class="price">₹{{ product.price|floatformat:2 }}</div>
+                <div class="meta">
+                    <div><span>Available units:</span> {{ product.stock }}</div>
+                    <div><span>Discount:</span> {{ product.discount }}%</div>
+                </div>
+                <a class="button" href="{% url 'home_appliances' %}#products">Continue shopping</a>
+            </div>
+        </section>
+    </main>
+{% include "partials/home-footer.html" %}
+</body>
+</html>

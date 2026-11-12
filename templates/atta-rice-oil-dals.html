@@ -1,0 +1,846 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Shop atta, rice, oil, dals, ghee, millets and grocery essentials online at LocalMart."
+    >
+
+    <title>Atta, Rice, Oil & Dals | LocalMart</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/atta-rice-oil-dals.css' %}"
+    >
+
+    <style>
+
+        /* =====================================================
+           LOCALMART GROCERY NAVBAR
+        ===================================================== */
+
+        .lm-grocery-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffffff;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .lm-grocery-header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 72px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .lm-grocery-logo {
+            text-decoration: none;
+            color: #222222;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .lm-grocery-logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #14a94a;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .lm-grocery-logo-text {
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .lm-grocery-logo-text strong {
+            color: #14a94a;
+        }
+
+        .lm-grocery-search {
+            flex: 1;
+            max-width: 600px;
+            height: 46px;
+            background: #f5f6f6;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+        }
+
+        .lm-grocery-search span {
+            font-size: 22px;
+            color: #777777;
+            margin-right: 9px;
+        }
+
+        .lm-grocery-search input {
+            width: 100%;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            font-size: 14px;
+            color: #222222;
+        }
+
+        .lm-grocery-actions {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lm-grocery-action {
+            position: relative;
+            min-width: 70px;
+            height: 52px;
+            padding: 5px 9px;
+            text-decoration: none;
+            color: #222222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            transition: 0.2s ease;
+        }
+
+        .lm-grocery-action:hover {
+            background: #f2faf5;
+            color: #14a94a;
+        }
+
+        .lm-grocery-action span {
+            font-size: 20px;
+            line-height: 20px;
+        }
+
+        .lm-grocery-action small {
+            margin-top: 3px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .lm-grocery-action b {
+            position: absolute;
+            top: 1px;
+            right: 7px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            border-radius: 20px;
+            background: #14a94a;
+            color: #ffffff;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =====================================================
+           PAGE WRAPPER
+        ===================================================== */
+
+        .atta-rice-oil-dals-page {
+            min-height: 100vh;
+            background: #ffffff;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .lm-grocery-footer {
+            margin-top: 60px;
+            background: #171717;
+            color: #ffffff;
+        }
+
+        .lm-footer-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px 24px 35px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .lm-footer-brand {
+            max-width: 350px;
+        }
+
+        .lm-footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .lm-footer-logo strong {
+            color: #14a94a;
+        }
+
+        .lm-footer-description {
+            color: #aaaaaa;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .lm-footer-column h3 {
+            margin: 0 0 17px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .lm-footer-column a {
+            display: block;
+            color: #aaaaaa;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 11px;
+            transition: 0.2s ease;
+        }
+
+        .lm-footer-column a:hover {
+            color: #14a94a;
+        }
+
+        .lm-footer-bottom {
+            border-top: 1px solid #303030;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lm-footer-bottom p {
+            margin: 0;
+            color: #888888;
+            font-size: 12px;
+        }
+
+        .lm-footer-social {
+            display: flex;
+            gap: 8px;
+        }
+
+        .lm-footer-social a {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #252525;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .lm-footer-social a:hover {
+            background: #14a94a;
+        }
+
+
+        /* =====================================================
+           MOBILE NAVBAR
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .lm-grocery-header-inner {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 10px 15px;
+            }
+
+            .lm-grocery-search {
+                order: 3;
+                flex-basis: 100%;
+                max-width: none;
+            }
+
+            .lm-grocery-actions {
+                margin-left: auto;
+            }
+
+            .lm-grocery-action {
+                min-width: 58px;
+            }
+
+            .lm-grocery-action small {
+                font-size: 10px;
+            }
+
+            .lm-footer-main {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .lm-grocery-header-inner {
+                padding: 9px 12px;
+            }
+
+            .lm-grocery-logo-text {
+                font-size: 20px;
+            }
+
+            .lm-grocery-logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            .lm-grocery-actions {
+                gap: 0;
+            }
+
+            .lm-grocery-action {
+                min-width: 52px;
+                padding: 4px;
+            }
+
+            .lm-grocery-action span {
+                font-size: 18px;
+            }
+
+            .lm-footer-main {
+                grid-template-columns: 1fr;
+                padding: 35px 18px 25px;
+            }
+
+            .lm-footer-bottom {
+                padding: 15px 18px;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+    </style>
+
+{% include "partials/grocery-chrome-assets.html" %}
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     GROCERY NAVBAR
+========================================================= -->
+
+{% include "partials/grocery-navbar.html" %}
+
+
+<!-- =========================================================
+     PAGE
+========================================================= -->
+
+<main class="atta-rice-oil-dals-page">
+
+
+    <!-- =====================================================
+         BREADCRUMB
+    ====================================================== -->
+
+    <div class="breadcrumb">
+
+        <a href="{% url 'grocery' %}">
+            Home
+        </a>
+
+        <span>›</span>
+
+        <a href="{% url 'grocery' %}">
+            Grocery
+        </a>
+
+        <span>›</span>
+
+        <span>
+            Atta, Rice, Oil & Dals
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         CATEGORY TITLE
+    ====================================================== -->
+
+    <section class="atta-rice-oil-dals-heading">
+
+        <div>
+
+            <h1>
+                Atta, Rice, Oil & Dals
+            </h1>
+
+            <p>
+                Shop atta, rice, oils, dals, ghee,
+                millets and everyday grocery essentials
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SUB CATEGORY STRIP
+    ====================================================== -->
+
+    <section class="atta-rice-oil-dals-subcategory-wrapper">
+
+        <div
+            id="attaRiceOilDalsCategories"
+            class="atta-rice-oil-dals-subcategory-list"
+        >
+
+
+            <!-- ALL -->
+
+            <a
+                class="atta-rice-oil-dals-subcategory active"
+                href="#"
+                data-category="all"
+                onclick="showAttaRiceOilDalsCategory('all'); return false;"
+            >
+
+                <div class="atta-rice-oil-dals-subcategory-image">
+
+                    <img
+                        src="https://cdn.zeptonow.com/production/tr:w-90,ar-490-490,pr-true,f-auto,q-40/cms/sub_category/acb5af1d-3b4c-4c08-aad8-72aa3c3d7bb2.png"
+                        alt="Healthy Picks"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <span>
+                    ALL
+                </span>
+
+            </a>
+
+
+            <!-- OIL -->
+
+            <a
+                class="atta-rice-oil-dals-subcategory"
+                href="#"
+                data-category="oil"
+                onclick="showAttaRiceOilDalsCategory('oil'); return false;"
+            >
+
+                <div class="atta-rice-oil-dals-subcategory-image">
+
+                    <img
+                        src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-121,pr-true,f-auto,q-40/cms/sub_category/19.png"
+                        alt="Oil"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <span>
+                    Oil
+                </span>
+
+            </a>
+
+
+            <!-- ATTA -->
+
+            <a
+                class="atta-rice-oil-dals-subcategory"
+                href="#"
+                data-category="atta"
+                onclick="showAttaRiceOilDalsCategory('atta'); return false;"
+            >
+
+                <div class="atta-rice-oil-dals-subcategory-image">
+
+                    <img
+                        src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/30388500-f133-4f7f-8e15-2b2c5ec804a7.png"
+                        alt="Atta"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <span>
+                    Atta
+                </span>
+
+            </a>
+
+
+            <!-- GHEE -->
+
+            <a
+                class="atta-rice-oil-dals-subcategory"
+                href="#"
+                data-category="ghee"
+                onclick="showAttaRiceOilDalsCategory('ghee'); return false;"
+            >
+
+                <div class="atta-rice-oil-dals-subcategory-image">
+
+                    <img
+                        src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-121,pr-true,f-auto,q-40/cms/sub_category/20.png"
+                        alt="Ghee"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <span>
+                    Ghee
+                </span>
+
+            </a>
+
+
+            <!-- DALS -->
+
+            <a
+                class="atta-rice-oil-dals-subcategory"
+                href="#"
+                data-category="dal"
+                onclick="showAttaRiceOilDalsCategory('dal'); return false;"
+            >
+
+                <div class="atta-rice-oil-dals-subcategory-image">
+
+                    <img
+                        src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-121,pr-true,f-auto,q-40/cms/sub_category/18.png"
+                        alt="Dals & Pulses"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <span>
+                    Dals & Pulses
+                </span>
+
+            </a>
+
+
+            <!-- RICE -->
+
+            <a
+                class="atta-rice-oil-dals-subcategory"
+                href="#"
+                data-category="rice"
+                onclick="showAttaRiceOilDalsCategory('rice'); return false;"
+            >
+
+                <div class="atta-rice-oil-dals-subcategory-image">
+
+                    <img
+                        src="https://cdn.zeptonow.com/production/tr:w-90,ar-120-120,pr-true,f-auto,q-40/cms/sub_category/a6cabac9-9437-4e76-ae2d-a06dad590d48.png"
+                        alt="Rice & More"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <span>
+                    Rice & More
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PRODUCT TOOLBAR
+    ====================================================== -->
+
+    <section class="atta-rice-oil-dals-product-toolbar">
+
+        <div>
+
+            <h2>
+                Buy Atta, Rice, Oil & Dals Online
+            </h2>
+
+            <span id="attaRiceOilDalsProductCount">
+                32 products
+            </span>
+
+        </div>
+
+
+        <div class="atta-rice-oil-dals-toolbar-actions">
+
+
+            <!-- SEARCH -->
+
+            <div class="atta-rice-oil-dals-search-box">
+
+                <span>
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="attaRiceOilDalsSearch"
+                    placeholder="Search products..."
+                    oninput="searchAttaRiceOilDalsProducts(this.value)"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- SORT -->
+
+            <select
+                id="attaRiceOilDalsSort"
+                onchange="sortAttaRiceOilDalsProducts(this.value)"
+            >
+
+                <option value="recommended">
+                    Sort: Recommended
+                </option>
+
+                <option value="price-low">
+                    Price: Low to High
+                </option>
+
+                <option value="price-high">
+                    Price: High to Low
+                </option>
+
+                <option value="rating">
+                    Top Rated
+                </option>
+
+                <option value="discount">
+                    Best Discount
+                </option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PRODUCT GRID
+    ====================================================== -->
+
+    <section class="atta-rice-oil-dals-products-section">
+
+        <div
+            id="attaRiceOilDalsProducts"
+            class="atta-rice-oil-dals-products-grid"
+        >
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="attaRiceOilDalsToast"
+    class="atta-rice-oil-dals-toast"
+>
+    Added to cart
+</div>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+{% include "partials/grocery-footer.html" %}
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="{% static 'js/atta-rice-oil-dals.js' %}"></script>
+
+
+<script>
+
+    /* =====================================================
+       GROCERY NAVBAR COUNTS
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            updateAttaGroceryCounts();
+
+        }
+    );
+
+
+    function updateAttaGroceryCounts() {
+
+        /* CART */
+
+        try {
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem(
+                        "localmartGroceryCart"
+                    ) || "[]"
+                );
+
+
+            const cartCount =
+                cart.reduce(
+                    function (total, item) {
+
+                        return total +
+                            Number(
+                                item.quantity || 0
+                            );
+
+                    },
+                    0
+                );
+
+
+            const cartElement =
+                document.getElementById(
+                    "groceryCartCount"
+                );
+
+
+            if (cartElement) {
+
+                cartElement.textContent =
+                    cartCount;
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Grocery cart count error:",
+                error
+            );
+
+        }
+
+
+        /* WISHLIST */
+
+        try {
+
+            const wishlist =
+                JSON.parse(
+                    localStorage.getItem(
+                        "localmartGroceryWishlist"
+                    ) || "[]"
+                );
+
+
+            const wishlistElement =
+                document.getElementById(
+                    "groceryWishlistCount"
+                );
+
+
+            if (wishlistElement) {
+
+                wishlistElement.textContent =
+                    wishlist.length;
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Grocery wishlist count error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* Update navbar counts when another Grocery page
+       changes Cart/Wishlist */
+
+    window.addEventListener(
+        "storage",
+        function (event) {
+
+            if (
+                event.key ===
+                    "localmartGroceryCart" ||
+                event.key ===
+                    "localmartGroceryWishlist"
+            ) {
+
+                updateAttaGroceryCounts();
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+</html>

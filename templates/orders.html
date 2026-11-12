@@ -1,0 +1,1379 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | LocalMart</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <style>
+
+        body {
+            background: #f6f6f6;
+            font-family: Arial, sans-serif;
+        }
+
+        .orders-header {
+            background: white;
+            padding: 25px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .orders-container {
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .order-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-id {
+            font-weight: 700;
+        }
+
+        .order-date {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .status {
+            color: #198754;
+            font-weight: 600;
+        }
+
+        .item {
+            display: flex;
+            gap: 15px;
+            padding: 18px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .item-image {
+            width: 90px;
+            height: 90px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #f3f3f3;
+        }
+
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .item-category {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .item-price {
+            font-weight: 600;
+        }
+
+        .bill-section {
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .grand-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+            border-top: 1px dashed #ccc;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .order-actions {
+            padding: 18px 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-green {
+            background: #00a651;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 18px;
+            border: none;
+        }
+
+        .btn-green:hover {
+            background: #008f45;
+            color: white;
+        }
+
+        .btn-outline {
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            padding: 10px 18px;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 35px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: #ddd;
+        }
+
+        .timeline-step {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            width: 25%;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .timeline-step i {
+            background: white;
+            font-size: 22px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .timeline-step.active {
+            color: #00a651;
+            font-weight: 600;
+        }
+
+        .empty-orders {
+            background: white;
+            padding: 70px 20px;
+            text-align: center;
+            border-radius: 14px;
+        }
+
+        .empty-orders i {
+            font-size: 60px;
+            color: #00a651;
+        }
+
+        @media(max-width: 576px) {
+
+            .orders-container {
+                margin: 15px;
+            }
+
+            .item-image {
+                width: 70px;
+                height: 70px;
+            }
+
+            .timeline {
+                padding: 15px 5px;
+            }
+
+            .timeline-step {
+                font-size: 10px;
+            }
+
+            .timeline-step i {
+                font-size: 18px;
+            }
+
+        }
+
+/* ======================================
+   ORDER DETAILS MODAL
+====================================== */
+
+.order-modal {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+
+/* RESTAURANT */
+
+.restaurant-box {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px;
+    background: #f7f8f8;
+    border-radius: 14px;
+}
+
+.restaurant-image img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.restaurant-info h5 {
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.restaurant-info p {
+    margin: 0 0 8px;
+    color: #777;
+}
+
+.restaurant-status {
+    color: #00a651;
+    font-weight: 600;
+}
+
+
+/* ======================================
+   ORDER PROGRESS
+====================================== */
+
+.order-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-step {
+    text-align: center;
+    color: #999;
+    min-width: 80px;
+}
+
+.progress-step.active {
+    color: #00a651;
+}
+
+.step-icon {
+    width: 38px;
+    height: 38px;
+    margin: auto;
+    border-radius: 50%;
+    background: #eee;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+.progress-step.active .step-icon {
+    background: #00a651;
+    color: white;
+}
+
+.progress-step span {
+    display: block;
+    margin-top: 7px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.progress-line {
+    width: 70px;
+    height: 3px;
+    background: #ddd;
+    margin-bottom: 22px;
+}
+
+.progress-line.active {
+    background: #00a651;
+}
+
+
+/* ======================================
+   DETAILS CARD
+====================================== */
+
+.details-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.details-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+
+/* ======================================
+   ORDER ITEM
+====================================== */
+
+.modal-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid #eee;
+}
+
+.modal-item:last-child {
+    border-bottom: none;
+}
+
+.modal-item img,
+.modal-item-placeholder {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 10px;
+
+    object-fit: cover;
+}
+
+.modal-item-placeholder {
+    background: #f1f1f1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #999;
+}
+
+.modal-item-info {
+    flex: 1;
+}
+
+.modal-item-info h6 {
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.modal-item-info small {
+    color: #888;
+}
+
+.item-quantity {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #666;
+}
+
+.modal-item-price {
+    font-weight: 700;
+}
+
+
+/* ======================================
+   BILL
+====================================== */
+
+.bill-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    color: #555;
+}
+
+.bill-total {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+
+/* ======================================
+   PAYMENT
+====================================== */
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+
+    font-size: 14px;
+}
+
+.payment-row small {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width: 768px) {
+
+    .modal-dialog {
+        margin: 8px;
+    }
+
+    .restaurant-image img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .order-progress {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+    }
+
+    .progress-line {
+        min-width: 35px;
+    }
+
+    .progress-step {
+        min-width: 70px;
+    }
+
+}
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="orders-header">
+
+    <div class="container">
+
+        <h2 class="mb-1">
+            My Orders
+        </h2>
+
+        <p class="text-muted mb-0">
+            Track and manage your LocalMart orders
+        </p>
+
+    </div>
+<a href="{% url 'food' %}"
+class="navbar-brand">
+
+<i class="bi bi-arrow-left"></i>
+
+Back
+
+</a>
+</div>
+
+
+<div class="orders-container">
+
+
+{% if orders %}
+
+
+    {% for order in orders %}
+
+
+    <div class="order-card">
+
+
+        <!-- ORDER HEADER -->
+
+        <div class="order-header">
+
+            <div class="d-flex justify-content-between">
+
+                <div>
+
+                    <div class="order-id">
+
+                        Order #{{ order.id }}
+
+                    </div>
+
+                    <div class="order-date">
+
+                        {{ order.created_at|date:"d M Y, h:i A" }}
+
+                    </div>
+
+                </div>
+
+
+                <div class="text-end">
+
+                    <div class="status">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        {{ order.order_status }}
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        Payment method: {{ order.payment_method|default:"Not recorded" }} ·
+                        Payment: {{ order.payment_status }}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ORDER TIMELINE -->
+
+        <div class="timeline">
+
+
+            <div class="timeline-step active">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                Ordered
+
+            </div>
+
+
+            <div class="timeline-step active">
+
+                <i class="bi bi-shop"></i>
+
+                Preparing
+
+            </div>
+
+
+            <div class="timeline-step">
+
+                <i class="bi bi-bicycle"></i>
+
+                On the way
+
+            </div>
+
+
+            <div class="timeline-step">
+
+                <i class="bi bi-house-check"></i>
+
+                Delivered
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ITEMS -->
+
+        {% for item in order.items.all %}
+
+
+        <div class="item">
+
+
+            {% if item.image %}
+
+                <img
+                    src="{{ item.image }}"
+                    class="item-image"
+                    alt="{{ item.name }}"
+                >
+
+            {% else %}
+
+                <div class="item-image
+                            d-flex
+                            align-items-center
+                            justify-content-center">
+
+                    <i class="bi bi-image text-muted"></i>
+
+                </div>
+
+            {% endif %}
+
+
+
+            <div class="flex-grow-1">
+
+                <div class="item-name">
+
+                    {{ item.name }}
+
+                </div>
+
+                <div class="item-category">
+
+                    {{ item.category }}
+
+                </div>
+
+                <div class="mt-2">
+
+                    ₹{{ item.price }}
+                    ×
+                    {{ item.quantity }}
+
+                </div>
+
+                <details class="small mt-2">
+                    <summary class="text-success fw-semibold">GST details · HSN {{ item.hsn_code|default:"—" }}</summary>
+                    <div class="mt-1 text-muted">Taxable value: ₹{{ item.taxable_value }} · GST: {{ item.gst_rate }}% ({{ item.tax_treatment }})</div>
+                    <div class="text-muted">Place of supply: {{ item.place_of_supply_state|default:item.supplier_state }}</div>
+                    <div class="text-muted">CGST {{ item.cgst_rate }}%: ₹{{ item.cgst_amount }} · SGST/UTGST {{ item.sgst_rate }}%: ₹{{ item.sgst_amount }} · IGST {{ item.igst_rate }}%: ₹{{ item.igst_amount }}</div>
+                    <div class="text-muted">Total GST: ₹{{ item.total_tax }} · Final line total: ₹{{ item.line_total }}</div>
+                </details>
+
+            </div>
+
+
+            <div class="item-price">
+
+                ₹{% widthratio item.price 1 item.quantity %}
+
+            </div>
+
+
+        </div>
+
+
+        {% empty %}
+
+            <div class="p-4 text-center text-muted">
+
+                No items found in this order.
+
+            </div>
+
+        {% endfor %}
+
+
+
+        <!-- BILL -->
+
+        <div class="bill-section">
+
+            <h5 class="mb-3">
+
+                <i class="bi bi-receipt"></i>
+
+                Bill Details
+
+            </h5>
+
+
+            <div class="bill-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <span>
+                    ₹{{ order.total_amount }}
+                </span>
+
+            </div>
+
+
+            <div class="bill-row">
+
+                <span>
+                    Delivery Fee
+                </span>
+
+                <span>
+                    Included
+                </span>
+
+            </div>
+
+
+            <div class="bill-row">
+
+                <span>
+                    Taxes
+                </span>
+
+                <span>
+                    ₹{{ order.gst_total }}
+                </span>
+
+            </div>
+
+
+            <div class="bill-row"><span>Product discount</span><span>−₹{{ order.discount_total }}</span></div>
+            <div class="bill-row"><span>Coupon discount</span><span>−₹{{ order.coupon_discount }}</span></div>
+            <div class="bill-row"><span>Taxable value</span><span>₹{{ order.taxable_total }}</span></div>
+            <div class="bill-row"><span>CGST</span><span>₹{{ order.cgst_total }}</span></div>
+            <div class="bill-row"><span>SGST/UTGST</span><span>₹{{ order.sgst_total }}</span></div>
+            <div class="bill-row"><span>IGST</span><span>₹{{ order.igst_total }}</span></div>
+            <div class="bill-row"><span>Delivery charge</span><span>₹{{ order.delivery_charges }}</span></div>
+            <div class="bill-row"><span>Free delivery discount</span><span>−₹{{ order.delivery_discount }}</span></div>
+            <div class="bill-row"><span>GST on delivery</span><span>₹{{ order.delivery_tax }}</span></div>
+            <div class="bill-row"><span>Other applicable charges</span><span>₹{{ order.other_charges }}</span></div>
+
+            <div class="bill-row grand-total">
+
+                <span>
+                    Total Paid
+                </span>
+
+                <span>
+                    ₹{{ order.total_amount }}
+                </span>
+
+            </div>
+
+        </div>
+
+        <section class="px-3 px-md-4 py-3 border-top bg-white" aria-label="Order support actions">
+            {% if order.cancellation_request %}
+                <div class="alert alert-info py-2 mb-2">Cancellation: <strong>{{ order.cancellation_request.get_status_display }}</strong>{% if order.cancellation_request.review_note %} · {{ order.cancellation_request.review_note }}{% endif %}</div>
+            {% endif %}
+            {% for refund in order.refund_records %}
+                <div class="small text-muted mb-1">Refund ₹{{ refund.amount }} · {{ refund.get_status_display }}{% if refund.refund_id %} · Reference {{ refund.refund_id }}{% endif %}</div>
+            {% endfor %}
+            {% if order.can_request_cancellation and not order.cancellation_request %}
+                <details class="mb-3">
+                    <summary class="btn btn-outline-danger btn-sm">Cancel Order</summary>
+                    <form class="mt-3 js-order-action" method="post" action="{% url 'request_order_cancellation' order.id %}" data-confirm="Cancel order #{{ order.id }}?">
+                        {% csrf_token %}<label class="form-label small" for="cancelReason{{ order.id }}">Cancellation reason</label>
+                        <select id="cancelReason{{ order.id }}" name="reason" class="form-select form-select-sm mb-2" required><option value="">Choose a reason</option><option value="mistake">Ordered by mistake</option><option value="incorrect_item">Incorrect item</option><option value="changed_mind">Changed my mind</option><option value="delayed">Delayed delivery</option><option value="other">Other</option></select>
+                        <textarea class="form-control form-control-sm mb-2" name="details" maxlength="2000" placeholder="Additional details (optional)"></textarea><button class="btn btn-danger btn-sm" type="submit">Submit cancellation</button>
+                    </form>
+                </details>
+            {% endif %}
+            {% for item in order.returnable_items %}
+                <details class="mb-2">
+                    <summary class="small fw-semibold">{{ item.name }} · {% if item.can_return %}Return available until {{ item.return_deadline|date:"d M Y" }}{% elif item.can_replace %}Replacement available{% else %}Policy options{% endif %}</summary>
+                    {% if item.return_policy.customer_instructions %}<p class="small text-muted mt-2">{{ item.return_policy.customer_instructions }}</p>{% endif %}
+                    {% if item.can_return %}<form class="mt-2 js-order-action" method="post" enctype="multipart/form-data" action="{% url 'request_order_return' order.id item.id %}">{% csrf_token %}<label class="form-label small">Return reason</label><select name="reason" class="form-select form-select-sm mb-2" required><option value="">Choose a reason</option><option value="damaged">Damaged product</option><option value="defective">Defective product</option><option value="wrong_item">Wrong item</option><option value="missing_item">Missing item</option><option value="other">Other</option></select><textarea name="description" class="form-control form-control-sm mb-2" maxlength="3000" placeholder="Describe the issue (optional)"></textarea><input type="file" name="evidence_photo" class="form-control form-control-sm mb-2" accept="image/*"><button class="btn btn-outline-success btn-sm" type="submit">Request return</button></form>{% endif %}
+                    {% if item.can_replace %}<form class="mt-2 js-order-action" method="post" enctype="multipart/form-data" action="{% url 'request_order_replacement' order.id item.id %}">{% csrf_token %}<label class="form-label small">Replacement reason</label><select name="reason" class="form-select form-select-sm mb-2" required><option value="">Choose a reason</option><option value="damaged">Damaged product</option><option value="defective">Defective product</option><option value="wrong_item">Wrong item</option><option value="missing_item">Missing item</option><option value="other">Other</option></select><textarea name="description" class="form-control form-control-sm mb-2" maxlength="3000" placeholder="Describe the issue (optional)"></textarea><input type="file" name="evidence_photo" class="form-control form-control-sm mb-2" accept="image/*"><button class="btn btn-outline-primary btn-sm" type="submit">Replace item</button></form>{% endif %}
+                    {% for return_request in item.return_requests.all %}<div class="small text-muted mt-2">Return request: {{ return_request.get_status_display }}{% if return_request.review_note %} · {{ return_request.review_note }}{% endif %}</div>{% endfor %}
+                    {% for replacement_request in item.replacement_requests.all %}<div class="small text-muted mt-2">Replacement: {{ replacement_request.get_status_display }}{% if replacement_request.review_note %} · {{ replacement_request.review_note }}{% endif %}</div>{% endfor %}
+                </details>
+            {% endfor %}
+            <div class="small mt-2 js-order-action-feedback" role="status" aria-live="polite"></div>
+        </section>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="order-actions">
+
+
+            <button
+    type="button"
+    class="btn btn-success"
+    data-bs-toggle="modal"
+    data-bs-target="#orderModal{{ order.id }}">
+
+    <i class="bi bi-eye"></i>
+    View Details
+
+</button>
+
+<!-- ============================= -->
+<!-- ORDER DETAILS MODAL -->
+<!-- ============================= -->
+
+<div
+    class="modal fade"
+    id="orderModal{{ order.id }}"
+    tabindex="-1"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+        <div class="modal-content order-modal">
+
+
+            <!-- ============================= -->
+            <!-- MODAL HEADER -->
+            <!-- ============================= -->
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h4 class="modal-title fw-bold">
+
+                        Order #{{ order.id }}
+
+                    </h4>
+
+                    <small class="text-muted">
+
+                        {{ order.created_at|date:"d M Y, h:i A" }}
+
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- MODAL BODY -->
+            <!-- ============================= -->
+
+            <div class="modal-body">
+
+
+                <!-- RESTAURANT -->
+                <div class="restaurant-box">
+
+                    <div class="restaurant-image">
+
+                        {% with first_item=order.items.all|first %}
+
+                            {% if first_item.image %}
+
+                                <img
+                                    src="{{ first_item.image }}"
+                                    alt="Restaurant">
+
+                            {% else %}
+
+                                <img
+                                    src="{% static 'images/restaurant-default.jpg' %}"
+                                    alt="Restaurant">
+
+                            {% endif %}
+
+                        {% endwith %}
+
+                    </div>
+
+
+                    <div class="restaurant-info">
+
+                        <h5>
+
+                            LocalMart Restaurant
+
+                        </h5>
+
+                        <p>
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            LocalMart Food Delivery
+
+                        </p>
+
+                        <span class="restaurant-status">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            {{ order.order_status }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ORDER STATUS -->
+
+                <div class="order-progress mt-4">
+
+                    <div class="progress-step active">
+
+                        <div class="step-icon">
+
+                            <i class="bi bi-check-lg"></i>
+
+                        </div>
+
+                        <span>Ordered</span>
+
+                    </div>
+
+
+                    <div class="progress-line active"></div>
+
+
+                    <div class="progress-step active">
+
+                        <div class="step-icon">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <span>Preparing</span>
+
+                    </div>
+
+
+                    <div class="progress-line"></div>
+
+
+                    <div class="progress-step">
+
+                        <div class="step-icon">
+
+                            <i class="bi bi-bicycle"></i>
+
+                        </div>
+
+                        <span>On the way</span>
+
+                    </div>
+
+
+                    <div class="progress-line"></div>
+
+
+                    <div class="progress-step">
+
+                        <div class="step-icon">
+
+                            <i class="bi bi-house-check"></i>
+
+                        </div>
+
+                        <span>Delivered</span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ============================= -->
+                <!-- ORDER SUMMARY -->
+                <!-- ============================= -->
+
+                <div class="row mt-4">
+
+
+                    <!-- ITEMS -->
+
+                    <div class="col-lg-7">
+
+                        <div class="details-card">
+
+                            <h5 class="details-title">
+
+                                <i class="bi bi-bag-check"></i>
+
+                                Order Summary
+
+                            </h5>
+
+
+                            {% for item in order.items.all %}
+
+                            <div class="modal-item">
+
+
+                                {% if item.image %}
+
+                                    <img
+                                        src="{{ item.image }}"
+                                        alt="{{ item.name }}">
+
+                                {% else %}
+
+                                    <div class="modal-item-placeholder">
+
+                                        <i class="bi bi-image"></i>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <div class="modal-item-info">
+
+                                    <h6>
+
+                                        {{ item.name }}
+
+                                    </h6>
+
+                                    <small>
+
+                                        {{ item.category }}
+
+                                    </small>
+
+                                    <div class="item-quantity">
+
+                                        Qty: {{ item.quantity }}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="modal-item-price">
+
+                                    ₹{{ item.price }}
+
+                                </div>
+
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- BILL -->
+
+                    <div class="col-lg-5">
+
+                        <div class="details-card">
+
+                            <h5 class="details-title">
+
+                                <i class="bi bi-receipt"></i>
+
+                                Bill Details
+
+                            </h5>
+
+
+                            <div class="bill-row">
+
+                                <span>
+                                    Item Total
+                                </span>
+
+                                <strong>
+                                    ₹{{ order.total_amount }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="bill-row">
+
+                                <span>
+                                    Delivery Fee
+                                </span>
+
+                                <span class="text-success">
+
+                                    Free
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="bill-row">
+
+                                <span>
+                                    Taxes & Charges
+                                </span>
+
+                                <span>
+                                    Included
+                                </span>
+
+                            </div>
+
+
+                            <hr>
+
+
+                            <div class="bill-total">
+
+                                <span>
+                                    Total Paid
+                                </span>
+
+                                <strong>
+                                    ₹{{ order.total_amount }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- PAYMENT DETAILS -->
+
+                        <div class="details-card mt-3">
+
+                            <h5 class="details-title">
+
+                                <i class="bi bi-credit-card"></i>
+
+                                Payment Details
+
+                            </h5>
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Payment Status
+                                </span>
+
+                                <span class="badge bg-success">
+
+                                    {{ order.payment_status }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Payment ID
+                                </span>
+
+                                <small>
+
+                                    {{ order.payment_id }}
+
+                                </small>
+
+                            </div>
+
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Order Date
+                                </span>
+
+                                <span>
+
+                                    {{ order.created_at|date:"d M Y" }}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- MODAL FOOTER -->
+            <!-- ============================= -->
+
+            <div class="modal-footer">
+
+
+                <a
+                    href="{% url 'download_order_pdf' order.id %}"
+                    class="btn btn-success">
+
+                    <i class="bi bi-file-earmark-pdf"></i>
+
+                    Download Bill
+
+                </a>
+
+
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+            <button
+                class="btn-outline"
+                onclick="reorder('{{ order.id }}')">
+
+                <i class="bi bi-arrow-repeat"></i>
+
+                Reorder
+
+            </button>
+
+
+            
+
+        </div>
+
+
+    </div>
+
+
+    {% endfor %}
+
+
+{% else %}
+
+
+    <!-- EMPTY -->
+
+    <div class="empty-orders">
+
+        <i class="bi bi-bag-x"></i>
+
+        <h3 class="mt-3">
+
+            No orders yet
+
+        </h3>
+
+        <p class="text-muted">
+
+            Your delicious orders will appear here.
+
+        </p>
+
+        <a
+            href="/"
+            class="btn-green">
+
+            Start Shopping
+
+        </a>
+
+    </div>
+
+
+{% endif %}
+
+
+</div>
+
+
+<script>
+
+function viewOrder(orderId) {
+
+    alert(
+        "Order #" +
+        orderId +
+        " details"
+    );
+
+}
+
+
+function reorder(orderId) {
+
+    alert(
+        "Reorder functionality for Order #" +
+        orderId
+    );
+
+}
+
+</script>
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script>
+document.querySelectorAll(".js-order-action").forEach(form => form.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (form.dataset.confirm && !window.confirm(form.dataset.confirm)) return;
+    const button = form.querySelector("button[type=submit]");
+    const card = form.closest(".order-card");
+    const feedback = card?.querySelector(".js-order-action-feedback");
+    if (button) { button.disabled = true; button.dataset.label = button.textContent; button.textContent = "Submitting…"; }
+    try {
+        const response = await fetch(form.action, {method:"POST", body:new FormData(form), headers:{"Accept":"application/json", "X-CSRFToken":form.querySelector("[name=csrfmiddlewaretoken]")?.value || ""}, credentials:"same-origin"});
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.success) throw new Error(data.message || "The request could not be submitted.");
+        if (feedback) { feedback.className = "small mt-2 text-success js-order-action-feedback"; feedback.textContent = data.message; }
+        window.setTimeout(() => window.location.reload(), 700);
+    } catch (error) {
+        if (feedback) { feedback.className = "small mt-2 text-danger js-order-action-feedback"; feedback.textContent = error.message; }
+        if (button) { button.disabled = false; button.textContent = button.dataset.label || "Submit"; }
+    }
+}));
+</script>
+
+</body>
+
+</html>

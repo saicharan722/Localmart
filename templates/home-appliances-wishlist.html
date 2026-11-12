@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Appliances Wishlist | LocalMart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    {% include "partials/localmart-logo-assets.html" %}
+</head>
+<body class="bg-light">
+<form hidden>{% csrf_token %}</form>
+<nav class="navbar bg-white shadow-sm sticky-top"><div class="container py-2">
+    <a class="navbar-brand localmart-shared-logo" href="{% url 'home_appliances' %}" aria-label="LocalMart home"><i class="bi bi-shop localmart-logo-icon"></i><span class="localmart-logo-word">Local</span><span class="localmart-logo-word localmart-logo-mart">Mart</span></a>
+    <div class="d-flex gap-3"><a class="btn btn-danger" href="{% url 'home_appliances_wishlist' %}"><i class="bi bi-heart-fill me-1"></i>Wishlist ({{ wishlist_count }})</a><a class="btn btn-outline-success" href="{% url 'cart' %}"><i class="bi bi-cart3 me-1"></i>Cart ({{ cart_count }})</a></div>
+</div></nav>
+<main class="container py-5"><div class="d-flex justify-content-between align-items-center mb-4"><h1 class="h3 fw-bold">Home Appliances Wishlist</h1><a class="btn btn-success" href="{% url 'home_appliances' %}">Continue shopping</a></div>
+{% if wishlist_products %}<div class="row g-4">{% for product in wishlist_products %}<div class="col-sm-6 col-lg-3"><article class="card h-100 border-0 shadow-sm"><img src="{{ product.image }}" alt="{{ product.name }}" class="card-img-top" style="height:190px;object-fit:cover"><div class="card-body d-flex flex-column"><div class="small text-muted">{{ product.brand }}</div><h2 class="h6 mt-1">{{ product.name }}</h2><strong class="mb-3">₹{{ product.price|floatformat:2 }}</strong><button class="btn btn-success btn-sm mb-2" onclick="addToCart({{ product.id }}, this)"><i class="bi bi-cart-plus me-1"></i>Add to Cart</button><button class="btn btn-outline-danger btn-sm" onclick="removeWishlist({{ product.id }})"><i class="bi bi-heart-fill me-1"></i>Remove</button></div></article></div>{% endfor %}</div>{% else %}<div class="card border-0 shadow-sm text-center p-5"><i class="bi bi-heart display-4 text-muted"></i><h2 class="h4 mt-3">Your wishlist is empty</h2><a class="btn btn-success mt-2" href="{% url 'home_appliances' %}">Shop appliances</a></div>{% endif %}
+</main>
+<script>
+function csrf() { const item = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')); return item ? decodeURIComponent(item.split('=')[1]) : ''; }
+function addToCart(id, button) { fetch("{% url 'home_appliances_cart_add' 0 %}".replace('/0/', `/${id}/`), {method:'POST', headers:{'X-CSRFToken':csrf(), 'X-Requested-With':'XMLHttpRequest'}}).then(async response => { const data = await response.json(); if (!response.ok || !data.success) { throw new Error(data.message || 'Unable to add product to cart.'); } button.innerHTML = '<i class="bi bi-check2 me-1"></i>Added to Cart'; button.disabled = true; const cartLink = document.querySelector('a[href="{% url 'cart' %}"]'); if (cartLink) cartLink.innerHTML = `<i class="bi bi-cart3 me-1"></i>Cart (${data.cart_count})`; }).catch(error => alert(error.message)); }
+function removeWishlist(id) { fetch("{% url 'home_appliances_wishlist_toggle' 0 %}".replace('/0/', `/${id}/`), {method:'POST', headers:{'X-CSRFToken':csrf()}}).then(() => location.reload()); }
+</script>
+{% include "partials/home-footer.html" %}
+</body>
+</html>

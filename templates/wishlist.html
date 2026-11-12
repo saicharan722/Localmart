@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1">
+
+    <title>Wishlist | LocalMart</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+</head>
+
+<style>
+.fashion-wishlist-page { max-width: 1180px; margin: 45px auto; padding: 0 20px; }
+.fashion-wishlist-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.fashion-wishlist-card { border: 1px solid #eee; background: #fff; }
+.fashion-wishlist-card img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.fashion-wishlist-copy { padding: 13px; }
+.fashion-wishlist-copy strong { font-size: 13px; }
+.fashion-wishlist-copy p { margin: 4px 0 10px; color: #696e79; font-size: 12px; }
+.fashion-wishlist-copy a { display: block; padding: 9px; border: 1px solid #ff3f6c; color: #ff3f6c; font-size: 11px; font-weight: 700; text-align: center; text-decoration: none; }
+@media (max-width: 800px) { .fashion-wishlist-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+
+
+<body>
+
+{% if fashion_items %}
+<main class="fashion-wishlist-page">
+    <div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h3 fw-bold">My wishlist</h1><p class="text-muted">{{ fashion_items|length }} saved styles</p></div><a href="{% url 'fashion' %}" class="btn btn-outline-danger">Continue shopping</a></div>
+    <div class="fashion-wishlist-grid">
+        {% for item in fashion_items %}
+        <article class="fashion-wishlist-card"><img src="{{ item.image }}" alt="{{ item.name }}"><div class="fashion-wishlist-copy"><strong>{{ item.brand }}</strong><p>{{ item.name }}<br><b>₹{{ item.price }}</b></p><a href="{% url 'fashion_add_to_cart' item.id %}?next=cart">Add to bag</a></div></article>
+        {% endfor %}
+    </div>
+</main>
+{% endif %}
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+
+<div class="container">
+
+<!-- LOGO -->
+
+<a class="navbar-brand logo fw-bold"
+href="{% url 'index' %}">
+
+<i class="bi bi-shop text-success"></i>
+
+LocalMart
+
+</a>
+
+
+        
+
+
+        <a
+            href="{% url 'cart' %}"
+            class="btn btn-success">
+
+            <i class="bi bi-cart3"></i>
+
+            Cart
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+
+    <!-- WISHLIST -->
+
+    <div id="{% if fashion_items %}legacyWishlistContainer{% else %}wishlistContainer{% endif %}">
+
+        <!-- JavaScript loads wishlist here -->
+
+    </div>
+
+
+</main>
+
+
+<!-- =========================
+        FOOTER
+========================= -->
+
+{% include "partials/home-footer.html" %}
+
+
+<script src="{% static 'js/wishlist.js' %}"></script>
+
+</body>
+
+</html>

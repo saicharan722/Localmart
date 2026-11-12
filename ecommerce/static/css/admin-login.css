@@ -1,0 +1,489 @@
+/* ===========================
+   ADMIN LOGIN CSS
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+    overflow-x:hidden;
+}
+
+/* Left Image Section */
+
+.image-section{
+    background:url("../images/admin-bg.jpg") center center/cover no-repeat;
+    position:relative;
+}
+
+.image-section::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.55);
+}
+
+.overlay{
+    position:relative;
+    z-index:2;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:50px;
+}
+
+.overlay h1{
+    font-size:48px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.overlay p{
+    font-size:18px;
+    line-height:30px;
+}
+
+/* Login Card */
+
+.login-card{
+
+    width:100%;
+    max-width:450px;
+
+    background:rgba(255,255,255,.92);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:40px;
+
+    transition:.4s;
+
+}
+
+.login-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.18);
+
+}
+
+/* Heading */
+
+.login-card h2{
+
+    font-weight:700;
+
+    color:#198754;
+
+}
+
+
+.login-box{
+    max-width:450px;
+}
+
+.left-panel{
+    background:linear-gradient(rgba(25,135,84,.75),rgba(25,135,84,.75)),
+    url("../images/admin-bg.jpg");
+    background-size:cover;
+    background-position:center;
+}
+
+.btn-success{
+    font-weight:600;
+}
+
+/* Form */
+
+.form-label{
+
+    font-weight:500;
+
+}
+
+.form-control{
+
+    height:50px;
+
+    border-radius:10px;
+
+}
+
+.form-control:focus{
+
+    border-color:#198754;
+
+    box-shadow:0 0 0 .2rem rgba(25,135,84,.15);
+
+}
+
+/* Input Group */
+
+.input-group-text{
+
+    background:#198754;
+
+    color:#fff;
+
+    border:none;
+
+}
+
+/* Eye Button */
+
+#togglePassword{
+
+    border-color:#ced4da;
+
+}
+
+/* Login Button */
+
+.btn-success{
+
+    height:50px;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-success:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* Back Button */
+
+.btn-outline-success{
+
+    border-radius:30px;
+
+}
+
+/* Links */
+
+a{
+
+    transition:.3s;
+
+}
+
+a:hover{
+
+    color:#146c43 !important;
+
+}
+
+/* Responsive */
+
+@media(max-width:991px){
+
+.image-section{
+
+display:none;
+
+}
+
+.login-card{
+
+margin:30px;
+
+max-width:100%;
+
+}
+
+}
+
+@media(max-width:576px){
+
+.login-card{
+
+padding:25px;
+
+}
+
+.overlay h1{
+
+font-size:34px;
+
+}
+
+.login-card h2{
+
+font-size:28px;
+
+}
+
+}
+
+
+/* ===============================
+   Glassmorphism Login Card
+================================ */
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f2f8f3;
+}
+
+/* Left Panel */
+
+.left-panel{
+    background:
+    linear-gradient(rgba(25,135,84,.75),rgba(25,135,84,.75)),
+    url("../images/admin-bg.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.overlay{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    padding:50px;
+    text-align:center;
+    color:#fff;
+}
+
+.overlay h1{
+    font-size:48px;
+    font-weight:700;
+}
+
+.overlay p{
+    font-size:18px;
+    margin:20px 0;
+}
+
+/* ===============================
+   Glass Login Card
+================================ */
+
+.login-box{
+
+    width:100%;
+    max-width:430px;
+
+    padding:40px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.20);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.18);
+
+    transition:.4s ease;
+
+}
+
+.login-box:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 25px 50px rgba(0,0,0,.25);
+
+}
+
+/* Heading */
+
+.login-box h2{
+
+    font-weight:700;
+
+    color:#198754;
+
+}
+
+.login-box p{
+
+    color:#6c757d;
+
+}
+
+/* ===============================
+   Inputs
+================================ */
+
+.form-control{
+
+    height:52px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(25,135,84,.20);
+
+    background:rgba(255,255,255,.70);
+
+}
+
+.form-control:focus{
+
+    border-color:#198754;
+
+    box-shadow:0 0 12px rgba(25,135,84,.25);
+
+}
+
+/* Input Group */
+
+.input-group-text{
+
+    background:#198754;
+
+    color:#fff;
+
+    border:none;
+
+}
+
+.btn-outline-secondary{
+
+    border-color:#198754;
+
+}
+
+/* ===============================
+   Login Button
+================================ */
+
+.btn-success{
+
+    height:52px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    font-size:17px;
+
+    transition:.3s;
+
+}
+
+.btn-success:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(25,135,84,.35);
+
+}
+
+/* Divider */
+
+.divider{
+
+    text-align:center;
+
+    margin:25px 0;
+
+    position:relative;
+
+}
+
+.divider::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    left:0;
+
+    width:40%;
+
+    height:1px;
+
+    background:#ccc;
+
+}
+
+.divider::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    right:0;
+
+    width:40%;
+
+    height:1px;
+
+    background:#ccc;
+
+}
+
+.divider span{
+
+    background:#fff;
+
+    padding:0 15px;
+
+    color:#888;
+
+}
+
+/* Links */
+
+a{
+
+    text-decoration:none;
+
+}
+
+a:hover{
+
+    color:#146c43 !important;
+
+}
+
+/* ===============================
+   Mobile
+================================ */
+
+@media(max-width:991px){
+
+.left-panel{
+
+display:none;
+
+}
+
+.login-box{
+
+margin:25px;
+
+}
+
+}
